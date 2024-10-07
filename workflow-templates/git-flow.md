@@ -76,6 +76,7 @@ If you are certain of the changes click in **Merge pull request** otherwise wait
 Finally, click in **Delete branch** and locally do:
 ```bash
 git checkout dev
+git pull
 git branch -D <branch_to_delete>
 ```
 
