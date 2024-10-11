@@ -17,8 +17,11 @@ git checkout dev
 
 ## Create a new branch
 You are creating a branch either to work on a **feature** or a **bugfix**, for that you need to make a new branch with the following templates:
-* `feature/<FEATURE_NAME>`
-* `bugfix/<WHAT_YOU_ARE_FIXING>`
+* `feature/<FEATURE_NAME>` - to add a new feature
+* `bugfix/<WHAT_YOU_ARE_FIXING>` - to fix a bug
+* `hotfix/<WHAT_YOU_ARE_FIXING>` - to fix an emergency bug in the **main** branch
+* `impv/<FEATURE_YOU_ARE_IMPROVING>` - to continue/improve a feature
+* `docs/<DOCUMENTATION_NAME>` - to add/edit something about documentation
 
 Both names need to be easy to understand of what is adding or what is fixing. Eg. **feature/menu**, **bugfix/menuLoading**.
 
@@ -42,6 +45,16 @@ Try to add and commit every time you make big changes in important files
 git add .
 git commit -m "<message>"
 ```
+#### The final commits messages of a branch should follow the template
+* `type: general idea of what the commit is doing`
+
+#### Different types:
+* `feat`
+* `fix`
+* `hfix`
+* `impv`
+* `docs`
+
 ## Rebasing
 Before pushing you need to **rebase** with the **dev** branch so the **pull request** is possible
 
