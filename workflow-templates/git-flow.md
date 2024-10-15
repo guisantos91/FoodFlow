@@ -18,6 +18,9 @@ Go to the **dev**elopment branch.
 git checkout dev
 ```
 
+## Issues
+
+
 ## Create a new branch
 You are creating a branch either to work on a **feature** or a **bugfix**, for that you need to make a new branch with the following templates:
 * `feature/<FEATURE_NAME>` - to add a new feature
@@ -42,13 +45,13 @@ git checkout -b feature/<placeholder>
 
 *Eg. feature/menu -> feature/menu/new_animation*
 
-## Add and commit 
+## Add, commit & push 
 Try to add and commit every time you make big changes in important files
 ```bash
 git add .
 git commit -m "<message>"
 ```
-#### The final commits messages of a branch should follow the template
+#### The commits messages of a branch should follow the template
 * `type: general idea of what the commit is doing`
 
 #### Different types:
@@ -58,13 +61,20 @@ git commit -m "<message>"
 * `refact`
 * `docs`
 
-## Rebasing
-Before pushing you need to **rebase** with the **dev** branch so the **pull request** is possible
+#### Pushing for the first time
+`git push --set-upstream origin <branch_name>`
+#### Pushing
+`git push`
+
+## Final Push
+#### Rebasing
+Before doing the **final** push, you need to **rebase** with the **dev** branch so the **pull request** is possible
 
 ```bash
 git rebase dev
 ```
 
+#### Conflicts
 If there are conflicts, you need to go to your editor and resolve them by selecting what do you want inside the **>>>HEAD   >>>branch** tags.
 
 #### Every time you resolve a conflict do:
@@ -78,6 +88,7 @@ git rebase --continue
 git push
 ```
 #### If occurs an error pushing and you did the rebasing correctly do:
+##### Please double-check that the result of the rebase is the desired one
 ```bash
 git push --force
 ```
@@ -95,12 +106,3 @@ git checkout dev
 git pull
 git branch -D <branch_to_delete>
 ```
-
-
-
-
-
-
-
-
-
