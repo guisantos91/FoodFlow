@@ -1,11 +1,14 @@
 # GitHub Flow
 ## Context
-This **README** serves as a guide for the developers to work using the same workflow and, to achieve that, there are some rules that need to be respected, such as:
+This **README** serves as a guide for the developers to work using the same workflow.
+
+## Team Policies for using Git/Github
 * Only work/add features/fix bugs in the **dev** branch;
 * The code only migrates to the **main** branch to deploy releases and it's **DevOps's** responsability;
 * Every time that there is a new feature to add or a bugfix to do, a **new** branch from the **dev** must be created;
 * When there are more than one person working in a feature/bugfix, a branch may be also created for every major adition;
-* Only confirm a pull request after, at least, another contributor checked it.
+* Only confirm a pull request after, at least, another contributor checked it;
+* Release pull requests are validated by the **Product Owner**.
 
 *Every rule can have some exceptions in specific cases* 
 
@@ -20,7 +23,7 @@ You are creating a branch either to work on a **feature** or a **bugfix**, for t
 * `feature/<FEATURE_NAME>` - to add a new feature
 * `bugfix/<WHAT_YOU_ARE_FIXING>` - to fix a bug
 * `hotfix/<WHAT_YOU_ARE_FIXING>` - to fix an emergency bug in the **main** branch
-* `impv/<FEATURE_YOU_ARE_IMPROVING>` - to continue/improve a feature
+* `refact/<FEATURE_YOU_ARE_REFACTORING>` - to continue/refactor a feature
 * `docs/<DOCUMENTATION_NAME>` - to add/edit something about documentation
 
 Both names need to be easy to understand of what is adding or what is fixing. Eg. **feature/menu**, **bugfix/menuLoading**.
@@ -52,7 +55,7 @@ git commit -m "<message>"
 * `feat`
 * `fix`
 * `hfix`
-* `impv`
+* `refact`
 * `docs`
 
 ## Rebasing
@@ -82,11 +85,11 @@ git push --force
 ## Pull Request
 * Go to the repository and click in **Compare & pull request**;
 * Choose the **dev** branch in the **base!!!!!!!!**;
-* Click in **Create pull request**.
+* Choose a team member as a reviewer; 
+* Click in **Create pull request**;
+* Click in **Merge pull request** if the review was validated and if the reviewer didn't merged himself. 
 
-If you are certain of the changes click in **Merge pull request** otherwise wait for another developer to accept.
-
-Finally, click in **Delete branch** and locally do:
+Finally you can locally remove the branch do:
 ```bash
 git checkout dev
 git pull
