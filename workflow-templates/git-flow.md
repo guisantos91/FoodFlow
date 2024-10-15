@@ -19,7 +19,14 @@ git checkout dev
 ```
 
 ## Issues
+#### *If there is no issue created for the work that you are going to do, create the issue and assign to yourself*
 
+#### Now you have two options:
+* Create a branch from Github by clicking in **Create a branch** in the **Development** section of the issue
+
+OR
+
+* Create a branch locally and, in the future, assign the **pull request** to the issue
 
 ## Create a new branch
 You are creating a branch either to work on a **feature** or a **bugfix**, for that you need to make a new branch with the following templates:
