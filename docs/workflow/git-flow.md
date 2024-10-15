@@ -103,6 +103,12 @@ git push --force
 ## Pull Request
 * Go to the repository and click in **Compare & pull request**;
 * Choose the **dev** branch in the **base!!!!!!!!**;
+* For the template, you should add to the **url** the query parameter **&template=template_name.md**
+
+For example: github.com/detiuaveiro/ies-24-25-group-project-203/compare/feature/new_feature?expand=1&template=feature_template.md
+
+Check **docs/PULL_REQUEST_TEMPLATE** for the templates that you can use
+
 * Choose a team member as a reviewer; 
 * Click in **Create pull request**;
 * Click in **Merge pull request** if the review was validated and if the reviewer didn't merged himself. 
