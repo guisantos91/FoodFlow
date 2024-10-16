@@ -26,6 +26,9 @@ Pauta da reunião:
 - Pensar que possíveis tecnologias a utilizar no projeto
 
 4. Novos templates do github
+- Backlog e setup do projeto
+- Criar policies para o projeto
+- Git workflow
 - Criar novos templates para Pull Requests
 - Criar novas Issues
 - Criar branchs para cada nova feature
