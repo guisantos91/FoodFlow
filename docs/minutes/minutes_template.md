@@ -8,6 +8,11 @@
 - [Name]
 - [Name]
 
+
+### Objective:
+[Objective of the meeting]
+
+
 ### Meeting Agenda:
 1. **[Agenda Item 1]**
 2. **[Agenda Item 2]**
