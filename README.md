@@ -6,7 +6,7 @@
 * **Architect**: 113144 - João Viegas 
 * **DevOps master**: 113893 - Guilherme Santos
 # Architecture Diagram
--- updated diagram each iteration
+![Architecture Diagram](docs/reports/images/architecture.jpg)
 # Bookmarks
 -- links to quickly access all project resources
 
