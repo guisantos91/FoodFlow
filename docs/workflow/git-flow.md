@@ -16,17 +16,15 @@ This **README** serves as a guide for the developers to work using the same work
 Go to the **dev**elopment branch. 
 ```bash
 git checkout dev
+git pull
 ```
 
 ## Issues
-#### *If there is no issue created for the work that you are going to do, create the issue and assign to yourself*
-
-#### Now you have two options:
-* Create a branch from Github by clicking in **Create a branch** in the **Development** section of the issue
-
-OR
-
-* Create a branch locally and, in the future, assign the **pull request** to the issue
+#### If there is no issue created for the work that you are going to do:
+* create the issue and assign to yourself
+* choose the repository's project in the **project** section
+* leave page
+* enter in the issue again and choose the current iteration in the **project** section
 
 ## Create a new branch
 You are creating a branch either to work on a **feature** or a **bugfix**, for that you need to make a new branch with the following templates:
@@ -69,15 +67,28 @@ git commit -m "<message>"
 * `docs`
 
 #### Pushing for the first time
-`git push --set-upstream origin <branch_name>`
+```bash
+git push --set-upstream origin <branch_name>
+```
 #### Pushing
-`git push`
+```bash
+git push
+```
 
 ## Final Push
 #### Rebasing
 Before doing the **final** push, you need to **rebase** with the **dev** branch so the **pull request** is possible
 
+First, go to the **dev** and **pull** to have the last version of the dev:
 ```bash
+git checkout dev
+git pull
+```
+
+Then, go back to your branch and rebase
+
+```bash
+git checkout you_branch
 git rebase dev
 ```
 
@@ -102,13 +113,23 @@ git push --force
 
 ## Pull Request
 * Go to the repository and click in **Compare & pull request**;
-* Choose the **dev** branch in the **base!!!!!!!!**;
+
+### - Choose the **dev** branch in the **base!!!!!!!!**;
 * For the template, you should add to the **url** the query parameter **&template=template_name.md**
 
-For example: github.com/detiuaveiro/ies-24-25-group-project-203/compare/feature/new_feature?expand=1&template=feature_template.md
+For example: 
+github.com/detiuaveiro/ies-24-25-group-project-203/compare/feature/new_feature?expand=1&template=feature_template.md
 
 Check **docs/PULL_REQUEST_TEMPLATE** for the templates that you can use
 
+Possible templates:
+* `bugfix_template.md`
+* `docs_template.md`
+* `feature_template.md`
+* `hotfix_template.md`
+* `refactor_template.md`
+
+Now: 
 * Choose a team member as a reviewer; 
 * Click in **Create pull request**;
 * Click in **Merge pull request** if the review was validated and if the reviewer didn't merged himself. 
