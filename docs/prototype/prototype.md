@@ -4,17 +4,6 @@ Link - https://www.figma.com/design/uaQ1lduS3mzoQL4Oe7M4Cu/Untitled?node-id=0-1&
 
 ## Demo:
 
-### Log In:
-
-
-#### - Admin:
-
-![Alt text](images/LogInAdmin.png)
-
-#### - Manager:
-
-![Alt text](images/LogInManager.png)
-
 ### Client:
 
 #### - Home:
@@ -35,20 +24,40 @@ Link - https://www.figma.com/design/uaQ1lduS3mzoQL4Oe7M4Cu/Untitled?node-id=0-1&
 
 ### Manager:
 
+#### - Log In:
+
+![Alt text](images/LogInManager.png)
+
+#### - Manager Form:
+
+![Alt text](images/ManagerForm.png)
+
 #### - Statistics:
 
 ![Alt text](images/StatisticsManager.png)
 
 ### Admin:
 
+#### - Log In:
+
+![Alt text](images/LogInAdmin.png)
+
 #### - Menu:
 
 ![Alt text](images/MenuAdmin.png)
 
-#### - Add Manager:
+#### - Pending Requests:
 
-![Alt text](images/CreateManager.png)
+![Alt text](images/PendingRequests.png)
 
-#### - Edit Manager:
+#### - Denied Requests:
 
-![Alt text](images/EditManager.png)
+![Alt text](images/DeniedRequests.png)
+
+#### - New Manager Request:
+
+![Alt text](images/NewManagerRequest.png)
+
+#### - Rejected Manager Request:
+
+![Alt text](images/RejectedManager.png)
