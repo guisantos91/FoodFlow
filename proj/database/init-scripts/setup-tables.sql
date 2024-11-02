@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS menu (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     price NUMERIC NOT NULL,
-    restaurant_id INT REFERENCES restaurant(id)
+    foodchain_id INT REFERENCES foodchain(id)
 ); 
 
 CREATE TABLE IF NOT EXISTS orders (
