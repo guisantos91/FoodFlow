@@ -3,7 +3,7 @@ import time
 import psycopg2
 import json
 
-# Dados Constantes
+
 cadeias = [
     (1, "McDonald's", "Burgers"),
     (2, "Burger King", "Burgers"),
@@ -14,7 +14,7 @@ cadeias = [
     (7, "Telepizza", "Pizza")
 ]
 
-# Expansão dos restaurantes
+
 restaurantes = [
     (1, "McDonald's Pingo Doce", "Rua Feira Hipermercados, 3800-000 Aveiro", 40.6519812362783, -8.620476728835527, 1),
     (2, "McDonald's Universidade", "Rua das Pombas, 3810-150 Aveiro", 40.63260134516651, -8.649728523856686, 1),
@@ -27,7 +27,7 @@ restaurantes = [
     (9, "Telepizza Faro", "R. de Faro 50, 8000-000 Faro", 37.0194, -7.93044, 7)
 ]
 
-# Expansão dos menus
+
 menus = {
     1: ("CBO", 7.5, 1),
     2: ("Happy Meal", 4.5, 1),
@@ -46,20 +46,15 @@ menus = {
     15: ("Portuguese Pizza", 10.0, 7)
 }
 
-managers = [
-    (1, "John Doe", "Manager123", "password123"),
-    (2, "Jane Smith", "Manager456", "password456")
+users = [
+    (1, "Alice Green","Type 1"),
+    (2, "Bob Brown","Type 2")
 ]
 
-admins = [
-    (1, "Alice Green", "+351912345678", "alice@example.com"),
-    (2, "Bob Brown", "+351987654321", "bob@example.com")
-]
 
-# Conexão com a base de dados PostgreSQL
 conn = psycopg2.connect(
     database="foodflow_db_dev",
-    host="database",
+    host="localhost",
     user="user",
     password="password",
     port=5432
@@ -67,45 +62,44 @@ conn = psycopg2.connect(
 
 cursor = conn.cursor()
 
-# Inserir dados de exemplo nas tabelas de cadeia, restaurante, menu, manager e admin
+
 def inserir_dados():
     cursor.executemany("INSERT INTO foodchain (id, name, food_type) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING", cadeias)
     cursor.executemany("INSERT INTO restaurant (id, name, address, latitude, longitude, foodchain_id) VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", restaurantes)
     for menu_id, (nome, price, cadeia_id) in menus.items():
         cursor.execute("INSERT INTO menu (id, name, price, foodchain_id) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", (menu_id, nome, price, cadeia_id))
-    cursor.executemany("INSERT INTO manager (id, name, credential, password) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", managers)
-    cursor.executemany("INSERT INTO admin (id, name, phone, email) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", admins)
+    cursor.executemany("INSERT INTO app_user (id, name,user_type) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING", users)
     conn.commit()
 
-# Gera uma lista de itens de menu para cada pedido
+
 def gerar_menu_pedido(cadeia_id):
     menus_to_order = {}
     num_menus = random.randint(1, 3)
     menus_possiveis = [k for k, v in menus.items() if v[2] == cadeia_id]
     menus_escolhidos = random.choices(menus_possiveis, k=num_menus)
     for i in menus_escolhidos:
-        menus_to_order[i] = random.randint(1, 2)  # Quantidade aleatória entre 1 e 2
+        menus_to_order[i] = random.randint(1, 2)  
     return menus_to_order
 from datetime import datetime
 
-# Inserir um pedido na tabela 'orders' e itens na tabela 'order_items'
+
 def inserir_pedido():
     cadeia_id = random.choice([cadeia[0] for cadeia in cadeias])
-    restaurante = random.choice([r for r in restaurantes if r[5] == cadeia_id])  # Seleciona restaurante da cadeia
+    restaurante = random.choice([r for r in restaurantes if r[5] == cadeia_id])  
     restaurant_id = restaurante[0]
     items = gerar_menu_pedido(cadeia_id)
     total_price = sum(menus[item_id][1] * quantity for item_id, quantity in items.items())
     status = random.choice(['to-do', 'in-progress', 'done'])
-    created_at = datetime.now()  # Obter a data e hora atuais
+    created_at = datetime.now()  
 
-    # Inserir o pedido na tabela 'orders'
+    
     cursor.execute(
         "INSERT INTO orders (restaurant_id, created_at, price, status) VALUES (%s, %s, %s, %s) RETURNING id",
         (restaurant_id, created_at, total_price, status)
     )
-    order_id = cursor.fetchone()[0]  # Obter o ID do pedido inserido
+    order_id = cursor.fetchone()[0]  
 
-    # Inserir os itens do pedido na tabela 'order_items'
+    
     for menu_id, quantity in items.items():
         cursor.execute(
             "INSERT INTO order_items (order_id, menu_id, quantity) VALUES (%s, %s, %s)",
@@ -114,17 +108,17 @@ def inserir_pedido():
     conn.commit()
 
 
-# Inicializa a base de dados com tabelas e dados de exemplo
+
 inserir_dados()
 
-# Gera pedidos periodicamente
+
 try:
     while True:
         inserir_pedido()
-        print("Pedido inserido com sucesso.")
+        print("Order entered successfully.")
         time.sleep(5)
 except KeyboardInterrupt:
-    print("Processo interrompido.")
+    print("Process stopped.")
 
-# Fechar a conexão
+
 conn.close()
