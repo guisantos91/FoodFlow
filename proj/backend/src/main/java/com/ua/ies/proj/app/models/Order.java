@@ -1,8 +1,10 @@
 package com.ua.ies.proj.app.models;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +20,7 @@ import jakarta.validation.constraints.NotNull;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
@@ -30,8 +32,8 @@ public class Order {
     @NotBlank
     private String status;
 
-    @NotNull
-    private long timestamp;
+    @Column(name = "createdAt", nullable = false)
+    private Instant createdAt;
 
     @ManyToMany
     @JoinTable(
@@ -40,15 +42,14 @@ public class Order {
         inverseJoinColumns = @JoinColumn(name = "menu_id") 
     )
     private List<Menu> menus = new ArrayList<>();
-
+       
     public Order() {
     }
 
-    public Order(Restaurant restaurant, double price, String status, long timestamp, List<Menu> menus) {
+    public Order(Restaurant restaurant, double price, String status, List<Menu> menus) {
         this.restaurant = restaurant;
         this.price = price;
         this.status = status;
-        this.timestamp = timestamp;
         this.menus = menus;
     }
 
@@ -68,8 +69,8 @@ public class Order {
         return status;
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     public List<Menu> getMenus() {
@@ -88,8 +89,8 @@ public class Order {
         this.status = status;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setMenus(List<Menu> menus) {

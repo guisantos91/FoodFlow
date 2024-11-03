@@ -1,39 +1,39 @@
 package com.ua.ies.proj.app.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
-import com.ua.ies.proj.app.models.Foodchain;
-import com.ua.ies.proj.app.models.Menu;
-import com.ua.ies.proj.app.models.Restaurant;
-import com.ua.ies.proj.app.services.RestaurantService;
+import com.ua.ies.proj.app.models.Order;
+import com.ua.ies.proj.app.services.OrderService;
+
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/restaurants")
 public class RestaurantController {
     @Autowired
-    private RestaurantService restaurantService;
+    private final OrderService orderService;
 
-    @GetMapping("/restaurants/{foodchain_id}")
-    public List<Restaurant> getRestaurantsFromChain(@PathVariable(value = "foodchain_id") Long chainId, @RequestParam(value = "id", required = false) Long restId) {
-        if (restId != null) {
-            return restaurantService.getRestaurantsFromChainById(chainId, restId);
-        }
-        return restaurantService.getRestaurantsFromChain(chainId);
+    public RestaurantController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
-    @GetMapping("/foodchains")
-    public List<Foodchain> getFoodchains() {
-        return restaurantService.getFoodchains();
-    }
+    // GET /api/v1/restaurants/{restaurant_id}/orders
+    //      or
+    // GET /api/v1/restaurants/{restaurant_id}/orders?status={status}
+    // status = "to-do" or "in-progress" or "done"
 
-    @GetMapping("/menus")
-    public List<Menu> getMenusByRestaurant(@RequestParam(value = "restaurant_id", required = true) Long restId) {
-        return restaurantService.getMenusByRestaurant(restId);
+    @GetMapping("/{restaurant_id}/orders")
+    public ResponseEntity<List<Order>> getRestaurantOrders(@PathVariable("restaurant_id") Long restaurant_id ,@RequestParam(required=false) String status) {
+        List<Order> orders = orderService.getRestaurantOrders(restaurant_id, status);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
+    
 }

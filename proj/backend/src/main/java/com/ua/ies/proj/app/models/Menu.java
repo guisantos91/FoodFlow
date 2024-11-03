@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 public class Menu {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
     private String name;
@@ -34,7 +34,7 @@ public class Menu {
         this.foodchain = foodchain;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

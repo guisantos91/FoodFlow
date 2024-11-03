@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 public class Foodchain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique=true)
     @NotBlank
@@ -28,7 +28,7 @@ public class Foodchain {
         this.food_type = food_type;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
