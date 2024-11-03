@@ -1,18 +1,12 @@
 package com.ua.ies.proj.app.models;
 
-import java.util.Date;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Entity(name = "forms")
 public class ManagerForm {
@@ -24,110 +18,106 @@ public class ManagerForm {
     @JoinColumn(name = "foodchain_id")
     private Foodchain foodchain;
 
-    @NotNull
-    private Date birthDate;
-
     @NotBlank
-    private String Name;
+	private String fname;
 
-    @NotBlank
-    private String Surname;
+	@NotBlank
+	private String lname;
 
-    @NotBlank
-    @Column(unique = true)
-    private String restaurantName;
+	@NotBlank
+	private String email;
 
-    @NotBlank
-    private String Email;
+	@NotBlank
+	private String restaurantName;
 
-    @NotBlank
-    private String City;
+	@NotBlank
+	private String restaurantAddress;
 
-    @NotBlank
-    private String Address;
+	@NotBlank
+	private long latitude;
 
-        public ManagerForm(Foodchain foodchain, Date birthDate, String Name, String Surname, 
-                       String restaurantName, String Email, String City, String Address) {
-        this.foodchain = foodchain;
-        this.birthDate = birthDate;
-        this.Name = Name;
-        this.Surname = Surname;
-        this.restaurantName = restaurantName;
-        this.Email = Email;
-        this.City = City;
-        this.Address = Address;
-    }
+	@NotBlank
+	private long longitude;
+
+	public ManagerForm() {
+	}
+
+	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude) {
+		this.foodchain = foodchain;
+		this.fname = fname;
+		this.lname = lname;
+		this.email = email;
+		this.restaurantName = restaurantName;
+		this.restaurantAddress = restaurantAddress;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Foodchain getFoodchain() {
 		return foodchain;
 	}
 
-	public void setFoodchain(Foodchain foodchain) {
-		this.foodchain = foodchain;
+	public String getFname() {
+		return fname;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
+	public String getLname() {
+		return lname;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public String getName() {
-		return Name;
-	}
-
-	public void setName(String name) {
-		Name = name;
-	}
-
-	public String getSurname() {
-		return Surname;
-	}
-
-	public void setSurname(String surname) {
-		Surname = surname;
+	public String getEmail() {
+		return email;
 	}
 
 	public String getRestaurantName() {
 		return restaurantName;
 	}
 
+	public String getRestaurantAddress() {
+		return restaurantAddress;
+	}
+
+	public long getLatitude() {
+		return latitude;
+	}
+
+	public long getLongitude() {
+		return longitude;
+	}
+
+	public void setFoodchain(Foodchain foodchain) {
+		this.foodchain = foodchain;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public void setRestaurantName(String restaurantName) {
 		this.restaurantName = restaurantName;
 	}
 
-	public String getEmail() {
-		return Email;
+	public void setRestaurantAddress(String restaurantAddress) {
+		this.restaurantAddress = restaurantAddress;
 	}
 
-	public void setEmail(String email) {
-		Email = email;
+	public void setLatitude(long latitude) {
+		this.latitude = latitude;
 	}
 
-	public String getCity() {
-		return City;
+	public void setLongitude(long longitude) {
+		this.longitude = longitude;
 	}
-
-	public void setCity(String city) {
-		City = city;
-	}
-
-	public String getAddress() {
-		return Address;
-	}
-
-	public void setAddress(String address) {
-		Address = address;
-	}
-
 }

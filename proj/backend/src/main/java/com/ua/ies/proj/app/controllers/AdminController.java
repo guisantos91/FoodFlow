@@ -53,7 +53,6 @@ public class AdminController {
 
     @PostMapping("/managers")
     public ResponseEntity<UserManager> addManager(@RequestParam String name) {
-        UserManager userManager = userService.addManager(name);
-        return new ResponseEntity<>(userManager, HttpStatus.OK);
+        return null;
     }
 }

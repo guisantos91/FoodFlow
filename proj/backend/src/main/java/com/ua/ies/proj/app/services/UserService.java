@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
-import com.ua.ies.proj.app.repos.RestaurantRepository;
 import com.ua.ies.proj.app.repos.UserRepository;
 
 @Service
@@ -18,14 +17,10 @@ public class UserService {
     private final UserRepository userRepository;
     @Autowired
     private final ManagerFormRepository managerFormRepository;
-    @Autowired
-    private final RestaurantRepository restaurantRepository;
 
-    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository,
-            RestaurantRepository restaurantRepository) {
+    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository) {
         this.userRepository = userRepository;
         this.managerFormRepository = managerFormRepository;
-        this.restaurantRepository = restaurantRepository;
     }
 
     public List<UserManager> getManagers() {
@@ -44,15 +39,16 @@ public class UserService {
     public UserManager updateManager(Long manager_id, UserManager manager) {
         manager.setId(manager_id);
         UserManager existingManager = userRepository.findManagerById(manager_id).get();
-        existingManager.setName(manager.getName());
+        existingManager.setFname(manager.getFname());
+        existingManager.setLname(manager.getLname());
+        existingManager.setEmail(manager.getEmail());
+        existingManager.setCredential(manager.getCredential());
+        existingManager.setPassword(manager.getPassword());
+        existingManager.setBirthDate(manager.getBirthDate());
         UserManager updatedManager = userRepository.save(existingManager);
         return updatedManager;
     }
 
-    public UserManager addManager(String name) {
-        UserManager user = new UserManager(name);
-        return userRepository.save(user);
-    }
 
     public ManagerForm addForm(ManagerForm form) {
         return managerFormRepository.save(form);
