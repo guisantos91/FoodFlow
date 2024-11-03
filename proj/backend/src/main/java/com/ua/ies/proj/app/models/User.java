@@ -21,8 +21,6 @@ public abstract class User {
 
     private String name;
 
-    // Outros campos comuns a todos os usuários
-
     public User() {
     }
 

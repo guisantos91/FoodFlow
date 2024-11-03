@@ -35,4 +35,9 @@ public class OrderService {
         List<OrderStatisticsDTO> rawData = orderRepository.findTop5MenusTrendForLast10MinutesByChainId(foodchainId);
         return statistics.processOrderData(rawData);
     }
+
+    public Map<Long, List<Integer>> getTop5MenusTrendForLast10MinutesByRestaurantId(Long restaurantId) {
+        List<OrderStatisticsDTO> rawData = orderRepository.findTop5MenusTrendForLast10MinutesByRestaurantId(restaurantId);
+        return statistics.processOrderData(rawData);
+    }
 }

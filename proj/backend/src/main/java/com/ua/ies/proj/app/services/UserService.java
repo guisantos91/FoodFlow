@@ -6,11 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.models.ManagerForm;
-import com.ua.ies.proj.app.repos.UserRepository;
+import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
+import com.ua.ies.proj.app.repos.UserRepository;
 
 @Service
 public class UserService {

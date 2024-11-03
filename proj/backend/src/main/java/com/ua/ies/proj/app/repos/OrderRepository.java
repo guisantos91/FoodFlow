@@ -26,4 +26,19 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
                    "LIMIT 5", nativeQuery = true)
     List<OrderStatisticsDTO> findTop5MenusTrendForLast10MinutesByChainId(
             @Param("foodchainId") Long foodchainId);
+
+    @Query(value = "SELECT m.id as menuId, " +
+            "time_bucket('1 minute', o.created_at) AS bucket, " +
+            "COUNT(o.id) as totalOrders " +
+            "FROM orders o " +
+            "JOIN order_items oi ON o.id = oi.order_id " +
+            "JOIN menu m ON oi.menu_id = m.id " +
+            "WHERE o.created_at >= NOW() - INTERVAL '10 minutes' " +
+            "AND m.foodchain_id = :foodchainId " +
+            "AND o.restaurant_id = :restaurantId " +
+            "GROUP BY m.id, bucket " +
+            "ORDER BY totalOrders DESC " +
+            "LIMIT 5", nativeQuery = true)
+    List<OrderStatisticsDTO> findTop5MenusTrendForLast10MinutesByRestaurantId(
+            @Param("restaurantId") Long restaurantId);
 }
