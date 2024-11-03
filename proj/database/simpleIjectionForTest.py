@@ -59,7 +59,7 @@ admins = [
 # Conexão com a base de dados PostgreSQL
 conn = psycopg2.connect(
     database="foodflow_db_dev",
-    host="localhost",
+    host="database",
     user="user",
     password="password",
     port=5432
@@ -95,7 +95,7 @@ def inserir_pedido():
     restaurant_id = restaurante[0]
     items = gerar_menu_pedido(cadeia_id)
     total_price = sum(menus[item_id][1] * quantity for item_id, quantity in items.items())
-    status = random.choice(['Pendente', 'Confirmado', 'Cancelado'])
+    status = random.choice(['to-do', 'in-progress', 'done'])
     created_at = datetime.now()  # Obter a data e hora atuais
 
     # Inserir o pedido na tabela 'orders'
