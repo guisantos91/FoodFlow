@@ -15,11 +15,11 @@
 - GET api/admin/managers/{id}
 - DELETE api/admin/managers/{id}
 - PUT api/admin/managers/{id}
-- POST api/admin/confirmForm/{id}
-- DELETE api/admin/confirmForm/{id}
+- GET api/admin/forms
+- POST api/admin/form/{id}
+- DELETE api/admin/form/{id}
 
 # Authentication
 - POST api/auth/login
 - POST api/auth/logout
 - POST api/auth/form
-- GET api/auth/form
