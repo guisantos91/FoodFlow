@@ -27,7 +27,7 @@ public class OrderService {
         if (status == null) {
             return orderRepository.findByRestaurantId(restaurant_id);
         } else {
-            return orderRepository.findByRestaurantIdAndStatus(status);
+            return orderRepository.findByRestaurantIdAndStatus(restaurant_id, status);
         }
     }
 

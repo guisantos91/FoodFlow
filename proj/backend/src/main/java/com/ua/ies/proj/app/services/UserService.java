@@ -29,11 +29,11 @@ public class UserService {
     }
 
     public List<UserManager> getManagers() {
-        return userRepository.findByUserType("MANAGER");
+        return userRepository.findAllBy();
     }
 
     public UserManager getManagerById(Long manager_id) {
-        Optional<UserManager> optional_manager = userRepository.findByIdAndUserType(manager_id, "MANAGER");
+        Optional<UserManager> optional_manager = userRepository.findManagerById(manager_id);
         return optional_manager.get();
     }
 
@@ -43,7 +43,7 @@ public class UserService {
 
     public UserManager updateManager(Long manager_id, UserManager manager) {
         manager.setId(manager_id);
-        UserManager existingManager = userRepository.findByIdAndUserType(manager_id, "MANAGER").get();
+        UserManager existingManager = userRepository.findManagerById(manager_id).get();
         existingManager.setName(manager.getName());
         UserManager updatedManager = userRepository.save(existingManager);
         return updatedManager;

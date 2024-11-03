@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
 import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 
+@Component
 public class Statistics {
 
     public Map<Long, List<Integer>> processOrderData(List<OrderStatisticsDTO> orders) {

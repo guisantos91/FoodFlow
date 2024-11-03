@@ -10,7 +10,7 @@ import com.ua.ies.proj.app.models.Order;
 import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 
 public interface OrderRepository extends JpaRepository<Order, Long>{
-    List<Order> findByRestaurantIdAndStatus(String status);
+    List<Order> findByRestaurantIdAndStatus(Long restaurant_id, String status);
     List<Order> findByRestaurantId(Long restaurant_id);
 
     @Query(value = "SELECT m.id as menuId, " +
