@@ -7,15 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.UserManager;
+import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.repos.UserRepository;
+import com.ua.ies.proj.app.repos.ManagerFormRepository;
+import com.ua.ies.proj.app.repos.RestaurantRepository;
 
 @Service
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private final ManagerFormRepository managerFormRepository;
+    @Autowired
+    private final RestaurantRepository restaurantRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository,
+            RestaurantRepository restaurantRepository) {
         this.userRepository = userRepository;
+        this.managerFormRepository = managerFormRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public List<UserManager> getManagers() {
@@ -31,7 +41,7 @@ public class UserService {
         userRepository.deleteById(manager_id);
     }
 
-    public UserManager updateManager(Long manager_id, UserManager manager){
+    public UserManager updateManager(Long manager_id, UserManager manager) {
         manager.setId(manager_id);
         UserManager existingManager = userRepository.findByIdAndUserType(manager_id, "MANAGER").get();
         existingManager.setName(manager.getName());
@@ -43,4 +53,9 @@ public class UserService {
         UserManager user = new UserManager(name);
         return userRepository.save(user);
     }
+
+    public ManagerForm addForm(ManagerForm form) {
+        return managerFormRepository.save(form);
+    }
+
 }
