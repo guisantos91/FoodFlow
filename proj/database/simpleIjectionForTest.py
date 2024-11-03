@@ -47,8 +47,8 @@ menus = {
 }
 
 users = [
-    (1, "Alice Green","Type 1"),
-    (2, "Bob Brown","Type 2")
+    (1, "Alice Green","ADMIN"),
+    (2, "Bob Brown","MANAGER")
 ]
 
 
@@ -102,8 +102,8 @@ def inserir_pedido():
     
     for menu_id, quantity in items.items():
         cursor.execute(
-            "INSERT INTO order_items (order_id, menu_id, quantity) VALUES (%s, %s, %s)",
-            (order_id, menu_id, quantity)
+            "INSERT INTO order_items (order_id, menu_id) VALUES (%s, %s)",
+            (order_id, menu_id)
         )
     conn.commit()
 
@@ -116,7 +116,7 @@ try:
     while True:
         inserir_pedido()
         print("Order entered successfully.")
-        time.sleep(5)
+        # time.sleep(1)
 except KeyboardInterrupt:
     print("Process stopped.")
 
