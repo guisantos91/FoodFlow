@@ -51,8 +51,8 @@ senha = "123456789"
 hashed = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
 
 users = [
-    (1, "Alice", "Green","ADMIN", "alice@gmail.com", "2019-01-01", hashed.decode('utf-8')),
-    (2, "Bob", "Brown","MANAGER", "bob@gmail.com", "2019-01-02", hashed.decode('utf-8')),
+    (1, "Alice", "Green","ADMIN", "alice@gmail.com", "1980-01-01", hashed.decode('utf-8')),
+    (2, "Bob", "Brown","MANAGER", "bob@gmail.com", "1980-01-02", hashed.decode('utf-8')),
 ]
 
 

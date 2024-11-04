@@ -75,6 +75,7 @@ public class UserService {
         manager.setLname(form.getLname());
         manager.setEmail(form.getEmail());
         manager.setPassword(passwordEncoder.encode(form.getPassword()));
+        manager.setBirthDate(form.getBirthDate());
         userRepository.save(manager);
 
         Restaurant restaurant = new Restaurant();

@@ -31,7 +31,6 @@ public abstract class User {
     @NotBlank
     private String email;
 
-    @NotBlank
     private Date birthDate;
 
     @NotBlank

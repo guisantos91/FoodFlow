@@ -1,5 +1,7 @@
 package com.ua.ies.proj.app.models;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity(name = "forms")
 public class ManagerForm {
@@ -27,16 +30,18 @@ public class ManagerForm {
 	@NotBlank
 	private String email;
 
+	private Date birthDate;
+
 	@NotBlank
 	private String restaurantName;
 
 	@NotBlank
 	private String restaurantAddress;
 
-	@NotBlank
+	@NotNull
 	private long latitude;
 
-	@NotBlank
+	@NotNull
 	private long longitude;
 
 	@NotBlank
@@ -48,7 +53,7 @@ public class ManagerForm {
 	public ManagerForm() {
 	}
 
-	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password) {
+	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password, Date birthDate) {
 		this.foodchain = foodchain;
 		this.fname = fname;
 		this.lname = lname;
@@ -59,6 +64,7 @@ public class ManagerForm {
 		this.longitude = longitude;
 		this.restaurantEndpoint = restaurantEndpoint;
 		this.password = password;
+		this.birthDate = birthDate;
 	}
 
 	public Long getId() {
@@ -105,6 +111,10 @@ public class ManagerForm {
 		return password;
 	}
 
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
 	public void setFoodchain(Foodchain foodchain) {
 		this.foodchain = foodchain;
 	}
@@ -143,5 +153,9 @@ public class ManagerForm {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 }
