@@ -2,7 +2,6 @@ package com.ua.ies.proj.app.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -75,7 +74,7 @@ public class UserService {
         manager.setFname(form.getFname());
         manager.setLname(form.getLname());
         manager.setEmail(form.getEmail());
-        manager.setPassword(generateRandomPassword());
+        manager.setPassword(passwordEncoder.encode(form.getPassword()));
         userRepository.save(manager);
 
         Restaurant restaurant = new Restaurant();
@@ -88,10 +87,5 @@ public class UserService {
         restaurant.setManager(manager);
         restaurantRepository.save(restaurant);
 
-    }
-
-    private String generateRandomPassword() {
-        // Geração simples de senha para exemplo
-        return passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 8));
     }
 }

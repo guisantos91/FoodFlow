@@ -42,10 +42,13 @@ public class ManagerForm {
 	@NotBlank
 	private String restaurantEndpoint;
 
+	@NotBlank
+	private String password;
+
 	public ManagerForm() {
 	}
 
-	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint) {
+	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password) {
 		this.foodchain = foodchain;
 		this.fname = fname;
 		this.lname = lname;
@@ -55,6 +58,7 @@ public class ManagerForm {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.restaurantEndpoint = restaurantEndpoint;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -97,6 +101,10 @@ public class ManagerForm {
 		return restaurantEndpoint;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
 	public void setFoodchain(Foodchain foodchain) {
 		this.foodchain = foodchain;
 	}
@@ -131,5 +139,9 @@ public class ManagerForm {
 
 	public void setRestaurantEndpoint(String restaurantEndpoint) {
 		this.restaurantEndpoint = restaurantEndpoint;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
