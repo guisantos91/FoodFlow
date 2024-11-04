@@ -1,4 +1,4 @@
-#!/home/guipc/LEI/3ºAno/1ºSemestre/IES/Projeto/proj/database/env/bin/python3
+#!/home/joao/Desktop/3ºANO/1ºSEMESTRE/IES/ies-24-25-group-project-203/proj/database/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
