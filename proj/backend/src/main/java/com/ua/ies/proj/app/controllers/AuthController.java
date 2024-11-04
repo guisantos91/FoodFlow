@@ -60,8 +60,8 @@ public class AuthController {
         }
     }
     
-    // @PostMapping("/logout")
-    // public ResponseEntity<String> logoutUser(@RequestParam String token) {
-    //     return null;
-    // }
+    @PostMapping("/logout")
+    public ResponseEntity<String> logoutUser() {
+        return ResponseEntity.ok("Logged out successfully");
+    }
 }
