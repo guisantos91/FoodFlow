@@ -1,7 +1,6 @@
 package com.ua.ies.proj.app.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ua.ies.proj.app.models.Order;
+import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 import com.ua.ies.proj.app.services.OrderService;
 
 
@@ -38,8 +38,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurant_id}/orders/statistics")
-    public ResponseEntity<Map<Long, List<Integer>>> getStatistics(@PathVariable(value = "restaurant_id") Long restaurant_id) {
-        Map<Long, List<Integer>> stats = orderService.getTop5MenusTrendForLast10MinutesByRestaurantId(restaurant_id);
+    public ResponseEntity<OrderStatisticsDTO> getStatistics(@PathVariable(value = "restaurant_id") Long restaurantId) {
+        OrderStatisticsDTO stats = orderService.getStatisticsByRestaurantId(restaurantId);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 }

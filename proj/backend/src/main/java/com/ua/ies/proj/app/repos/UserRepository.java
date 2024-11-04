@@ -11,4 +11,5 @@ import com.ua.ies.proj.app.models.UserManager;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<UserManager> findAllBy();
     Optional<UserManager> findManagerById(Long id);
+    Optional<User> findByEmail(String email);
 }

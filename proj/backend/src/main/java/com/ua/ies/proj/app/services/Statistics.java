@@ -1,45 +1,55 @@
 package com.ua.ies.proj.app.services;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import jakarta.persistence.Tuple;
+import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 
-@Component
+@Service
 public class Statistics {
+    private final OrderStatisticsDTO orderStatisticsDTO;
 
-    public Map<Long, List<Integer>> processOrderData(List<Tuple> results) {
-        Map<Long, List<Integer>> ordersPerMenu = new HashMap<>();
+    public Statistics(OrderStatisticsDTO orderStatisticsDTO) {
+        this.orderStatisticsDTO = new OrderStatisticsDTO();
+    }
 
-        // Inicializa a lista de pedidos por menu com 0 para os últimos 3 minutos
-        for (Tuple tuple : results) {
-            Long menuId = tuple.get("menuId", Long.class);
-            Instant bucket = tuple.get("bucket", Instant.class);
-            Integer totalOrders = tuple.get("totalOrders", Integer.class);
+    public OrderStatisticsDTO processOrderData(List<Object[]> results) {
+        Map<String, List<Integer>> menuStatistics = new HashMap<>();
 
-            // Verifica se a entrada para este menu já existe
-            ordersPerMenu.putIfAbsent(menuId, new ArrayList<>(Arrays.asList(0, 0, 0)));
-
-            // Obter o tempo atual
-            Instant now = Instant.now();
-
-            // Verifica se o pedido está dentro dos últimos 3 minutos
-            if (bucket.isAfter(now.minusSeconds(180))) {
-                // Calcula o índice da lista para armazenar o total de pedidos
-                int index = (int) ((now.getEpochSecond() - bucket.getEpochSecond()) / 60);
-
-                // Atualiza o total de pedidos para o menu
-                ordersPerMenu.get(menuId).set(index, totalOrders);
+        // Inicializando um mapa para garantir 5 slots (0s) para cada menu para o caso de ausência de dados
+        results.forEach(row -> {
+            String menuName = (String) row[0];
+            if (!menuStatistics.containsKey(menuName)) {
+                menuStatistics.put(menuName, Arrays.asList(0, 0, 0, 0, 0));
             }
-        }
+        });
 
-        return ordersPerMenu;
+        // Populando os dados da query para cada menu
+        for (Object[] row : results) {
+            String menuName = (String) row[0];
+            Date bucket = Date.from((Instant) row[1]);
+
+            Integer orderCount = ((Number) row[2]).intValue();
+
+            List<Integer> counts = menuStatistics.get(menuName);
+            int minuteIndex = calculateMinuteIndex(bucket);
+            counts.set(minuteIndex, orderCount);
+            menuStatistics.put(menuName, counts);
+        }
+        
+        this.orderStatisticsDTO.setMenuStatistics(menuStatistics);
+        return this.orderStatisticsDTO;
+    }
+
+    private int calculateMinuteIndex(Date bucket) {
+        long minutesAgo = (new Date().getTime() - bucket.getTime()) / (60 * 1000);
+        return (int) (4 - minutesAgo);
     }
 }
 

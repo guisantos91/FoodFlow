@@ -1,15 +1,14 @@
 package com.ua.ies.proj.app.services;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.Order;
+import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 import com.ua.ies.proj.app.repos.OrderRepository;
 
-import jakarta.persistence.Tuple;
 
 @Service
 public class OrderService {
@@ -32,12 +31,13 @@ public class OrderService {
         }
     }
 
-    public Map<Long, List<Integer>> getTop5MenusTrendForLast10MinutesByChainId(Long foodchainId) {
-        List<Tuple> rawData = orderRepository.findTop5MenusTrendForLast10MinutesByChainId(foodchainId);
+    public OrderStatisticsDTO getStatisticsByChainId(Long foodchainId) {
+        List<Object[]> rawData = orderRepository.getStatisticsByChainId(foodchainId);
         return statistics.processOrderData(rawData);
     }
 
-    public Map<Long, List<Integer>> getTop5MenusTrendForLast10MinutesByRestaurantId(Long restaurantId) {
-        return null;
+    public OrderStatisticsDTO getStatisticsByRestaurantId(Long restaurantId) {
+        List<Object[]> rawData = orderRepository.getStatisticsByRestaurantId(restaurantId);
+        return statistics.processOrderData(rawData);
     }
 }

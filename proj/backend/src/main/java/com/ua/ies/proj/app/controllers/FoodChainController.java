@@ -1,7 +1,6 @@
 package com.ua.ies.proj.app.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ua.ies.proj.app.models.Foodchain;
 import com.ua.ies.proj.app.models.Menu;
+import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 import com.ua.ies.proj.app.models.Restaurant;
 import com.ua.ies.proj.app.services.OrderService;
 import com.ua.ies.proj.app.services.RestaurantsService;
@@ -56,9 +56,8 @@ public class FoodChainController {
     }
 
     @GetMapping("/{foodchain_id}/orders/statistics")
-    public ResponseEntity<Map<Long, List<Integer>>> getStatistics(@PathVariable(value = "foodchain_id") Long chainId) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        Map<Long, List<Integer>> stats = orderService.getTop5MenusTrendForLast10MinutesByChainId(chainId);
+    public ResponseEntity<OrderStatisticsDTO> getStatistics(@PathVariable(value = "foodchain_id") Long chainId) {
+        OrderStatisticsDTO stats = orderService.getStatisticsByChainId(chainId);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 }
