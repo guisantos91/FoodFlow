@@ -11,8 +11,8 @@ public class UserManager extends User {
     public UserManager() {
     }
 
-    public UserManager(String fname, String lname, String email, Long credential, String password, Date birthDate) {
-        super(fname, lname, email, credential, password, birthDate);
+    public UserManager(String fname, String lname, String email, String password, Date birthDate) {
+        super(fname, lname, email, password, birthDate);
     }
     
 }

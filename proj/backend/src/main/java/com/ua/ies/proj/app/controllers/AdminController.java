@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.services.UserService;
 
@@ -52,7 +52,21 @@ public class AdminController {
     }
 
     @PostMapping("/managers")
-    public ResponseEntity<UserManager> addManager(@RequestParam String name) {
-        return null;
+    public ResponseEntity<String> approveForm(@RequestBody ManagerForm form) {
+        userService.approveForm(form);
+        return ResponseEntity.ok("Manager and restaurant created successfully");
+    }
+
+
+    @GetMapping("/forms")
+    public ResponseEntity<List<ManagerForm>> getForms() {
+        List<ManagerForm> forms = userService.getForms();
+        return new ResponseEntity<>(forms, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/forms/{form_id}")
+    public ResponseEntity<String> deleteForm(@PathVariable("form_id") Long form_id) {
+        userService.deleteForm(form_id);
+        return new ResponseEntity<>("Form deleted sucessfully", HttpStatus.OK);
     }
 }

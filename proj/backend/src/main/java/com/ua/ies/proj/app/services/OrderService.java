@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.Order;
-import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 import com.ua.ies.proj.app.repos.OrderRepository;
+
+import jakarta.persistence.Tuple;
 
 @Service
 public class OrderService {
@@ -32,12 +33,11 @@ public class OrderService {
     }
 
     public Map<Long, List<Integer>> getTop5MenusTrendForLast10MinutesByChainId(Long foodchainId) {
-        List<OrderStatisticsDTO> rawData = orderRepository.findTop5MenusTrendForLast10MinutesByChainId(foodchainId);
+        List<Tuple> rawData = orderRepository.findTop5MenusTrendForLast10MinutesByChainId(foodchainId);
         return statistics.processOrderData(rawData);
     }
 
     public Map<Long, List<Integer>> getTop5MenusTrendForLast10MinutesByRestaurantId(Long restaurantId) {
-        List<OrderStatisticsDTO> rawData = orderRepository.findTop5MenusTrendForLast10MinutesByRestaurantId(restaurantId);
-        return statistics.processOrderData(rawData);
+        return null;
     }
 }

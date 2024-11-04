@@ -57,6 +57,7 @@ public class FoodChainController {
 
     @GetMapping("/{foodchain_id}/orders/statistics")
     public ResponseEntity<Map<Long, List<Integer>>> getStatistics(@PathVariable(value = "foodchain_id") Long chainId) {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         Map<Long, List<Integer>> stats = orderService.getTop5MenusTrendForLast10MinutesByChainId(chainId);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }

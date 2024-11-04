@@ -47,8 +47,8 @@ menus = {
 }
 
 users = [
-    (1, "Alice Green","ADMIN"),
-    (2, "Bob Brown","MANAGER")
+    (1, "Alice", "Green","ADMIN", "alice@gmail.com", "2019-01-01", "123456789"),
+    (2, "Bob", "Brown","MANAGER", "bob@gmail.com", "2019-01-02", "123456789"),
 ]
 
 
@@ -68,7 +68,7 @@ def inserir_dados():
     cursor.executemany("INSERT INTO restaurant (id, name, address, latitude, longitude, foodchain_id) VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", restaurantes)
     for menu_id, (nome, price, cadeia_id) in menus.items():
         cursor.execute("INSERT INTO menu (id, name, price, foodchain_id) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", (menu_id, nome, price, cadeia_id))
-    cursor.executemany("INSERT INTO app_user (id, name,user_type) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING", users)
+    cursor.executemany("INSERT INTO app_user (id, fname, lname,user_type, email, birth_date, password) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", users)
     conn.commit()
 
 

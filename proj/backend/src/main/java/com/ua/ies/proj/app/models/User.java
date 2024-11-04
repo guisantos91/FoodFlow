@@ -35,20 +35,16 @@ public abstract class User {
     private Date birthDate;
 
     @NotBlank
-    private Long credential;
-
-    @NotBlank
     private String password;
 
 
     public User() {
     }
 
-    public User(String fname, String lname, String email, Long credential, String password, Date birthDate) {
+    public User(String fname, String lname, String email, String password, Date birthDate) {
         this.fname = fname;
         this.lname = lname;
         this.email = email;
-        this.credential = credential;
         this.password = password;
         this.birthDate = birthDate;
     }
@@ -67,10 +63,6 @@ public abstract class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public Long getCredential() {
-        return credential;
     }
 
     public String getPassword() {
@@ -95,10 +87,6 @@ public abstract class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setCredential(Long credential) {
-        this.credential = credential;
     }
 
     public void setPassword(String password) {

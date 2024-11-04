@@ -11,7 +11,7 @@ public class UserAdmin extends User {
     public UserAdmin() {
     }
 
-    public UserAdmin(String fname, String lname, String email, Long credential, String password, Date birthDate) {
-        super(fname, lname, email, credential, password, birthDate);
+    public UserAdmin(String fname, String lname, String email, String password, Date birthDate) {
+        super(fname, lname, email, password, birthDate);
     }
 }

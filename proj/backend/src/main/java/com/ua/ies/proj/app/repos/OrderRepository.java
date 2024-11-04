@@ -9,36 +9,37 @@ import org.springframework.data.repository.query.Param;
 import com.ua.ies.proj.app.models.Order;
 import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 
+import jakarta.persistence.Tuple;
+
 public interface OrderRepository extends JpaRepository<Order, Long>{
-    List<Order> findByRestaurantIdAndStatus(Long restaurant_id, String status);
-    List<Order> findByRestaurantId(Long restaurant_id);
+        List<Order> findByRestaurantIdAndStatus(Long restaurant_id, String status);
+        List<Order> findByRestaurantId(Long restaurant_id);
 
-    @Query(value = "SELECT m.id as menuId, " +
-                   "time_bucket('1 minute', o.created_at) AS bucket, " +
-                   "COUNT(o.id) as totalOrders " +
-                   "FROM orders o " +
-                   "JOIN order_items oi ON o.id = oi.order_id " +
-                   "JOIN menu m ON oi.menu_id = m.id " +
-                   "WHERE o.created_at >= NOW() - INTERVAL '10 minutes' " +
-                   "AND m.foodchain_id = :foodchainId " +
-                   "GROUP BY m.id, bucket " +
-                   "ORDER BY totalOrders DESC " +
-                   "LIMIT 5", nativeQuery = true)
-    List<OrderStatisticsDTO> findTop5MenusTrendForLast10MinutesByChainId(
-            @Param("foodchainId") Long foodchainId);
+        @Query(value = "SELECT m.id AS menuId, " +
+                                   "time_bucket('1 minute', o.created_at) AS bucket, " +
+                                   "COUNT(o.id) AS totalOrders " +
+                                   "FROM orders o " +
+                                   "JOIN order_items oi ON o.id = oi.order_id " +
+                                   "JOIN menu m ON oi.menu_id = m.id " +
+                                   "WHERE o.created_at >= NOW() - INTERVAL '50 minutes' " +
+                                   "AND m.foodchain_id = :foodchainId " +
+                                   "GROUP BY m.id, bucket " +
+                                   "ORDER BY bucket, m.id", nativeQuery = true)
+        List<Tuple> findTop5MenusTrendForLast10MinutesByChainId(
+                        @Param("foodchainId") Long foodchainId);
 
-    @Query(value = "SELECT m.id as menuId, " +
-            "time_bucket('1 minute', o.created_at) AS bucket, " +
-            "COUNT(o.id) as totalOrders " +
-            "FROM orders o " +
-            "JOIN order_items oi ON o.id = oi.order_id " +
-            "JOIN menu m ON oi.menu_id = m.id " +
-            "WHERE o.created_at >= NOW() - INTERVAL '10 minutes' " +
-            "AND m.foodchain_id = :foodchainId " +
-            "AND o.restaurant_id = :restaurantId " +
-            "GROUP BY m.id, bucket " +
-            "ORDER BY totalOrders DESC " +
-            "LIMIT 5", nativeQuery = true)
-    List<OrderStatisticsDTO> findTop5MenusTrendForLast10MinutesByRestaurantId(
-            @Param("restaurantId") Long restaurantId);
+        @Query(value = "SELECT m.id as menuId, " +
+                        "time_bucket('1 minute', o.created_at) AS bucket, " +
+                        "COUNT(o.id) as totalOrders " +
+                        "FROM orders o " +
+                        "JOIN order_items oi ON o.id = oi.order_id " +
+                        "JOIN menu m ON oi.menu_id = m.id " +
+                        "WHERE o.created_at >= NOW() - INTERVAL '2 minutes' " +
+                        "AND m.foodchain_id = :foodchainId " +
+                        "AND o.restaurant_id = :restaurantId " +
+                        "GROUP BY m.id, bucket " +
+                        "ORDER BY totalOrders DESC " +
+                        "LIMIT 1", nativeQuery = true)
+        List<OrderStatisticsDTO> findTop5MenusTrendForLast10MinutesByRestaurantId(
+                        @Param("restaurantId") Long restaurantId);
 }

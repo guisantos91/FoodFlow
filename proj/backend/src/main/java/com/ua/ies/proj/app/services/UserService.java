@@ -2,13 +2,16 @@ package com.ua.ies.proj.app.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.ManagerForm;
+import com.ua.ies.proj.app.models.Restaurant;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
+import com.ua.ies.proj.app.repos.RestaurantRepository;
 import com.ua.ies.proj.app.repos.UserRepository;
 
 @Service
@@ -17,10 +20,13 @@ public class UserService {
     private final UserRepository userRepository;
     @Autowired
     private final ManagerFormRepository managerFormRepository;
+    @Autowired
+    private final RestaurantRepository restaurantRepository;
 
-    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository) {
+    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository, RestaurantRepository restaurantRepository) {
         this.userRepository = userRepository;
         this.managerFormRepository = managerFormRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public List<UserManager> getManagers() {
@@ -42,7 +48,6 @@ public class UserService {
         existingManager.setFname(manager.getFname());
         existingManager.setLname(manager.getLname());
         existingManager.setEmail(manager.getEmail());
-        existingManager.setCredential(manager.getCredential());
         existingManager.setPassword(manager.getPassword());
         existingManager.setBirthDate(manager.getBirthDate());
         UserManager updatedManager = userRepository.save(existingManager);
@@ -54,4 +59,36 @@ public class UserService {
         return managerFormRepository.save(form);
     }
 
+    public List<ManagerForm> getForms() {
+        return managerFormRepository.findAll();
+    }
+
+    public void deleteForm(Long form_id) {
+        managerFormRepository.deleteById(form_id);
+    }
+
+    public void approveForm(ManagerForm form) {
+        UserManager manager = new UserManager();
+        manager.setFname(form.getFname());
+        manager.setLname(form.getLname());
+        manager.setEmail(form.getEmail());
+        manager.setPassword(generateRandomPassword());
+        userRepository.save(manager);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(form.getRestaurantName());
+        restaurant.setAddress(form.getRestaurantAddress());
+        restaurant.setLatitude(form.getLatitude());
+        restaurant.setLongitude(form.getLongitude());
+        // Send to the publisher the restaurantEndpoint
+        restaurant.setFoodchain(form.getFoodchain());
+        restaurant.setManager(manager);
+        restaurantRepository.save(restaurant);
+
+    }
+
+    private String generateRandomPassword() {
+        // Geração simples de senha para exemplo
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
 }

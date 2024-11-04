@@ -31,15 +31,20 @@ public class Restaurant {
     @JoinColumn(name = "foodchain_id")
     private Foodchain foodchain;
 
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private UserManager manager;
+
     public Restaurant() {
     }
 
-    public Restaurant(String name, String address, long latitude, long longitude, Foodchain foodchain) {
+    public Restaurant(String name, String address, long latitude, long longitude, Foodchain foodchain, UserManager manager) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.foodchain = foodchain;
+        this.manager = manager;
     }
 
     public Long getId() {
@@ -66,6 +71,10 @@ public class Restaurant {
         return foodchain;
     }
 
+    public UserManager getManager() {
+        return manager;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -84,5 +93,9 @@ public class Restaurant {
 
     public void setFoodchain(Foodchain foodchain) {
         this.foodchain = foodchain;
+    }
+
+    public void setManager(UserManager manager) {
+        this.manager = manager;
     }
 }
