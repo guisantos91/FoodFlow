@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.ManagerForm;
@@ -22,6 +23,8 @@ public class UserService {
     private final ManagerFormRepository managerFormRepository;
     @Autowired
     private final RestaurantRepository restaurantRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository, RestaurantRepository restaurantRepository) {
         this.userRepository = userRepository;
@@ -89,6 +92,6 @@ public class UserService {
 
     private String generateRandomPassword() {
         // Geração simples de senha para exemplo
-        return UUID.randomUUID().toString().substring(0, 8);
+        return passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 8));
     }
 }

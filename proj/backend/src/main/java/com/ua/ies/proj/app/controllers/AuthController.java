@@ -54,7 +54,7 @@ public class AuthController {
             String role = authentication.getAuthorities().iterator().next().getAuthority();
             String token = jwtTokenProvider.createToken(email, role);
             
-            return ResponseEntity.ok("Bearer " + token);
+            return ResponseEntity.ok("Authenticated Successfully | Token " + token);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid email or password");
         }

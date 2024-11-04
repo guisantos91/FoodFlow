@@ -2,6 +2,7 @@ import random
 import time
 import psycopg2
 import json
+import bcrypt
 
 
 cadeias = [
@@ -46,9 +47,12 @@ menus = {
     15: ("Portuguese Pizza", 10.0, 7)
 }
 
+senha = "123456789"
+hashed = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
+
 users = [
-    (1, "Alice", "Green","ADMIN", "alice@gmail.com", "2019-01-01", "123456789"),
-    (2, "Bob", "Brown","MANAGER", "bob@gmail.com", "2019-01-02", "123456789"),
+    (1, "Alice", "Green","ADMIN", "alice@gmail.com", "2019-01-01", hashed.decode('utf-8')),
+    (2, "Bob", "Brown","MANAGER", "bob@gmail.com", "2019-01-02", hashed.decode('utf-8')),
 ]
 
 
