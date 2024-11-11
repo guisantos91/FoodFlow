@@ -10,3 +10,16 @@
 # Bookmarks
 -- links to quickly access all project resources
 
+# Running the project
+## Enter the project folder
+```bash
+cd proj
+```
+## Run the containers environment
+```bash
+docker compose up --build
+```
+## ShutDown the Application
+```bash
+docker compose down
+```
