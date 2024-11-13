@@ -20,7 +20,7 @@ const SideBarLayout = () => {
     ];
 
     return (
-        <aside className="fixed top-0 left-0 w-20 h-full bg-white p-5 shadow-md">
+        <aside className="fixed top-0 left-0 w-20 h-full bg-orange-500 p-5 shadow-md">
             <ul className="flex flex-col items-center">
                 {icons.map((icon, index) => (
                     <li
@@ -33,13 +33,11 @@ const SideBarLayout = () => {
                                 `flex items-center justify-center w-14 h-14 rounded-lg transition ${isActive ? "bg-orange-400 shadow-lg" : "hover:bg-gray-100"}`
                             }
                         >
-                            {({ isActive }) => (
-                                <img
-                                    src={isActive ? icon.white : icon.grey}
-                                    alt={icon.id}
-                                    className="h-10 w-10"
-                                />
-                            )}
+                            <img
+                                src={icon.white}
+                                alt={icon.id}
+                                className="h-10 w-10"
+                            />
                         </NavLink>
                     </li>
                 ))}
