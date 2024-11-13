@@ -1,16 +1,47 @@
-import React from "react";
+// import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./index.css";
 import "./output.css";
-
+import homeIcon from './assets/images/icons/casa_grey.png';
+import userIcon from './assets/images/icons/user_grey.png';
+import settingsIcon from './assets/images/icons/setting_grey.png';
+import homeIconWhite from './assets/images/icons/casa_white.png';
+import userIconWhite from './assets/images/icons/user_white.png';
+import settingsIconWhite from './assets/images/icons/setting_white.png';
 
 const SideBarLayout = () => {
+    // const [selected, setSelected] = useState<string>("");
+
+    const icons = [
+        { id: "home", path: "/", grey: homeIcon, white: homeIconWhite },
+        { id: "user", path: "/user", grey: userIcon, white: userIconWhite },
+        { id: "settings", path: "/settings", grey: settingsIcon, white: settingsIconWhite },
+    ];
+
     return (
-        <aside className="fixed top-0 left-0 w-64 h-full bg-white p-4 shadow-md">
-            <h2 className="text-lg text-red-600 font-bold mb-4">Menu</h2>
-            <ul>
-                <li className="mb-2 hover:text-gray-300">Item 1</li>
-                <li className="mb-2 hover:text-gray-300">Item 2</li>
-                <li className="mb-2 hover:text-gray-300">Item 3</li>
+        <aside className="fixed top-0 left-0 w-20 h-full bg-white p-5 shadow-md">
+            <ul className="flex flex-col items-center">
+                {icons.map((icon, index) => (
+                    <li
+                        key={icon.id}
+                        className={`mb-2 ${index === 0 ? "mt-16" : "mt-8"}`}
+                    >
+                        <NavLink
+                            to={icon.path}
+                            className={({ isActive }) =>
+                                `flex items-center justify-center w-14 h-14 rounded-lg transition ${isActive ? "bg-orange-400 shadow-lg" : "hover:bg-gray-100"}`
+                            }
+                        >
+                            {({ isActive }) => (
+                                <img
+                                    src={isActive ? icon.white : icon.grey}
+                                    alt={icon.id}
+                                    className="h-10 w-10"
+                                />
+                            )}
+                        </NavLink>
+                    </li>
+                ))}
             </ul>
         </aside>
     );
@@ -23,16 +54,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <SideBarLayout />
             </div>
 
-            <div className="ml-64">
-                <main className="flex-grow p-4 bg-gray-100">
+            <div>
+                <main className="flex-grow p-4">
                     {children}
                 </main>
-                <footer className="bg-gray-800 text-white p-4 text-center">
-                    &copy; 2024 Meu Site. Todos os direitos reservados.
-                </footer>
+
             </div>
         </>
-
     );
 };
 

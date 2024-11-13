@@ -1,13 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
 import HomePage from "./HomePage";
-import './App.css'
-import './output.css'
+import UserPage from "./UserPage";
+import SettingsPage from "./SettingsPage";
 
 const App = () => {
   return (
-    <div id="root">
-      <HomePage />
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 };
 
-export default App
+export default App;

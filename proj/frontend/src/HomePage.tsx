@@ -1,14 +1,5 @@
-import Layout from "./Layout";
-
 const HomePage = () => {
-    return (
-        <Layout>
-            <div>
-                <h2 className="text-2xl text-center mb-4">Bem-vindo à Página Inicial</h2>
-                <p className="text-center">Este é o conteúdo da página inicial.</p>
-            </div>
-        </Layout>
-    );
+    return <h1 className="text-2xl">Home Page</h1>;
 };
 
 export default HomePage;
