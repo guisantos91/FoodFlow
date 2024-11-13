@@ -1,6 +1,6 @@
 # Minutes Template
 
-## Meeting Minutes for 27/10/2024 at 21:20
+## Meeting Minutes for 13/11/2024 at 19:25
 
 ### Attendees:
 - João Viegas
@@ -15,7 +15,7 @@ O objetivo desta reunião é discutir o que é necessário implementar até à e
 ### Meeting Agenda:
 1. **Divisão das tarefas a realizar até ao fim da iteração**
 2. **Páginas a serem implementadas para o MVP**
-3. **Pensar em novas issues para a próxima iteração**
+3. **Definir o que será necessári implementar para a próxima iteração**
 
 ### Meeting Notes:
 - **Jorge Domingues fica responsável na criação do layout e da home page**
