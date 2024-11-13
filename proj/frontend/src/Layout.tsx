@@ -49,7 +49,7 @@ const SideBarLayout = () => {
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
-            <div className="flex-1">
+            <div className="fixed">
                 <SideBarLayout />
             </div>
 
