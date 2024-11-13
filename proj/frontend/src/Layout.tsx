@@ -8,6 +8,7 @@ import settingsIcon from './assets/images/icons/setting_grey.png';
 import homeIconWhite from './assets/images/icons/casa_white.png';
 import userIconWhite from './assets/images/icons/user_white.png';
 import settingsIconWhite from './assets/images/icons/setting_white.png';
+// import logoutIcon from './assets/images/icons/logout_grey.png';
 
 const SideBarLayout = () => {
     // const [selected, setSelected] = useState<string>("");
