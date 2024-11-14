@@ -3,7 +3,7 @@ import MCImage from '../assets/images/logos/mcdonalds.png';
 const FoodChainCard = () => {
     return (
         <>
-            <div className="w-96 h-40 bg-orange-500 rounded-2xl flex border-2 border-orange-500">
+            <div className="w-96 h-40 bg-orange-500 rounded-2xl flex border-2 border-orange-500 m-8">
                 <div className="bg-white w-36 h-full rounded-l-2xl">
                     <img src={MCImage} alt="McDonalds" className="w-full h-full object-cover rounded-l-2xl" />
                 </div>
