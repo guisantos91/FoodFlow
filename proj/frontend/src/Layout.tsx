@@ -54,7 +54,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             <div>
-                <main className="flex-grow p-4">
+                <main className="flex-grow">
                     {children}
                 </main>
 
