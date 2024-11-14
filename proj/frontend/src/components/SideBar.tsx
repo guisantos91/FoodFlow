@@ -1,6 +1,6 @@
 const Sidebar = () => {
     return (
-        <div className="w-64 h-screen bg-gray-800 text-white flex flex-col p-4">
+        <div className="w-3/12 h-screen bg-gray-800 text-white flex flex-col p-4 border-4 border-orange-500 rounded-l-xl">
             <h3 className="text-xl font-bold mb-6">Sidebar</h3>
             <ul className="space-y-4">
                 <li className="hover:text-gray-300 cursor-pointer">Menu Item 1</li>
