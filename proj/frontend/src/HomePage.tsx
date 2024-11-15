@@ -1,3 +1,4 @@
+import React from "react";
 import FoodChainCard from "./components/FoodChaindCard";
 import Layout from "./Layout";
 import Sidebar from "./components/SideBar";
@@ -22,8 +23,7 @@ const foodChains = [
 const HomePage: React.FC = () => {
     return (
         <Layout>
-            <div className="flex h-screen">
-                {/* Conteúdo principal */}
+            <div className="flex min-h-screen">
                 <div className="flex-1 flex justify-center">
                     <div className="text-center">
                         <h2 className="text-2xl mb-4">User Page</h2>
@@ -35,8 +35,6 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Sidebar */}
                 <Sidebar />
             </div>
         </Layout>
