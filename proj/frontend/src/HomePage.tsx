@@ -1,5 +1,5 @@
 import React from "react";
-import FoodChainCard from "./components/FoodChaindCard";
+import FoodChainCard from "./components/Cards/FoodChaindCard";
 import Layout from "./Layout";
 import Sidebar from "./components/SideBar";
 import MCImage from './assets/images/logos/mcdonalds.png';
