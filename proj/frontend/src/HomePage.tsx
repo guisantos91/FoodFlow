@@ -1,26 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FoodChainCard from "./components/Cards/FoodChaindCard";
 import Layout from "./Layout";
 import Sidebar from "./components/SideBar";
-import MCImage from './assets/images/logos/mcdonalds.png';
-import BGImage from './assets/images/logos/burgerking.png';
-import KFCImage from './assets/images/logos/KFC_logo.png';
-import DominosImage from './assets/images/logos/dominos_pizza_logo.png';
-import TacoBellImage from './assets/images/logos/Taco_Bell.png';
-import TelepizzaImage from './assets/images/logos/telepizza.png';
-import PizzaHutImage from './assets/images/logos/Pizza_Hut_logo.png';
-
-const foodChains = [
-    { name: "McDonald's", image: MCImage },
-    { name: "Burger King", image: BGImage },
-    { name: "KFC", image: KFCImage },
-    { name: "Domino's Pizza", image: DominosImage },
-    { name: "Taco Bell", image: TacoBellImage },
-    { name: "Telepizza", image: TelepizzaImage },
-    { name: "Pizza Hut", image: PizzaHutImage },
-];
+import axios from 'axios';
 
 const HomePage: React.FC = () => {
+    const [foodChains, setFoodChains] = useState([]);
+
+    useEffect(() => {
+        const fetchFoodChains = async () => {
+            try {
+                const response = await axios.get("http://localhost:8080/api/v1/foodchains/");
+                setFoodChains(response.data);
+                console.log("Food Chains Data:", response.data);
+            } catch (err) {
+                console.error("Error fetching food chains:", err);
+            }
+        };
+
+        fetchFoodChains();
+    }, []);
+
     return (
         <Layout>
             <div className="flex min-h-screen">
