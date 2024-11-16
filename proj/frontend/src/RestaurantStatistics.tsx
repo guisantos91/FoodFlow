@@ -1,40 +1,10 @@
 import Layout from "./Layout";
-import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell} from 'recharts';
 import { Tabs, Card } from "flowbite-react";
 import userIcon from './assets/images/icons/user_white.png';
 import DonutChart from './components/DonutChart';
+import LineGraph from './components/LineGraph';
+import CardComponent from "./components/Card";
 
-const data = [
-    { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
-    { name: 'Sep 30', BigMac: 344, McChicken: 209, CBO: 137, HappyMeal: 289 },
-    { name: 'Oct 5', BigMac: 487, McChicken: 327, CBO: 182, HappyMeal: 256 },
-    { name: 'Oct 10', BigMac: 563, McChicken: 447, CBO: 334, HappyMeal: 223 },
-  ];
-
-const donut_data = [
-    { name: 'Chicken Nuggets', value: 32, color: '#FF0404' }, 
-    { name: 'Big Mac', value: 44, color: '#0426FF' }, 
-    { name: 'McVeggie', value: 16, color: '#FFAE00' }, 
-    { name: 'Others', value: 8, color: '#22C55E' },       
-  ];
-
-const MyLineChart = () => (
-    <div className="flex flex-col items-center">
-        <ResponsiveContainer width="80%" height={400}>
-            <LineChart data={data}>
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="BigMac" stroke="#FFAE00" />
-                <Line type="monotone" dataKey="McChicken" stroke="#0426FF" />
-                <Line type="monotone" dataKey="CBO" stroke="#FF0404" />
-                <Line type="monotone" dataKey="HappyMeal" stroke="#22C55E" />
-            </LineChart>
-        </ResponsiveContainer>
-    </div>
-  ); 
 
 const RestaurantStatistics = () => {
     return (
@@ -44,13 +14,15 @@ const RestaurantStatistics = () => {
                     <h4 className="text-orange-300 text-lg mb-2">Hello</h4>
                     <h2 className="text-black text-2xl">McDonald's - Universidade</h2>
                     <div className="mt-8 mb-8">
-                        <MyLineChart />
+                        <LineGraph />
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
                         <Tabs.Item title="Menus">
+                            <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="€3.99" />
+                            <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="€2.99" />
                         </Tabs.Item>
                         <Tabs.Item active title="Current Orders">
-                            <DonutChart data={donut_data} />
+                            <DonutChart />
                         </Tabs.Item>
                     </Tabs>
                 </div>

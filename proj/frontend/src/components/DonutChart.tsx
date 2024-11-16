@@ -1,6 +1,13 @@
 import {Tooltip, Legend, PieChart, Pie, Cell} from 'recharts';
 
-function DonutChart({data}){
+const data = [
+    { name: 'Chicken Nuggets', value: 32, color: '#FF0404' }, 
+    { name: 'Big Mac', value: 44, color: '#0426FF' }, 
+    { name: 'McVeggie', value: 16, color: '#FFAE00' }, 
+    { name: 'Others', value: 8, color: '#22C55E' },       
+  ];
+
+function DonutChart() {
     return (
         <div className="flex flex-col items-center mt-4 mb-4">
             <div className="bg-gray-100 p-6 rounded-lg shadow-md">
