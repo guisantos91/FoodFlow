@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -12,13 +13,22 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class JwtTokenProvider {
 
-    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("your-256-bit-secret-key-of-32bytes!!".getBytes());
+    @Value("${JWT_KEY}")
+    private String JWT_KEY;
+
+    private SecretKey SECRET_KEY;
 
     private final long validityInMilliseconds = 86400000; // 24h
+
+    @PostConstruct
+    public void init() {
+        SECRET_KEY = Keys.hmacShaKeyFor(JWT_KEY.getBytes());
+    }
 
     public String createToken(String username, String user_type) {
         Claims claims = Jwts.claims().setSubject(username);
