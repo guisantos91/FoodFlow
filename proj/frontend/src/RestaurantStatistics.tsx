@@ -1,7 +1,8 @@
 import Layout from "./Layout";
 import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell} from 'recharts';
-import { Tabs } from "flowbite-react";
+import { Tabs, Card } from "flowbite-react";
 import userIcon from './assets/images/icons/user_white.png';
+import DonutChart from './components/DonutChart';
 
 const data = [
     { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
@@ -34,33 +35,6 @@ const MyLineChart = () => (
         </ResponsiveContainer>
     </div>
   ); 
-  
-const DonutChart = () => (
-    <div className="flex flex-col items-center mt-4 mb-4">
-        <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h3 className="text-center mb-4 text-lg font-bold">Order Flow (Last Hour)</h3>
-            <PieChart width={300} height={300}>
-                <Pie
-                data={donut_data}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                innerRadius={70}
-                outerRadius={100}
-                fill="#8884d8"
-                label
-                >
-                {donut_data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-                </Pie>
-                <Tooltip />
-                <Legend layout="horizontal" align="center" verticalAlign="bottom" />
-            </PieChart>
-        </div>
-    </div>
-  );
 
 const RestaurantStatistics = () => {
     return (
@@ -74,24 +48,24 @@ const RestaurantStatistics = () => {
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
                         <Tabs.Item title="Menus">
-                            aa
                         </Tabs.Item>
                         <Tabs.Item active title="Current Orders">
-                            <DonutChart />
+                            <DonutChart data={donut_data} />
                         </Tabs.Item>
                     </Tabs>
                 </div>
                 <div className="w-1/4 bg-gray-100 flex flex-col">
                     <div className="flex items-center mt-4 ml-4 space-x-2">
-                        {/* Circle Icon */}
                         <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
                             <img src={userIcon} alt="User Icon" className="w-4 h-4" />
                         </div>
-                        {/* Login Text */}
                         <h3 className="text-xl font-bold">Login</h3>
                     </div>
                     <h2 className="text-2xl font-bold mt-4 ml-4">Live Orders</h2>
                 </div>
+                <table>
+                    <thead></thead>
+                </table>
             </div>
         </Layout>
     );
