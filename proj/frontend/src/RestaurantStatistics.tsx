@@ -69,9 +69,6 @@ const RestaurantStatistics = () => {
                     <h2 className="text-2xl font-bold mt-4 ml-4">Live Orders</h2>
                     <Table processing={processing} preparing={preparing} ready={ready} />
                 </div>
-                <table>
-                    <thead></thead>
-                </table>
             </div>
         </Layout>
     );
