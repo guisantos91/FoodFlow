@@ -9,7 +9,6 @@ import TacoBellImage from '../assets/images/logos/Taco_Bell.png';
 import TelepizzaImage from '../assets/images/logos/telepizza.png';
 import PizzaHutImage from '../assets/images/logos/Pizza_Hut_logo.png';
 
-// Lista de cadeias de fast-food
 const foodChains = [
     { name: "McDonald's", image: MCImage },
     { name: "Burger King", image: BGImage },
