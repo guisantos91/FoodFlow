@@ -4,7 +4,11 @@ import userIcon from './assets/images/icons/user_white.png';
 import DonutChart from './components/DonutChart';
 import LineGraph from './components/LineGraph';
 import CardComponent from "./components/Card";
+import Table from "./components/Table";
 
+const processing = [1, 2, 3, 4, 5];
+const preparing = [6, 7, 8];
+const ready = [9, 10, 11, 12];
 
 const RestaurantStatistics = () => {
     return (
@@ -18,8 +22,12 @@ const RestaurantStatistics = () => {
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
                         <Tabs.Item title="Menus">
-                            <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="€3.99" />
-                            <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="€2.99" />
+                            <div className="flex space-x-4">
+                                <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="€3.99" />
+                                <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="€2.99" />
+                                <CardComponent image="https://via.placeholder.com/150" name="CBO" price="€4.99" />
+                                <CardComponent image="https://via.placeholder.com/150" name="Happy Meal" price="€3.99" />
+                            </div>
                         </Tabs.Item>
                         <Tabs.Item active title="Current Orders">
                             <DonutChart />
@@ -34,10 +42,8 @@ const RestaurantStatistics = () => {
                         <h3 className="text-xl font-bold">Login</h3>
                     </div>
                     <h2 className="text-2xl font-bold mt-4 ml-4">Live Orders</h2>
+                    <Table processing={processing} preparing={preparing} ready={ready} />
                 </div>
-                <table>
-                    <thead></thead>
-                </table>
             </div>
         </Layout>
     );

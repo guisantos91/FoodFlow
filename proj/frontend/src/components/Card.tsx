@@ -3,7 +3,7 @@ import { Card } from "flowbite-react";
 function CardComponent({ image, name, price }) {
   return (
     <Card
-      className="max-w-sm"
+      className="w-1/4 h-32"
       imgAlt="menuImage"
       imgSrc={image}
     >
