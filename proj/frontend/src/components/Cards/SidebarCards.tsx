@@ -7,7 +7,7 @@ interface SideBarCardProps {
 
 const SideBarCard: React.FC<SideBarCardProps> = ({ name, image }) => {
     return (
-        <div className="card card-side bg-gray-300 shadow-md h-20 mb-6">
+        <div className="card card-side bg-gray-400 shadow-md h-20 mb-6">
             <figure className="flex items-center justify-center">
                 <img
                     src={image}

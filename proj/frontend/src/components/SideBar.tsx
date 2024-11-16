@@ -1,5 +1,6 @@
 import React from 'react';
 import SideBarCard from './Cards/SidebarCards';
+import UserImage from '../assets/images/icons/user.png';
 
 import MCImage from '../assets/images/logos/mcdonalds.png';
 import BGImage from '../assets/images/logos/burgerking.png';
@@ -21,8 +22,29 @@ const foodChains = [
 
 const Sidebar: React.FC = () => {
     return (
-        <div className="w-3/12 flex flex-col bg-white text-white p-4 border-4 border-orange-500 rounded-l-xl">
-            <h3 className="text-xl text-black font-bold mb-20">Sidebar</h3>
+        <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4">
+            <div className="flex items-center mb-6">
+                <img
+                    src={UserImage}
+                    alt="User"
+                    className="w-10 h-10 rounded-full border-2 border-black object-contain"
+                />
+                <div className="ml-4">
+                    {/* <h1 className='text-xl text-black font-extrabold'>Login</h1> */}
+                    <button>
+                        <h1 className='text-xl text-black font-extrabold hover:underline'>Login</h1>
+                    </button>
+                </div>
+            </div>
+            <div className="flex items-center mb-4">
+                <h1 className='text-3xl text-black font-extrabold font-serif mb-4 mt-1'>Trending</h1>
+                <div className="ml-20">
+                    <button className="text-orange-500 font-medium hover:underline text-xl mb-2">
+                        See More
+                    </button>
+                </div>
+            </div>
+
             {foodChains.map((chain, index) => (
                 <SideBarCard key={index} name={chain.name} image={chain.image} />
             ))}
