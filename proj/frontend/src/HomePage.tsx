@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import FoodChainCard from "./components/Cards/FoodChaindCard";
-=======
-import React from "react";
-import FoodChainCard from "./components/FoodChaindCard";
->>>>>>> 7416cf2 (sidebar bug)
 import Layout from "./Layout";
 import Sidebar from "./components/SideBar";
 import axios from "axios";
