@@ -1,13 +1,18 @@
 import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 
-const data = [
-    { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
-    { name: 'Sep 30', BigMac: 344, McChicken: 209, CBO: 137, HappyMeal: 289 },
-    { name: 'Oct 5', BigMac: 487, McChicken: 327, CBO: 182, HappyMeal: 256 },
-    { name: 'Oct 10', BigMac: 563, McChicken: 447, CBO: 334, HappyMeal: 223 },
-  ];
+interface LineGraphData {
+    name: string;
+    BigMac: number;
+    McChicken: number;
+    CBO: number;
+    HappyMeal: number;
+}[]
 
-function LineGraph() {
+interface LineGraphProps {
+    data: LineGraphData[];
+}
+
+function LineGraph({data} : LineGraphProps) {
     return (
         <div className="flex flex-col items-center">
             <ResponsiveContainer width="80%" height={400}>

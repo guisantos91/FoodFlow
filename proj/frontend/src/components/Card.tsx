@@ -1,6 +1,12 @@
 import { Card } from "flowbite-react";
 
-function CardComponent({ image, name, price }) {
+interface CardComponentProps {
+  image: string;
+  name: string;
+  price: number | string;
+}
+
+function CardComponent({ image, name, price }: CardComponentProps) {
   return (
     <Card
       className="w-1/4 h-32"
@@ -11,7 +17,7 @@ function CardComponent({ image, name, price }) {
         {name}
       </h5>
       <p className="font-normal text-gray-700 dark:text-gray-400">
-        {price}
+        €{price}
       </p>
     </Card>
   );

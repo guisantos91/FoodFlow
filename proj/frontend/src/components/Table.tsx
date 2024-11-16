@@ -1,8 +1,14 @@
-function Table({ processing, preparing, ready }) {
+type TableProps = {
+    processing: number[];
+    preparing: number[];
+    ready: number[];
+};
+
+function Table({ processing, preparing, ready }: TableProps) {
     return (
         <div className="overflow-x-auto ml-2 mr-2">
-            <table className="min-w-full divide-y divide-gray-200 mt-4">
-                <thead className="">
+            <table className="min-w-full divide-y divide-gray-200 mt-4 border border-orange-500 rounded-lg">
+                <thead className="border border-orange-500">
                     <tr>
                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Processing

@@ -1,10 +1,24 @@
 import Layout from "./Layout";
-import { Tabs, Card } from "flowbite-react";
+import { Tabs } from "flowbite-react";
 import userIcon from './assets/images/icons/user_white.png';
 import DonutChart from './components/DonutChart';
 import LineGraph from './components/LineGraph';
 import CardComponent from "./components/Card";
 import Table from "./components/Table";
+
+const graph_data = [
+    { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
+    { name: 'Sep 30', BigMac: 344, McChicken: 209, CBO: 137, HappyMeal: 289 },
+    { name: 'Oct 5', BigMac: 487, McChicken: 327, CBO: 182, HappyMeal: 256 },
+    { name: 'Oct 10', BigMac: 563, McChicken: 447, CBO: 334, HappyMeal: 223 },
+  ];
+
+const donut_data = [
+    { name: 'Chicken Nuggets', value: 32, color: '#FF0404' }, 
+    { name: 'Big Mac', value: 44, color: '#0426FF' }, 
+    { name: 'McVeggie', value: 16, color: '#FFAE00' }, 
+    { name: 'Others', value: 8, color: '#22C55E' },       
+  ];
 
 const processing = [1, 2, 3, 4, 5];
 const preparing = [6, 7, 8];
@@ -18,19 +32,19 @@ const RestaurantStatistics = () => {
                     <h4 className="text-orange-300 text-lg mb-2">Hello</h4>
                     <h2 className="text-black text-2xl">McDonald's - Universidade</h2>
                     <div className="mt-8 mb-8">
-                        <LineGraph />
+                        <LineGraph data={graph_data} />
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
                         <Tabs.Item title="Menus">
                             <div className="flex space-x-4">
-                                <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="€3.99" />
-                                <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="€2.99" />
-                                <CardComponent image="https://via.placeholder.com/150" name="CBO" price="€4.99" />
-                                <CardComponent image="https://via.placeholder.com/150" name="Happy Meal" price="€3.99" />
+                                <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="7.50" />
+                                <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="6.50" />
+                                <CardComponent image="https://via.placeholder.com/150" name="CBO" price="8.99" />
+                                <CardComponent image="https://via.placeholder.com/150" name="Happy Meal" price="6.99" />
                             </div>
                         </Tabs.Item>
                         <Tabs.Item active title="Current Orders">
-                            <DonutChart />
+                            <DonutChart data={donut_data} />
                         </Tabs.Item>
                     </Tabs>
                 </div>
