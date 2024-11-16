@@ -1,10 +1,11 @@
 import Layout from "./Layout";
-import { Tabs } from "flowbite-react";
+import { Tabs, Button } from "flowbite-react";
 import userIcon from './assets/images/icons/user_white.png';
 import DonutChart from './components/DonutChart';
 import LineGraph from './components/LineGraph';
 import CardComponent from "./components/Card";
 import Table from "./components/Table";
+import { HiSortDescending } from "react-icons/hi";
 
 const graph_data = [
     { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
@@ -31,11 +32,21 @@ const RestaurantStatistics = () => {
                 <div className="flex-1">
                     <h4 className="text-orange-300 text-lg mb-2">Hello</h4>
                     <h2 className="text-black text-2xl">McDonald's - Universidade</h2>
-                    <div className="mt-8 mb-8">
-                        <LineGraph data={graph_data} />
+                    <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
+                        <h1 className="text-4xl font-bold text-center mb-8">Trending Orders</h1>
+                        <div className="p-4">
+                            <LineGraph data={graph_data} />
+                        </div>
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
-                        <Tabs.Item title="Menus">
+                        <Tabs.Item active title="Menus">
+                            <div className="flex items-center justify-between mt-4 ml-4 mr-4 mb-8">
+                                <h2 className="text-xl font-bold">Available Orders: </h2>
+                                <button className="flex items-center space-x-2 p-2 border border-orange-500 rounded-xl">
+                                    Sort
+                                    <HiSortDescending className="ml-3 mt-1 h-4 w-4" />
+                                </button>
+                            </div>
                             <div className="flex space-x-4">
                                 <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="7.50" />
                                 <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="6.50" />
@@ -43,7 +54,7 @@ const RestaurantStatistics = () => {
                                 <CardComponent image="https://via.placeholder.com/150" name="Happy Meal" price="6.99" />
                             </div>
                         </Tabs.Item>
-                        <Tabs.Item active title="Current Orders">
+                        <Tabs.Item title="Current Orders">
                             <DonutChart data={donut_data} />
                         </Tabs.Item>
                     </Tabs>
