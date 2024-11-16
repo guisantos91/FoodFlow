@@ -31,6 +31,11 @@ public class OrderService {
         }
     }
 
+    public OrderStatisticsDTO getAllStatistics() {
+        List<Object[]> rawData = orderRepository.getAllStatistics();
+        return statistics.processOrderData(rawData);
+    }
+
     public OrderStatisticsDTO getStatisticsByChainId(Long foodchainId) {
         List<Object[]> rawData = orderRepository.getStatisticsByChainId(foodchainId);
         return statistics.processOrderData(rawData);
