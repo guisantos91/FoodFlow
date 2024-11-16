@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import FoodChainCard from "./components/Cards/FoodChaindCard";
 import Layout from "./Layout";
 import Sidebar from "./components/SideBar";
-import axios from 'axios';
+import axios from "axios";
+import MCImage from "./assets/images/logos/mcdonalds.png";
+
+interface FoodChain {
+    id: number;
+    name: string;
+}
 
 const HomePage: React.FC = () => {
-    const [foodChains, setFoodChains] = useState([]);
+    const [foodChains, setFoodChains] = useState<FoodChain[]>([]);
 
     useEffect(() => {
         const fetchFoodChains = async () => {
@@ -29,8 +35,8 @@ const HomePage: React.FC = () => {
                         <h2 className="text-2xl mb-4">User Page</h2>
                         <p>User page url</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
-                            {foodChains.map((chain, index) => (
-                                <FoodChainCard key={index} name={chain.name} image={chain.image} />
+                            {foodChains.map((chain) => (
+                                <FoodChainCard key={chain.id} name={chain.name} image={MCImage} />
                             ))}
                         </div>
                     </div>
