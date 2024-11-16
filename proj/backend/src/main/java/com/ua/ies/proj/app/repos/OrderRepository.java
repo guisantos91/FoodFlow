@@ -20,6 +20,19 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
             JOIN orders o ON oi.order_id = o.id
             JOIN menu m ON oi.menu_id = m.id
             WHERE o.created_at >= NOW() - INTERVAL '5 minutes'
+            GROUP BY m.name, bucket
+            ORDER BY m.name, bucket
+            """, nativeQuery = true)
+        List<Object[]> getAllStatistics();
+
+        @Query(value = """
+            SELECT m.name AS menuName, 
+                   time_bucket('1 minute', o.created_at) AS bucket,
+                   COUNT(o.id) AS orderCount
+            FROM order_items oi
+            JOIN orders o ON oi.order_id = o.id
+            JOIN menu m ON oi.menu_id = m.id
+            WHERE o.created_at >= NOW() - INTERVAL '5 minutes'
             AND m.foodchain_id = :foodchainId
             GROUP BY m.name, bucket
             ORDER BY m.name, bucket

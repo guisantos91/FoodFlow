@@ -37,6 +37,8 @@ public class FoodChainController {
         return new ResponseEntity<>(foodchains, HttpStatus.OK);
     }
 
+    
+
     @GetMapping("/{foodchain_id}/restaurants")
     public ResponseEntity<List<Restaurant>> getRestaurantsFromChain(@PathVariable(value = "foodchain_id") Long chainId) {
         List<Restaurant> restaurants = restaurantsService.getRestaurantsFromChain(chainId);
@@ -53,6 +55,12 @@ public class FoodChainController {
     public ResponseEntity<List<Menu>> getMenusByChain(@PathVariable(value = "foodchain_id") Long chainId) {
         List<Menu> menus = restaurantsService.getMenusByChain(chainId);
         return new ResponseEntity<>(menus, HttpStatus.OK);
+    }
+
+    @GetMapping("/orders/statistics")
+    public ResponseEntity<OrderStatisticsDTO> getStatistics() {
+        OrderStatisticsDTO stats = orderService.getAllStatistics();
+        return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 
     @GetMapping("/{foodchain_id}/orders/statistics")
