@@ -30,7 +30,7 @@ const SideBarLayout = () => {
                         <NavLink
                             to={icon.path}
                             className={({ isActive }) =>
-                                `flex items-center justify-center w-14 h-14 rounded-lg transition ${isActive ? "bg-orange-400 shadow-lg" : "hover:bg-gray-100"}`
+                                `flex items-center justify-center w-14 h-14 rounded-lg transition ${isActive ? "bg-orange-400 shadow-lg" : "hover:bg-orange-600"}`
                             }
                         >
                             <img
@@ -54,7 +54,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             <div>
-                <main className="flex-grow p-4">
+                <main className="flex-grow ml-10">
                     {children}
                 </main>
 
