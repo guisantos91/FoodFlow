@@ -45,7 +45,7 @@ const Sidebar: React.FC = () => {
                 </div>
             </div>
 
-            {foodChains.slice(0, 6).map((chain, index) => (
+            {foodChains.map((chain, index) => (
                 <SideBarCard key={index} name={chain.name} image={chain.image} />
             ))}
         </div>
