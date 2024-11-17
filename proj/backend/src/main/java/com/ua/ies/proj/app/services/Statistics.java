@@ -30,7 +30,7 @@ public class Statistics {
         return LIMIT;
     }
 
-    public Map<String, OrderStatisticsDTO> processOrderData(List<Object[]> results, boolean allChains) {
+    public Map<String, OrderStatisticsDTO> processOrderDataMenu(List<Object[]> results) {
         if (results.isEmpty()) {
             return new HashMap<>();
         }
@@ -65,14 +65,10 @@ public class Statistics {
             orderStatistics.put(menuName, newOrderStat);
         }
         
-        if (!allChains) {
-            return filterTopStatisticByNow(orderStatistics);
-        } else {
-            return orderStatistics;
-        }
+        return filterTopStatisticByNow(orderStatistics);
     }
 
-    public Map<String, OrderStatisticsDTO> processAllChainsData(List<Object[]> results){
+    public Map<String, OrderStatisticsDTO> processOrderDataFoodChain(List<Object[]> results){
         if (results.isEmpty()) {
             return new HashMap<>();
         }
