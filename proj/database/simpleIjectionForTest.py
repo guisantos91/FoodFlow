@@ -120,7 +120,7 @@ try:
     while True:
         inserir_pedido()
         print("Order entered successfully.")
-        # time.sleep(1)
+        time.sleep(0.2)
 except KeyboardInterrupt:
     print("Process stopped.")
 

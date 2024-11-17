@@ -1,44 +1,38 @@
 type TableProps = {
-    processing: number[];
+    todo: number[];
     preparing: number[];
     ready: number[];
 };
 
-function Table({ processing, preparing, ready }: TableProps) {
+function Table({ todo, preparing, ready }: TableProps) {
     return (
         <div className="overflow-x-auto ml-2 mr-2">
-            <table className="min-w-full divide-y divide-gray-200 mt-4 border border-orange-500 rounded-lg table-fixed">
-                <thead className="border border-orange-500">
+            <table className="table w-full mt-4">
+                <thead>
                     <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Processing
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Preparing
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Ready
-                        </th>
+                        <th>To-Do</th>
+                        <th>Preparing</th>
+                        <th>Ready</th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody>
                     <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 align-top">
-                            <ul className="list-disc list-inside">
-                                {processing.map((item, index) => (
+                        <td className="align-top">
+                            <ul className="list-disc list-inside max-h-40 overflow-y-auto">
+                                {todo.map((item, index) => (
                                     <li key={index}>{item}</li>
                                 ))}
                             </ul>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 align-top">
-                            <ul className="list-disc list-inside">
+                        <td className="align-top">
+                            <ul className="list-disc list-inside max-h-40 overflow-y-auto">
                                 {preparing.map((item, index) => (
                                     <li key={index}>{item}</li>
                                 ))}
                             </ul>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 align-top">
-                            <ul className="list-disc list-inside">
+                        <td className="align-top">
+                            <ul className="list-disc list-inside max-h-40 overflow-y-auto">
                                 {ready.map((item, index) => (
                                     <li key={index}>{item}</li>
                                 ))}
