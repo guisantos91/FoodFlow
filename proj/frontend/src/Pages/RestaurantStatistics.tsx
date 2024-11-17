@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import { Tabs, Button } from "flowbite-react";
+import { Tabs } from "flowbite-react";
 import userIcon from "../assets/images/icons/user.png";
 import DonutChart from '../components/Statistics/DonutChart';
 import LineGraph from '../components/Statistics/LineGraph';
