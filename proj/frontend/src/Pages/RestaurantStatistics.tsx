@@ -6,6 +6,8 @@ import LineGraph from '../components/Statistics/LineGraph';
 import CardComponent from "../components/Cards/Card";
 import Table from "../components/Statistics/Table";
 import { HiSortDescending } from "react-icons/hi";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const graph_data = [
     { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
@@ -21,11 +23,64 @@ const donut_data = [
     { name: 'Others', value: 8, color: '#22C55E' },       
   ];
 
-const processing = [1, 2, 3, 4, 5];
-const preparing = [6, 7, 8];
-const ready = [9, 10, 11, 12];
+  interface Order {
+    id: number;
+    createdAt: string; 
+}
 
 const RestaurantStatistics = () => {
+    const [orders_todo, setOrders_todo] = useState<Order[]>([]);
+    const [orders_preparing, setOrders_preparing] = useState<Order[]>([]);
+    const [orders_ready, setOrders_ready] = useState<Order[]>([]);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const id = 1; // Replace with dynamic ID as needed
+                const baseUrl = `http://localhost:8080/api/v1/restaurants/${id}/orders`;
+
+                // Fetch and sort "to-do" orders
+                const responseTodo = await axios.get(`${baseUrl}?status=to-do`);
+                const sortedTodo = responseTodo.data.sort(
+                    (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                );
+                setOrders_todo(sortedTodo);
+
+                // Fetch and sort "in-progress" orders
+                const responsePreparing = await axios.get(`${baseUrl}?status=in-progress`);
+                const sortedPreparing = responsePreparing.data.sort(
+                    (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                );
+                setOrders_preparing(sortedPreparing);
+
+                // Fetch and sort "done" orders
+                const responseReady = await axios.get(`${baseUrl}?status=done`);
+                const sortedReady = responseReady.data.sort(
+                    (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                );
+                setOrders_ready(sortedReady);
+
+            } catch (err) {
+                console.error("Error fetching orders:", err);
+            }
+        };
+
+        // Initial fetch
+        fetchOrders();
+
+        // Fetch data every 10 seconds
+        const interval = setInterval(() => {
+            fetchOrders();
+        }, 10000);
+
+        // Cleanup on unmount
+        return () => clearInterval(interval);
+    }, []);
+
+    const todo = orders_todo.map((order) => order.id);
+    const preparing = orders_preparing.map((order) => order.id);
+    const ready = orders_ready.map((order) => order.id);
+
     return (
         <Layout>
             <div className="flex h-full gap-4 ml-4">
@@ -67,7 +122,7 @@ const RestaurantStatistics = () => {
                         <h3 className="text-xl font-bold text-black">Login</h3>
                     </div>
                     <h2 className="text-2xl font-bold mt-8 ml-4">Live Orders</h2>
-                    <Table processing={processing} preparing={preparing} ready={ready} />
+                    <Table todo={todo} preparing={preparing} ready={ready} />
                 </div>
             </div>
         </Layout>
