@@ -1,6 +1,7 @@
 package com.ua.ies.proj.app.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,18 +32,18 @@ public class OrderService {
         }
     }
 
-    public OrderStatisticsDTO getAllStatistics() {
+    public Map<String, OrderStatisticsDTO> getAllStatistics() {
         List<Object[]> rawData = orderRepository.getAllStatistics();
-        return statistics.processOrderData(rawData);
+        return statistics.processOrderData(rawData, true);
     }
 
-    public OrderStatisticsDTO getStatisticsByChainId(Long foodchainId) {
+    public Map<String, OrderStatisticsDTO> getStatisticsByChainId(Long foodchainId) {
         List<Object[]> rawData = orderRepository.getStatisticsByChainId(foodchainId);
-        return statistics.processOrderData(rawData);
+        return statistics.processOrderData(rawData, false);
     }
 
-    public OrderStatisticsDTO getStatisticsByRestaurantId(Long restaurantId) {
+    public Map<String, OrderStatisticsDTO> getStatisticsByRestaurantId(Long restaurantId) {
         List<Object[]> rawData = orderRepository.getStatisticsByRestaurantId(restaurantId);
-        return statistics.processOrderData(rawData);
+        return statistics.processOrderData(rawData, false);
     }
 }
