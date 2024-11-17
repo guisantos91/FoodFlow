@@ -15,7 +15,10 @@ const ChainFoodPage = () => {
         <button onClick={() => setZoomLevel((zoomLevel<19?zoomLevel + 1:zoomLevel))}>+</button>
         <button onClick={() => setZoomLevel(zoomLevel - 1)}>-</button>
         <hr />
-        <Map zoomLevel={zoomLevel} />
+        <Map zoomLevel={zoomLevel} markers={[
+    { lat: 40.7128, lng: -74.0060, label: 'Nova York' },
+    { lat: 34.0522, lng: -118.2437, label: 'Los Angeles' },
+  ]}/>
             </div>
         </Layout>
     );

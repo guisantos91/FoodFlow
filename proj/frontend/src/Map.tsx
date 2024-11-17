@@ -1,11 +1,19 @@
 import { useRef, useEffect } from 'react';
 import { MapWidget } from './map-widget';
 
-interface MapProps {
-  zoomLevel: number; 
+
+interface Marker {
+  lat: number;
+  lng: number;
+  label?: string;
 }
 
-export default function Map({ zoomLevel }: MapProps) {
+interface MapProps {
+  zoomLevel: number; 
+  markers: Marker[];
+}
+
+export default function Map({ zoomLevel,markers }: MapProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<MapWidget | null>(null);
 
@@ -13,11 +21,17 @@ export default function Map({ zoomLevel }: MapProps) {
     if (containerRef.current && mapRef.current === null) {
       mapRef.current = new MapWidget(containerRef.current);
     }
-
+  
     if (mapRef.current) {
       mapRef.current.setZoom(zoomLevel);
+  
+      if (markers) {
+        markers.forEach(marker => {
+          mapRef.current?.addMarker(marker.lat, marker.lng, marker.label);
+        });
+      }
     }
-  }, [zoomLevel]);
+  }, [zoomLevel, markers]); 
 
   return (
     <div
