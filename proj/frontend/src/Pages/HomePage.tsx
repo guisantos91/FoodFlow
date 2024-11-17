@@ -3,8 +3,8 @@ import FoodChainCard from "../components/Cards/FoodChaindCard";
 import Layout from "../components/Layout";
 import Sidebar from "../components/SideBar";
 import axios from "axios";
-import SearchSVG from "./assets/images/icons/search.svg";
 import MCImage from "../assets/images/logos/mcdonalds.png";
+import SearchSVG from "../assets/images/icons/search.svg";
 
 interface FoodChain {
     id: number;
