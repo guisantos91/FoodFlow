@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.ua.ies.proj.app.models.FoodchainInfo;
 import com.ua.ies.proj.app.models.MenuInfo;
 import com.ua.ies.proj.app.models.OrderStatisticsDTO;
 
@@ -65,10 +66,45 @@ public class Statistics {
         }
         
         if (!allChains) {
-            return filterTopMenusByNowOrders(orderStatistics);
+            return filterTopStatisticByNow(orderStatistics);
         } else {
             return orderStatistics;
         }
+    }
+
+    public Map<String, OrderStatisticsDTO> processAllChainsData(List<Object[]> results){
+        if (results.isEmpty()) {
+            return new HashMap<>();
+        }
+
+        Map<String, OrderStatisticsDTO> orderStatistics = new HashMap<>();
+
+        for (Object[] row : results) {
+            String foodChainName = (String) row[0];
+            if (!orderStatistics.containsKey(foodChainName)) {
+                Long id = (Long) row[1];
+                FoodchainInfo foodChain_info = new FoodchainInfo(id, foodChainName);
+                OrderStatisticsDTO orderStat = new OrderStatisticsDTO(foodChain_info, new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0)));
+                orderStatistics.put(foodChainName, orderStat);
+            }
+        }
+
+        for (Object[] row : results) {
+            String foodChainName = (String) row[0];
+            Long id = (Long) row[1];
+            FoodchainInfo foodChain_info = new FoodchainInfo(id, foodChainName);
+            Date bucket = Date.from((Instant) row[2]);
+            Integer orderCount = ((Number) row[3]).intValue();
+
+            OrderStatisticsDTO orderStat = orderStatistics.get(foodChainName);
+            List<Integer> values = orderStat.getValues();
+            int minuteIndex = calculateMinuteIndex(bucket);
+            values.set(minuteIndex, orderCount);
+            OrderStatisticsDTO newOrderStat = new OrderStatisticsDTO(foodChain_info, values);
+            orderStatistics.put(foodChainName, newOrderStat);
+        }
+
+        return filterTopStatisticByNow(orderStatistics);
     }
 
     private int calculateMinuteIndex(Date bucket) {
@@ -76,7 +112,7 @@ public class Statistics {
         return (int) (5 - minutesAgo);
     }
 
-    public Map<String, OrderStatisticsDTO> filterTopMenusByNowOrders(Map<String, OrderStatisticsDTO> orderStatistics) {
+    public Map<String, OrderStatisticsDTO> filterTopStatisticByNow(Map<String, OrderStatisticsDTO> orderStatistics) {
         return orderStatistics.entrySet().stream()
                 .sorted((e1, e2) -> Integer.compare(
                         e2.getValue().getValues().get(4), 

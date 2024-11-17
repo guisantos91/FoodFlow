@@ -58,11 +58,17 @@ public class FoodChainController {
         return new ResponseEntity<>(menus, HttpStatus.OK);
     }
 
-    // @GetMapping("/orders/statistics")
-    // public ResponseEntity<Map<String, OrderStatisticsDTO>> getStatistics() {
-    //     Map<String, OrderStatisticsDTO> stats = orderService.getAllStatistics();
-    //     return new ResponseEntity<>(stats, HttpStatus.OK);
-    // }
+    @GetMapping("/orders/statistics")
+    public ResponseEntity<Map<String, OrderStatisticsDTO>> getStatistics() {
+        Map<String, OrderStatisticsDTO> stats = orderService.getAllStatistics();
+        return new ResponseEntity<>(stats, HttpStatus.OK);
+    }
+
+    @GetMapping("/menus/statistics")
+    public ResponseEntity<List<Menu>> getMenuStatistics() {
+        List<Menu> stats = orderService.getMenuStatistics();
+        return new ResponseEntity<>(stats, HttpStatus.OK);
+    }
 
     @GetMapping("/{foodchain_id}/orders/statistics")
     public ResponseEntity<Map<String, OrderStatisticsDTO>> getStatistics(@PathVariable(value = "foodchain_id") Long chainId) {
