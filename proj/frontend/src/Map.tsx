@@ -31,8 +31,8 @@ export default function Map({ zoomLevel }: MapProps) {
     >
       <div
         style={{
-          width: 500,
-          height: 300,
+          width: '120vh',
+          height: '100%',
         }}
         ref={containerRef}
       />

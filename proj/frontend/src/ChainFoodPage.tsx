@@ -12,7 +12,7 @@ const ChainFoodPage = () => {
             </div>
             <div>
         Zoom level: {zoomLevel}x
-        <button onClick={() => setZoomLevel(zoomLevel + 1)}>+</button>
+        <button onClick={() => setZoomLevel((zoomLevel<19?zoomLevel + 1:zoomLevel))}>+</button>
         <button onClick={() => setZoomLevel(zoomLevel - 1)}>-</button>
         <hr />
         <Map zoomLevel={zoomLevel} />
