@@ -1,6 +1,6 @@
 import Layout from "./Layout";
 import { Tabs, Button } from "flowbite-react";
-import userIcon from './assets/images/icons/user_white.png';
+import userIcon from './assets/images/icons/user.png';
 import DonutChart from './components/DonutChart';
 import LineGraph from './components/LineGraph';
 import CardComponent from "./components/Card";
@@ -28,7 +28,7 @@ const ready = [9, 10, 11, 12];
 const RestaurantStatistics = () => {
     return (
         <Layout>
-            <div className="flex h-full gap-4">
+            <div className="flex h-full gap-4 ml-4">
                 <div className="flex-1">
                     <h4 className="text-orange-300 text-lg mb-2">Hello</h4>
                     <h2 className="text-black text-2xl">McDonald's - Universidade</h2>
@@ -59,12 +59,12 @@ const RestaurantStatistics = () => {
                         </Tabs.Item>
                     </Tabs>
                 </div>
-                <div className="w-1/4 bg-gray-100 flex flex-col">
+                <div className="w-3/12 flex flex-col bg-white text-white p-4 border-4 border-orange-500 rounded-l-xl">
                     <div className="flex items-center mt-4 ml-4 space-x-2">
                         <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
                             <img src={userIcon} alt="User Icon" className="w-4 h-4" />
                         </div>
-                        <h3 className="text-xl font-bold">Login</h3>
+                        <h3 className="text-xl font-bold text-black">Login</h3>
                     </div>
                     <h2 className="text-2xl font-bold mt-4 ml-4">Live Orders</h2>
                     <Table processing={processing} preparing={preparing} ready={ready} />
