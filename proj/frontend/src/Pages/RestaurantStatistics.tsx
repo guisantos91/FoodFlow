@@ -1,10 +1,10 @@
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import { Tabs, Button } from "flowbite-react";
-import userIcon from './assets/images/icons/user.png';
-import DonutChart from './components/DonutChart';
-import LineGraph from './components/LineGraph';
-import CardComponent from "./components/Card";
-import Table from "./components/Table";
+import userIcon from "../assets/images/icons/user.png";
+import DonutChart from '../components/Statistics/DonutChart';
+import LineGraph from '../components/Statistics/LineGraph';
+import CardComponent from "../components/Cards/Card";
+import Table from "../components/Statistics/Table";
 import { HiSortDescending } from "react-icons/hi";
 
 const graph_data = [

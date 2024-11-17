@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import HomePage from "./HomePage";
-import UserPage from "./UserPage";
-import SettingsPage from "./SettingsPage";
-import RestaurantStatistics from "./RestaurantStatistics";
+import Layout from "./components/Layout";
+import HomePage from "./Pages/HomePage";
+import UserPage from "./Pages/UserPage";
+import SettingsPage from "./Pages/SettingsPage";
+import RestaurantStatistics from "./Pages/RestaurantStatistics";
 
 const App = () => {
   return (
