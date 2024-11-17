@@ -24,12 +24,19 @@ interface DonutData {
     value: number;
 }
 
+interface Menu {
+    id: number;
+    name: string;
+    price: number;
+}
+
 const RestaurantStatistics = () => {
     const [orders_todo, setOrders_todo] = useState<Order[]>([]);
     const [orders_preparing, setOrders_preparing] = useState<Order[]>([]);
     const [orders_ready, setOrders_ready] = useState<Order[]>([]);
     const [graphData, setGraphData] = useState<MenuData[]>([]);
     const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
+    const [menus, setMenus] = useState<Menu[]>([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -79,7 +86,18 @@ const RestaurantStatistics = () => {
             }
         };
 
+        const fetchMenus = async () => {
+            try {
+                const foodchainid = 1; // Replace with dynamic ID as needed
+                const response = await axios.get(`http://localhost:8080/api/v1/foodchains/${foodchainid}/menus`);
+                setMenus(response.data);
+            } catch (err) {
+                console.error("Error fetching menus:", err);
+            }
+        }
+
         // Initial fetch
+        fetchMenus();
         fetchOrders();
 
         // Fetch data every 10 seconds
@@ -116,11 +134,15 @@ const RestaurantStatistics = () => {
                                     <HiSortDescending className="ml-3 mt-1 h-4 w-4" />
                                 </button>
                             </div>
-                            <div className="flex space-x-4">
-                                <CardComponent image="https://via.placeholder.com/150" name="Big Mac" price="7.50" />
-                                <CardComponent image="https://via.placeholder.com/150" name="McChicken" price="6.50" />
-                                <CardComponent image="https://via.placeholder.com/150" name="CBO" price="8.99" />
-                                <CardComponent image="https://via.placeholder.com/150" name="Happy Meal" price="6.99" />
+                            <div className="flex space-x-4 flex-wrap">
+                              {menus.map((menu) => (
+                                <CardComponent
+                                  key={menu.id}
+                                  image={"https://via.placeholder.com/150"}
+                                  name={menu.name}
+                                  price={menu.price.toFixed(2)}
+                                />
+                              ))}
                             </div>
                         </Tabs.Item>
                         <Tabs.Item title="Current Orders">
