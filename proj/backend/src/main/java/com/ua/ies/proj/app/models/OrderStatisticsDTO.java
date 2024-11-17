@@ -6,23 +6,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OrderStatisticsDTO {
-    private MenuInfo menu_info;
+    private Info info;
     private List<Integer> values;
 
     public OrderStatisticsDTO() {
     }
 
-    public OrderStatisticsDTO(MenuInfo menu_info, List<Integer> values) {
-        this.menu_info = menu_info;
+    public OrderStatisticsDTO(Info info, List<Integer> values) {
+        this.info = info;
         this.values = values;
     }
 
-    public MenuInfo getMenu() {
-        return menu_info;
+    public Info getInfo() {
+        return info;
     }
 
-    public void setMenu(MenuInfo menu_info) {
-        this.menu_info = menu_info;
+    public void setInfo(Info info) {
+        this.info = info;
     }
 
     public List<Integer> getValues() {
