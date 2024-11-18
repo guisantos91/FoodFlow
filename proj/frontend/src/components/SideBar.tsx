@@ -1,13 +1,26 @@
 import SideBarCard from './Cards/SidebarCards';
 import userIcon from '../assets/images/icons/user.png';
 import MCImage from '../assets/images/logos/mcdonalds.png';
+import { useNavigate } from "react-router-dom";
 
 interface Data {
   name: string;
   data: any[];
+  navigate?:boolean
 }
 
-const Sidebar = ({ name, data }: Data) => {
+
+
+
+
+const Sidebar = ({ name, data,navigate }: Data) => {
+  const nav = useNavigate(); // Hook para navegação
+
+  const handleRestaurantClick = (restaurantId: number) => {
+    if (navigate) {
+      nav("/restaurant_statistic", { state: { restaurantId } }); // Redireciona com ID
+    }
+  };
   return (
     <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4 shadow-2xl">
         <div className="flex items-center mt-8 space-x-2">
@@ -21,7 +34,7 @@ const Sidebar = ({ name, data }: Data) => {
         </div>
         <div>
         {data.map((item) => (
-          <div key={item.id} >
+          <div key={item.id} onClick={()=>handleRestaurantClick(item.id)} >
             <SideBarCard
               item1={item.name}
               item2={item.foodchain.name}
