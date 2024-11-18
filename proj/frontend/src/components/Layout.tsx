@@ -53,7 +53,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <SideBarLayout />
             </div>
 
-            <div>
+            <div className="bg-white bg-scroll">
                 <main className="flex-grow ml-10">
                     {children}
                 </main>
