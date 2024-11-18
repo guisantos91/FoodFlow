@@ -121,8 +121,8 @@ const RestaurantStatistics = () => {
 
     return (
         <Layout>
-            <div className="flex h-full gap-4 ml-4">
-                <div className="flex-1">
+            <div className="flex min-h-screen">
+                <div className="flex-1 ml-4">
                     <h4 className="text-orange-300 text-lg mb-2 mt-4">Hello</h4>
                     <h2 className="text-black text-2xl">McDonald's - Universidade</h2>
                     <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
@@ -133,9 +133,9 @@ const RestaurantStatistics = () => {
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
                         <Tabs.Item active title="Menus">
-                            <div className="flex items-center justify-between mt-4 ml-4 mr-4 mb-8">
+                            <div className="flex items-center justify-between mt-4 ml-4 mr-6 mb-8">
                                 <h2 className="text-xl font-bold">Available Orders: </h2>
-                                <button className="flex items-center space-x-2 p-2 border border-orange-500 rounded-xl">
+                                <button className="flex items-center space-x-2 p-2 border-2 border-orange-500 bg-gray-200 text-black rounded-xl">
                                     Sort
                                     <HiSortDescending className="ml-3 mt-1 h-4 w-4" />
                                 </button>
@@ -156,14 +156,14 @@ const RestaurantStatistics = () => {
                         </Tabs.Item>
                     </Tabs>
                 </div>
-                <div className="w-1/4 bg-gray-100 flex flex-col">
+                <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4 shadow-2xl">
                     <div className="flex items-center mt-8 ml-4 space-x-2">
                         <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
                             <img src={userIcon} alt="User Icon" className="w-4 h-4" />
                         </div>
                         <h3 className="text-xl font-bold text-black">Login</h3>
                     </div>
-                    <h2 className="text-2xl font-bold mt-8 ml-4">Live Orders</h2>
+                    <h2 className="text-2xl text-black font-bold mt-8 ml-4">Live Orders</h2>
                     <Table todo={todo} preparing={preparing} ready={ready} />
                 </div>
             </div>

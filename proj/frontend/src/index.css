@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html, body {
     background-color: white;
     height: 100%;
     margin: 0;
@@ -14,4 +14,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100%;
+}
+
+.bg-base-200 {
+    background-color: white !important;
 }

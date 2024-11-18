@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
                                     placeholder="Search Food Chains"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-72 bg-orange-400 text-white placeholder-white"
+                                    className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-72 bg-gray-300 text-black placeholder-black"
                                 />
                                 <img
                                     src={SearchSVG}
