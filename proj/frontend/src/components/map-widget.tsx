@@ -1,6 +1,6 @@
 import 'leaflet/dist/leaflet.css';
 import * as L from 'leaflet';
-import userIcon from './assets/images/icons/marker-icon.png';
+import userIcon from '../assets/images/icons/marker-icon.png';
 
 
 export class MapWidget {

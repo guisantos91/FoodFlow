@@ -4,6 +4,7 @@ import HomePage from "./Pages/HomePage";
 import UserPage from "./Pages/UserPage";
 import SettingsPage from "./Pages/SettingsPage";
 import RestaurantStatistics from "./Pages/RestaurantStatistics";
+import ChainFoodPage from "./Pages/ChainFoodPage";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/user" element={<UserPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/restaurant_statistic" element={<RestaurantStatistics />} />
+          <Route path="/foodChain" element={<ChainFoodPage />} />
         </Routes>
       </Layout>
     </Router>

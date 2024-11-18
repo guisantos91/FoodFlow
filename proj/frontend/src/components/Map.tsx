@@ -4,7 +4,7 @@ import { MapWidget } from './map-widget';
 
 interface Marker {
   lat: number;
-  lng: number;
+  lon: number;
   label?: string;
 }
 
@@ -27,7 +27,7 @@ export default function Map({ zoomLevel,markers }: MapProps) {
   
       if (markers) {
         markers.forEach(marker => {
-          mapRef.current?.addMarker(marker.lat, marker.lng, marker.label);
+          mapRef.current?.addMarker(marker.lat, marker.lon, marker.label);
         });
       }
     }
