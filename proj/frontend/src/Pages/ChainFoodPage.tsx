@@ -158,8 +158,8 @@ const ChainFoodPage: React.FC = ({}) => {
                 />
               </div>
             </div>
+            <DonutChart data={donutGraphData} colorMapping={colorMapping} />
           </div>
-          <DonutChart data={donutGraphData} colorMapping={colorMapping}/>
         </div>
         <Sidebar
           name="Restaurants"
