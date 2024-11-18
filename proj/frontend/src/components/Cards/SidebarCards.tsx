@@ -1,14 +1,26 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 interface SideBarCardProps {
+    restId: number;
+    foodchainId: number;
     item1: string;
     item2: string;
     image: string;
+    naveTrue?:boolean;
 }
 
-const SideBarCard: React.FC<SideBarCardProps> = ({ item1, item2, image }) => {
+const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, item2, image,naveTrue }) => {
+    const navigate = useNavigate();
+    const handleCardClick = () => {
+        if (naveTrue) {
+       navigate(`/foodchain/${foodchainId}/restaurant/${restId}`);
+            
+        }
+    };
+
     return (
-        <div className="card card-side bg-gray-400 shadow-md h-20 mb-6">
+        <div className="card card-side bg-gray-400 shadow-md h-20 mb-6 cursor-pointer" onClick={handleCardClick}>
             <figure className="flex items-center justify-center">
                 <img
                     src={image}

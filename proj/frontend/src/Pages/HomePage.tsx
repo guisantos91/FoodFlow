@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
         const fetchFoodChainsTopOrders = async () => {
             try {
                 const response = await axios.get('http://localhost:8080/api/v1/foodchains/menus/statistics');
-                setFoodChainsTopOrders(response.data); // Aqui está a correção
+                setFoodChainsTopOrders(response.data);
                 console.log('Food Chains Data:', response.data);
             } catch (err) {
                 console.error('Error fetching food chains:', err);
@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <Sidebar name="Top Orders" data={foodChainsTopOrders} />
+                <Sidebar name="Top Orders" data={foodChainsTopOrders} foodchainId={1}/>
             </div>
         </Layout>
     );

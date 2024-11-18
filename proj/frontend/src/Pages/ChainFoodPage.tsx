@@ -4,19 +4,13 @@ import Map from "../components/Map.tsx";
 import axios from "axios";
 import Sidebar from "../components/SideBar";
 import * as L from "leaflet"; 
-import { useParams, useNavigate } from "react-router-dom";
-// import { Button } from "flowbite-react";
+import { useParams } from "react-router-dom";
+import DonutChart from "../components/Statistics/DonutChart.tsx";
+
 const ChainFoodPage: React.FC = ({}) => {
   const { id } = useParams<{ id: string }>();
   const foodChainID = Number(id);
   console.log(foodChainID);
-
-  const navigate = useNavigate();
-  const handleCardClick = (restaurantId: number) => {
-    console.log(restaurantId)
-    // navigate("/restaurant_statistic", { state: { restaurantId } });
-     navigate("/restaurant_statistic");
-  };
 
   const [zoomLevel, setZoomLevel] = useState(13);
   const [userLocation, setUserLocation] = useState<{
@@ -39,8 +33,14 @@ const ChainFoodPage: React.FC = ({}) => {
     manager: string | null;
   }
 
+  interface DonutData {
+    name: string;
+    value: number;
+  }
+
   const [foodChain, setFoodChain] = useState<FoodChain | null>(null);
   const [restaurants, setRestaurant] = useState<Restaurant[]>([]);
+  const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
 
   useEffect(() => {
     const map = L.map(document.createElement("div"));
@@ -96,6 +96,30 @@ const ChainFoodPage: React.FC = ({}) => {
     fetchRestaurant();
   }, [foodChainID]);
 
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/foodchains/${foodChainID}/orders/statistics`
+        );
+        console.log("Stats Data:", response.data);
+
+        const formattedDonutData = Object.keys(response.data).map((menu) => {
+          return {
+            name: menu,
+            value: response.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+          }
+        });
+
+        setDonutGraphData(formattedDonutData);
+      } catch (err) {
+        console.error("Error fetching Stats:", err);
+      }
+    };
+
+    fetchStats();
+  })
+
   const handleScroll = (event: React.WheelEvent) => {
     if (event.deltaY > 0) {
       setZoomLevel((prevZoom) => Math.max(1, prevZoom - 1));
@@ -103,6 +127,12 @@ const ChainFoodPage: React.FC = ({}) => {
       setZoomLevel((prevZoom) => Math.min(19, prevZoom + 1));
     }
   };
+
+  const dataNames = [...new Set([...donutGraphData.map(item => item.name), ...donutGraphData.map(item => item.name)])];
+  const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
+    acc[name] = `hsl(${(index * 360) / dataNames.length}, 70%, 50%)`;
+    return acc;
+  }, {});
 
   return (
     <Layout>
@@ -128,12 +158,14 @@ const ChainFoodPage: React.FC = ({}) => {
                 />
               </div>
             </div>
+            <DonutChart data={donutGraphData} colorMapping={colorMapping} />
           </div>
         </div>
         <Sidebar
           name="Restaurants"
           data={restaurants}
-          navigate={true}
+          navigateBool={true}
+          foodchainId={foodChainID}
         />
       </div>
     </Layout>
