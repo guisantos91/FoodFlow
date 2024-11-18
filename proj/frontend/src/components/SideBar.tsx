@@ -54,8 +54,8 @@ const Sidebar: React.FC = () => {
                 {foodChains.map((item) => (
                     <SideBarCard
                         key={item.id}
-                        name={item.name}
-                        foodchainName={item.foodchain.name}
+                        item1={item.name}
+                        item2={item.foodchain.name}
                         image={MCImage}
                     />
                 ))}
