@@ -33,6 +33,10 @@ interface Menu {
 
 const RestaurantStatistics = () => {
     const { foodchainId, restaurantId } = useParams<{ foodchainId: string; restaurantId: string }>();
+    console.log(foodchainId);
+    console.log(restaurantId);
+    console.log(12345678);
+    
     const foodchainID = Number(foodchainId);
     const restID = Number(restaurantId);
     const [orders_todo, setOrders_todo] = useState<Order[]>([]);
@@ -45,7 +49,7 @@ const RestaurantStatistics = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/foodchains/${foodchainID}/restaurants/${restID}/orders`;
+                const baseUrl = `http://localhost:8080/api/v1/restaurants/${restID}/orders`;
 
                 // Fetch and sort "to-do" orders
                 const responseTodo = await axios.get(`${baseUrl}?status=to-do`);
@@ -91,8 +95,7 @@ const RestaurantStatistics = () => {
 
         const fetchMenus = async () => {
             try {
-                const foodchainid = 1; // Replace with dynamic ID as needed
-                const response = await axios.get(`http://localhost:8080/api/v1/foodchains/${foodchainid}/menus`);
+                const response = await axios.get(`http://localhost:8080/api/v1/foodchains/${foodchainID}/menus`);
                 setMenus(response.data);
             } catch (err) {
                 console.error("Error fetching menus:", err);
@@ -127,7 +130,7 @@ const RestaurantStatistics = () => {
             <div className="flex min-h-screen">
                 <div className="flex-1 ml-4">
                     <h4 className="text-orange-300 text-lg mb-2 mt-4">Hello</h4>
-                    <h2 className="text-black text-2xl">AA</h2>
+                    <h2 className="text-black text-2xl">Restaurant</h2>
                     <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
                         <h1 className="text-4xl font-bold text-center mb-8">Trending Orders</h1>
                         <div className="p-4">

@@ -164,7 +164,7 @@ const ChainFoodPage: React.FC = ({}) => {
         <Sidebar
           name="Restaurants"
           data={restaurants}
-          navigate={true}
+          navigateBool={true}
           foodchainId={foodChainID}
         />
       </div>

@@ -5,11 +5,11 @@ import MCImage from '../assets/images/logos/mcdonalds.png';
 interface Data {
   name: string;
   data: any[];
-  navigate?:boolean;
+  navigateBool?:boolean;
   foodchainId: number;
 }
 
-const Sidebar = ({ name, data, foodchainId }: Data) => {
+const Sidebar = ({ name, data, foodchainId,navigateBool }: Data) => {
   return (
     <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4 shadow-2xl">
         <div className="flex items-center mt-8 space-x-2">
@@ -29,6 +29,7 @@ const Sidebar = ({ name, data, foodchainId }: Data) => {
             item1={restaurant.name}
             item2={restaurant.address}
             image={MCImage}
+            naveTrue={navigateBool}
             />
         ))}
       </div>

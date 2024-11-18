@@ -7,12 +7,16 @@ interface SideBarCardProps {
     item1: string;
     item2: string;
     image: string;
+    naveTrue?:boolean;
 }
 
-const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, item2, image }) => {
+const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, item2, image,naveTrue }) => {
     const navigate = useNavigate();
     const handleCardClick = () => {
+        if (naveTrue) {
        navigate(`/foodchain/${foodchainId}/restaurant/${restId}`);
+            
+        }
     };
 
     return (
