@@ -9,13 +9,6 @@ import { HiSortDescending } from "react-icons/hi";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const graph_data = [
-    { name: 'Sep 25', BigMac: 413, McChicken: 221, CBO: 279, HappyMeal: 125 },
-    { name: 'Sep 30', BigMac: 344, McChicken: 209, CBO: 137, HappyMeal: 289 },
-    { name: 'Oct 5', BigMac: 487, McChicken: 327, CBO: 182, HappyMeal: 256 },
-    { name: 'Oct 10', BigMac: 563, McChicken: 447, CBO: 334, HappyMeal: 223 },
-  ];
-
 const donut_data = [
     { name: 'Chicken Nuggets', value: 32, color: '#FF0404' }, 
     { name: 'Big Mac', value: 44, color: '#0426FF' }, 
@@ -23,15 +16,21 @@ const donut_data = [
     { name: 'Others', value: 8, color: '#22C55E' },       
   ];
 
-  interface Order {
+interface Order {
     id: number;
     createdAt: string; 
+}
+
+interface MenuData {
+    name: string;
+    values: number[];
 }
 
 const RestaurantStatistics = () => {
     const [orders_todo, setOrders_todo] = useState<Order[]>([]);
     const [orders_preparing, setOrders_preparing] = useState<Order[]>([]);
     const [orders_ready, setOrders_ready] = useState<Order[]>([]);
+    const [graphData, setGraphData] = useState<MenuData[]>([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -59,6 +58,15 @@ const RestaurantStatistics = () => {
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_ready(sortedReady);
+
+                const responseGraph = await axios.get(`${baseUrl}/statistics`);
+                const formattedGraphData = Object.keys(responseGraph.data).map((menu) => {
+                    return {
+                        name: menu,
+                        values: responseGraph.data[menu].values
+                    };
+                });
+                setGraphData(formattedGraphData);
 
             } catch (err) {
                 console.error("Error fetching orders:", err);
@@ -90,7 +98,7 @@ const RestaurantStatistics = () => {
                     <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
                         <h1 className="text-4xl font-bold text-center mb-8">Trending Orders</h1>
                         <div className="p-4">
-                            <LineGraph data={graph_data} />
+                            <LineGraph data={graphData} />
                         </div>
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
