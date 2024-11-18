@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html, body {
     background-color: white;
     height: 100%;
     margin: 0;
