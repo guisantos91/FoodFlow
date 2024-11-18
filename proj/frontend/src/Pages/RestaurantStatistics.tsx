@@ -9,13 +9,6 @@ import { HiSortDescending } from "react-icons/hi";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const donut_data = [
-    { name: 'Chicken Nuggets', value: 32, color: '#FF0404' }, 
-    { name: 'Big Mac', value: 44, color: '#0426FF' }, 
-    { name: 'McVeggie', value: 16, color: '#FFAE00' }, 
-    { name: 'Others', value: 8, color: '#22C55E' },       
-  ];
-
 interface Order {
     id: number;
     createdAt: string; 
@@ -26,11 +19,17 @@ interface MenuData {
     values: number[];
 }
 
+interface DonutData {
+    name: string;
+    value: number;
+}
+
 const RestaurantStatistics = () => {
     const [orders_todo, setOrders_todo] = useState<Order[]>([]);
     const [orders_preparing, setOrders_preparing] = useState<Order[]>([]);
     const [orders_ready, setOrders_ready] = useState<Order[]>([]);
     const [graphData, setGraphData] = useState<MenuData[]>([]);
+    const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -67,6 +66,13 @@ const RestaurantStatistics = () => {
                     };
                 });
                 setGraphData(formattedGraphData);
+                const formattedDonutData = Object.keys(responseGraph.data).map((menu) => {
+                    return {
+                        name: menu,
+                        value: responseGraph.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                    };
+                });
+                setDonutGraphData(formattedDonutData);
 
             } catch (err) {
                 console.error("Error fetching orders:", err);
@@ -118,7 +124,7 @@ const RestaurantStatistics = () => {
                             </div>
                         </Tabs.Item>
                         <Tabs.Item title="Current Orders">
-                            <DonutChart data={donut_data} />
+                            <DonutChart data={donutGraphData} />
                         </Tabs.Item>
                     </Tabs>
                 </div>
