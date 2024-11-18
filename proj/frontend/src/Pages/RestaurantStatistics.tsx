@@ -33,10 +33,6 @@ interface Menu {
 
 const RestaurantStatistics = () => {
     const { foodchainId, restaurantId } = useParams<{ foodchainId: string; restaurantId: string }>();
-    console.log(foodchainId);
-    console.log(restaurantId);
-    console.log(12345678);
-    
     const foodchainID = Number(foodchainId);
     const restID = Number(restaurantId);
     const [orders_todo, setOrders_todo] = useState<Order[]>([]);
