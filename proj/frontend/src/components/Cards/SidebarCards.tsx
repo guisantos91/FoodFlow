@@ -2,10 +2,11 @@ import React from 'react';
 
 interface SideBarCardProps {
     name: string;
+    foodchainName: string;
     image: string;
 }
 
-const SideBarCard: React.FC<SideBarCardProps> = ({ name, image }) => {
+const SideBarCard: React.FC<SideBarCardProps> = ({ name, foodchainName, image }) => {
     return (
         <div className="card card-side bg-gray-400 shadow-md h-20 mb-6">
             <figure className="flex items-center justify-center">
@@ -16,7 +17,7 @@ const SideBarCard: React.FC<SideBarCardProps> = ({ name, image }) => {
             </figure>
             <div className="card-body p-2 mt-2">
                 <h2 className="text-sm font-bold text-black">{name}</h2>
-                <h2 className="text-xs font-base text-black">{name}</h2>
+                <h2 className="text-xs font-base text-black">{foodchainName}</h2>
             </div>
         </div>
     );
