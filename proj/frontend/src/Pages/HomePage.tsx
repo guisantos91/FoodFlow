@@ -5,15 +5,22 @@ import Sidebar from "../components/SideBar";
 import axios from "axios";
 import MCImage from "../assets/images/logos/mcdonalds.png";
 import SearchSVG from "../assets/images/icons/search.svg";
+import LineGraph from "../components/Statistics/LineGraph";
 
 interface FoodChain {
     id: number;
     name: string;
 }
 
+interface FoodChainData{
+    name: string;
+    values: number[];
+}
+
 const HomePage: React.FC = () => {
     const [foodChains, setFoodChains] = useState<FoodChain[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [graphData, setGraphData] = useState<FoodChainData[]>([]);
 
     useEffect(() => {
         const fetchFoodChains = async () => {
@@ -26,7 +33,30 @@ const HomePage: React.FC = () => {
             }
         };
 
+        const fetchOrders = async () => {
+            try {
+                const responseGraph = await axios.get("http://localhost:8080/api/v1/foodchains/orders/statistics");
+                console.log("Orders Data:", responseGraph.data);
+                const formattedGraphData = Object.keys(responseGraph.data).map((chain) => {
+                    return {
+                        name: chain,
+                        values: responseGraph.data[chain].values
+                    };
+                });
+                setGraphData(formattedGraphData);
+            } catch (err) {
+                console.error("Error fetching orders:", err);
+            }
+        }
+
         fetchFoodChains();
+        fetchOrders();
+
+        const interval = setInterval(() => {
+            fetchOrders();
+        }, 5000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const filteredFoodChains = foodChains.filter(chain =>
@@ -37,13 +67,24 @@ const HomePage: React.FC = () => {
         setSearchTerm("");
     };
 
+    const dataNames = [...new Set([...graphData.map(item => item.name)])];
+
+    const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
+        acc[name] = `hsl(${(index * 360) / dataNames.length}, 70%, 50%)`;
+        return acc;
+      }, {});
+
     return (
         <Layout>
             <div className="flex min-h-screen">
                 <div className="flex-1 flex justify-center bg-white">
                     <div className="text-center">
-                        <h2 className="text-2xl mb-4">User Page</h2>
-                        <p>User page url</p>
+                        <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
+                            <h1 className="text-4xl font-bold text-center mb-8">Trending Restaurants</h1>
+                            <div className="p-4">
+                                <LineGraph data={graphData} colorMapping={colorMapping}/>
+                            </div>
+                        </div>
                         <div className="relative mb-4 flex justify-center items-center">
                             <div className="relative">
                                 <input
