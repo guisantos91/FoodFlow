@@ -26,7 +26,7 @@ function DonutChart({ data, colorMapping }: DonutChartProps) {
     return (
         <div className="flex flex-col items-center mt-4 mb-4">
             <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-                <h3 className="text-center text-lg font-bold">Order Flow (Last Hour)</h3>
+                <h3 className="text-center text-lg font-bold">Order Flow</h3>
                 <PieChart width={300} height={300}>
                     <Pie
                         data={dataWithPercentage}
