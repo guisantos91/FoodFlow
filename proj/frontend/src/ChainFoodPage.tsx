@@ -2,9 +2,21 @@ import Layout from "./Layout";
 import { useState } from 'react';
 import Map from './Map.tsx';
 
+interface FoodChain {
+    id: number;
+    name: string;
+}
+interface Restaurante{
+    id:number;
+    name: string;
+
+}
+
+const foodChain:FoodChain={id:1,name:"Mc Donalds"}
+const restaurantes:Restaurante[]=[]
 const ChainFoodPage = () => {
     const [zoomLevel, setZoomLevel] = useState(13);
-
+    
     return (
         <Layout>
             <div>
