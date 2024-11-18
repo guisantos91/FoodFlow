@@ -49,11 +49,11 @@ const SideBarLayout = () => {
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
-            <div className="flex flex-col bg-white bg-scroll">
+            <div className="flex flex-col h-full bg-white bg-scroll">
                 <SideBarLayout />
             </div>
 
-            <div>
+            <div className="h-full bg-white bg-scroll">
                 <main className="flex-grow ml-10">
                     {children}
                 </main>

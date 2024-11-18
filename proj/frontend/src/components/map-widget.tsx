@@ -64,7 +64,7 @@ export class MapWidget {
     this.map.locate({ setView: true, maxZoom: 16 });
 
     this.map.on("locationfound", (e: L.LocationEvent) => {
-      const radius = e.accuracy;
+      // const radius = e.accuracy;
 
       this.addMarker(e.latlng.lat, e.latlng.lng, "You are there.");
 

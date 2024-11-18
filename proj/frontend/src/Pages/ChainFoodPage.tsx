@@ -5,7 +5,7 @@ import axios from "axios";
 import Sidebar from "../components/SideBar";
 import * as L from "leaflet"; // Importa Leaflet
 import { useParams } from "react-router-dom";
-import { Button } from "flowbite-react";
+// import { Button } from "flowbite-react";
 const ChainFoodPage: React.FC = ({}) => {
     const { id } = useParams<{ id: string }>(); // Captura o parâmetro de Path
   const foodChainID = Number(id); // Converte para número, se necessário
@@ -44,7 +44,7 @@ const ChainFoodPage: React.FC = ({}) => {
     map.on("locationfound", (e: L.LocationEvent) => {
       const { lat, lng } = e.latlng;
       setUserLocation({ lat, lon: lng });
-      console.log("User Location:", { lat, lon: lng });
+      console.log("User Location:", userLocation);
     });
 
     map.on("locationerror", (e: L.ErrorEvent) => {
