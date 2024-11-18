@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import HomePage from "./HomePage";
-// import UserPage from "./UserPage";
-import ChainFoodPage from "./ChainFoodPage";
-import SettingsPage from "./SettingsPage";
+import Layout from "./components/Layout";
+import HomePage from "./Pages/HomePage";
+import UserPage from "./Pages/UserPage";
+import SettingsPage from "./Pages/SettingsPage";
+import RestaurantStatistics from "./Pages/RestaurantStatistics";
 
 const App = () => {
   return (
@@ -11,8 +11,9 @@ const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/user" element={<ChainFoodPage />} />
+          <Route path="/user" element={<UserPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/restaurant_statistic" element={<RestaurantStatistics />} />
         </Routes>
       </Layout>
     </Router>

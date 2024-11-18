@@ -1,6 +1,7 @@
 package com.ua.ies.proj.app.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,14 +59,20 @@ public class FoodChainController {
     }
 
     @GetMapping("/orders/statistics")
-    public ResponseEntity<OrderStatisticsDTO> getStatistics() {
-        OrderStatisticsDTO stats = orderService.getAllStatistics();
+    public ResponseEntity<Map<String, OrderStatisticsDTO>> getStatistics() {
+        Map<String, OrderStatisticsDTO> stats = orderService.getAllStatistics();
+        return new ResponseEntity<>(stats, HttpStatus.OK);
+    }
+
+    @GetMapping("/menus/statistics")
+    public ResponseEntity<List<Menu>> getMenuStatistics() {
+        List<Menu> stats = orderService.getMenuStatistics();
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 
     @GetMapping("/{foodchain_id}/orders/statistics")
-    public ResponseEntity<OrderStatisticsDTO> getStatistics(@PathVariable(value = "foodchain_id") Long chainId) {
-        OrderStatisticsDTO stats = orderService.getStatisticsByChainId(chainId);
+    public ResponseEntity<Map<String, OrderStatisticsDTO>> getStatistics(@PathVariable(value = "foodchain_id") Long chainId) {
+        Map<String, OrderStatisticsDTO> stats = orderService.getStatisticsByChainId(chainId);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 }
