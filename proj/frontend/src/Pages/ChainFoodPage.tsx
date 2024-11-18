@@ -4,19 +4,12 @@ import Map from "../components/Map.tsx";
 import axios from "axios";
 import Sidebar from "../components/SideBar";
 import * as L from "leaflet"; 
-import { useParams, useNavigate } from "react-router-dom";
-// import { Button } from "flowbite-react";
+import { useParams } from "react-router-dom";
+
 const ChainFoodPage: React.FC = ({}) => {
   const { id } = useParams<{ id: string }>();
   const foodChainID = Number(id);
   console.log(foodChainID);
-
-  const navigate = useNavigate();
-  const handleCardClick = (restaurantId: number) => {
-    console.log(restaurantId)
-    // navigate("/restaurant_statistic", { state: { restaurantId } });
-     navigate("/restaurant_statistic");
-  };
 
   const [zoomLevel, setZoomLevel] = useState(13);
   const [userLocation, setUserLocation] = useState<{
@@ -134,6 +127,7 @@ const ChainFoodPage: React.FC = ({}) => {
           name="Restaurants"
           data={restaurants}
           navigate={true}
+          foodchainId={foodChainID}
         />
       </div>
     </Layout>
