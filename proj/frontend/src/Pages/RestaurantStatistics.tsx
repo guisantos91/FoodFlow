@@ -113,6 +113,12 @@ const RestaurantStatistics = () => {
     const preparing = orders_preparing.map((order) => order.id);
     const ready = orders_ready.map((order) => order.id);
 
+    const dataNames = [...new Set([...graphData.map(item => item.name), ...donutGraphData.map(item => item.name)])];
+    const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
+        acc[name] = `hsl(${(index * 360) / dataNames.length}, 70%, 50%)`;
+        return acc;
+      }, {});
+
     return (
         <Layout>
             <div className="flex h-full gap-4 ml-4">
@@ -122,7 +128,7 @@ const RestaurantStatistics = () => {
                     <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
                         <h1 className="text-4xl font-bold text-center mb-8">Trending Orders</h1>
                         <div className="p-4">
-                            <LineGraph data={graphData} />
+                            <LineGraph data={graphData} colorMapping={colorMapping} />
                         </div>
                     </div>
                     <Tabs aria-label="Default tabs" variant="default">
@@ -146,7 +152,7 @@ const RestaurantStatistics = () => {
                             </div>
                         </Tabs.Item>
                         <Tabs.Item title="Current Orders">
-                            <DonutChart data={donutGraphData} />
+                            <DonutChart data={donutGraphData} colorMapping={colorMapping}/>
                         </Tabs.Item>
                     </Tabs>
                 </div>

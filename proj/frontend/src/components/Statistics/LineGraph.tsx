@@ -7,17 +7,13 @@ interface LineGraphData {
 
 interface LineGraphProps {
     data: LineGraphData[];
+    colorMapping: { [key: string]: string };
 }
 
-const colorMapping: { [key: string]: string } = {
-    "Big Mac": '#FFAE00',
-    CBO: '#FF0404',
-    "Happy Meal": '#22C55E',
-};
 
-function LineGraph({ data }: LineGraphProps) {
+function LineGraph({ data, colorMapping }: LineGraphProps) {
     const transformedData = data[0]?.values.map((_, index) => {
-        const point: { [key: string]: number | string } = { name: `Minute ${index + 1}` };
+        const point: { [key: string]: number | string } = { name: `Minute ${index}` };
         data.forEach((item) => {
             point[item.name] = item.values[index];
         });

@@ -7,15 +7,11 @@ interface DonutChartData {
 
 interface DonutChartProps {
     data: DonutChartData[];
+    colorMapping: { [key: string]: string };
 }
 
-const colorMapping: { [key: string]: string } = {
-    "Big Mac": '#FFAE00',
-    CBO: '#FF0404',
-    "Happy Meal": '#22C55E',
-};
 
-function DonutChart({ data }: DonutChartProps) {
+function DonutChart({ data, colorMapping }: DonutChartProps) {
     const totalValue = data.reduce((acc, item) => acc + item.value, 0);
     console.log("Total Value:", totalValue);
 
