@@ -39,10 +39,10 @@ public class ManagerForm {
 	private String restaurantAddress;
 
 	@NotNull
-	private long latitude;
+	private float latitude;
 
 	@NotNull
-	private long longitude;
+	private float longitude;
 
 	@NotBlank
 	private String restaurantEndpoint;
@@ -95,11 +95,11 @@ public class ManagerForm {
 		return restaurantAddress;
 	}
 
-	public long getLatitude() {
+	public float getLatitude() {
 		return latitude;
 	}
 
-	public long getLongitude() {
+	public float getLongitude() {
 		return longitude;
 	}
 
@@ -139,11 +139,11 @@ public class ManagerForm {
 		this.restaurantAddress = restaurantAddress;
 	}
 
-	public void setLatitude(long latitude) {
+	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(long longitude) {
+	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
 

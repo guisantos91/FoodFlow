@@ -16,11 +16,36 @@ interface FoodChainData{
     name: string;
     values: number[];
 }
+interface FoodChainTopOrders {
+    id: number;
+    name: string;
+    price: number;
+    foodchain: {
+        id: number;
+        name: string;
+        food_type: string;
+    };
+}
 
 const HomePage: React.FC = () => {
     const [foodChains, setFoodChains] = useState<FoodChain[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [graphData, setGraphData] = useState<FoodChainData[]>([]);
+    const [foodChainsTopOrders, setFoodChainsTopOrders] = useState<FoodChainTopOrders[]>([]);
+
+    useEffect(() => {
+        const fetchFoodChainsTopOrders = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/api/v1/foodchains/menus/statistics');
+                setFoodChainsTopOrders(response.data); // Aqui está a correção
+                console.log('Food Chains Data:', response.data);
+            } catch (err) {
+                console.error('Error fetching food chains:', err);
+            }
+        };
+
+        fetchFoodChainsTopOrders();
+    }, []);
 
     useEffect(() => {
         const fetchFoodChains = async () => {
@@ -111,12 +136,12 @@ const HomePage: React.FC = () => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
                             {filteredFoodChains.map((chain) => (
-                                <FoodChainCard key={chain.id} name={chain.name} image={MCImage} />
+                                <FoodChainCard key={chain.id} name={chain.name} image={MCImage} id={chain.id} />
                             ))}
                         </div>
                     </div>
                 </div>
-                <Sidebar />
+                <Sidebar name="Top Orders" data={foodChainsTopOrders} />
             </div>
         </Layout>
     );
