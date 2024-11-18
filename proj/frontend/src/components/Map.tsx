@@ -34,22 +34,8 @@ export default function Map({ zoomLevel, markers }: MapProps) {
   }, [zoomLevel, markers]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "60vh",
-        width: "100%",
-      }}
-    >
-      <div
-        style={{
-          width: "120vh",
-          height: "100%",
-        }}
-        ref={containerRef}
-      />
+    <div className="flex justify-center items-center h-[60vh] w-full">
+      <div className="w-[120vh] h-full 	rounded-xl" ref={containerRef} />
     </div>
   );
 }

@@ -2,9 +2,20 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Map from "../components/Map.tsx";
 import axios from "axios";
-
-const ChainFoodPage: React.FC = () => {
+import Sidebar from "../components/SideBar";
+import * as L from "leaflet"; // Importa Leaflet
+import { useParams } from "react-router-dom";
+import { Button } from "flowbite-react";
+const ChainFoodPage: React.FC = ({}) => {
+    const { id } = useParams<{ id: string }>(); // Captura o parâmetro de Path
+  const foodChainID = Number(id); // Converte para número, se necessário
+  console.log(foodChainID)
   const [zoomLevel, setZoomLevel] = useState(13);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lon: number;
+  } | null>(null);
+
   interface FoodChain {
     id: number;
     name: string;
@@ -20,9 +31,26 @@ const ChainFoodPage: React.FC = () => {
     manager: string | null;
   }
 
-  const foodChainID: number = 1;
   const [foodChain, setFoodChain] = useState<FoodChain | null>(null);
   const [restaurants, setRestaurant] = useState<Restaurant[]>([]);
+
+  useEffect(() => {
+    const map = L.map(document.createElement("div")); // Cria um mapa temporário
+    map.locate({
+      setView: false, // Não ajusta automaticamente a visualização
+      enableHighAccuracy: true, // Maior precisão possível
+    });
+
+    map.on("locationfound", (e: L.LocationEvent) => {
+      const { lat, lng } = e.latlng;
+      setUserLocation({ lat, lon: lng });
+      console.log("User Location:", { lat, lon: lng });
+    });
+
+    map.on("locationerror", (e: L.ErrorEvent) => {
+      console.error("Location error:", e.message);
+    });
+  }, []);
 
   useEffect(() => {
     const fetchFoodChains = async () => {
@@ -70,23 +98,31 @@ const ChainFoodPage: React.FC = () => {
 
   return (
     <Layout>
-      <div>
-        <h1>Hello {foodChain?.name}</h1>
-      </div>
-      <div>
-        <div
-          onWheel={handleScroll}
-          style={{ width: "100%", height: "500px", overflow: "hidden" }}
-        >
-          <Map
-            zoomLevel={zoomLevel}
-            markers={restaurants.map((restaurant) => ({
-              lat: restaurant.latitude,
-              lon: restaurant.longitude,
-              label: restaurant.name,
-            }))}
-          />
+      <div className="flex min-h-screen">
+        <div className="flex-1 flex justify-center bg-white">
+          <div className="text-center">
+            <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
+              <h1 className="text-4xl font-bold text-center mb-8">
+                Welcome to {foodChain?.name || "Loading..."}
+              </h1>
+              <div
+                className="p-4  rounded-lg"
+                style={{ height: "500px", overflow: "hidden" }}
+                onWheel={handleScroll}
+              >
+                <Map
+                  zoomLevel={zoomLevel}
+                  markers={restaurants.map((restaurant) => ({
+                    lat: restaurant.latitude,
+                    lon: restaurant.longitude,
+                    label: restaurant.name,
+                  }))}
+                />
+              </div>
+            </div>
+          </div>
         </div>
+        <Sidebar name="Restaurants" data={restaurants} />
       </div>
     </Layout>
   );
