@@ -44,10 +44,7 @@ const HomePage: React.FC = () => {
             }
         };
 
-        fetchFoodChainsTopOrders();
-    }, []);
 
-    useEffect(() => {
         const fetchFoodChains = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/v1/foodchains/");
@@ -76,9 +73,11 @@ const HomePage: React.FC = () => {
 
         fetchFoodChains();
         fetchOrders();
+        fetchFoodChainsTopOrders();
 
         const interval = setInterval(() => {
             fetchOrders();
+            fetchFoodChainsTopOrders();
         }, 5000);
 
         return () => clearInterval(interval);
@@ -141,7 +140,7 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <Sidebar name="Top Orders" data={foodChainsTopOrders} foodchainId={1}/>
+                <Sidebar name="Top Menus" data={foodChainsTopOrders} foodchainId={1}/>
             </div>
         </Layout>
     );
