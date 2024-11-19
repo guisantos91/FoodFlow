@@ -1,22 +1,35 @@
 package com.ua.ies.proj.app.models;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrderStatisticsDTO {
-    private Map<String, List<Integer>> menuStatistics;
+    private Info info;
+    private List<Integer> values;
 
     public OrderStatisticsDTO() {
     }
 
-    public Map<String, List<Integer>> getMenuStatistics() {
-        return menuStatistics;
+    public OrderStatisticsDTO(Info info, List<Integer> values) {
+        this.info = info;
+        this.values = values;
     }
 
-    public void setMenuStatistics(Map<String, List<Integer>> menuStatistics) {
-        this.menuStatistics = menuStatistics;
+    public Info getInfo() {
+        return info;
+    }
+
+    public void setInfo(Info info) {
+        this.info = info;
+    }
+
+    public List<Integer> getValues() {
+        return values;
+    }
+
+    public void setValues(List<Integer> values) {
+        this.values = values;
     }
 }

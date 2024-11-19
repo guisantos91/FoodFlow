@@ -1,6 +1,7 @@
 package com.ua.ies.proj.app.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurant_id}/orders/statistics")
-    public ResponseEntity<OrderStatisticsDTO> getStatistics(@PathVariable(value = "restaurant_id") Long restaurantId) {
-        OrderStatisticsDTO stats = orderService.getStatisticsByRestaurantId(restaurantId);
+    public ResponseEntity<Map<String, OrderStatisticsDTO>> getStatistics(@PathVariable(value = "restaurant_id") Long restaurantId) {
+        Map<String, OrderStatisticsDTO> stats = orderService.getStatisticsByRestaurantId(restaurantId);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
 }

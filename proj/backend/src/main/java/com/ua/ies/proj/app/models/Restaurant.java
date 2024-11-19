@@ -22,10 +22,10 @@ public class Restaurant {
     private String address;
 
     @NotNull
-    private long latitude;
+    private float latitude;
 
     @NotNull
-    private long longitude;
+    private float longitude;
 
     @ManyToOne
     @JoinColumn(name = "foodchain_id")
@@ -38,7 +38,7 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String name, String address, long latitude, long longitude, Foodchain foodchain, UserManager manager) {
+    public Restaurant(String name, String address, float latitude, float longitude, Foodchain foodchain, UserManager manager) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
@@ -59,11 +59,11 @@ public class Restaurant {
         return address;
     }
 
-    public long getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public long getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
@@ -83,11 +83,11 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
