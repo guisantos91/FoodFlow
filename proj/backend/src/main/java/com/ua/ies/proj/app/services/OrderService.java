@@ -40,6 +40,7 @@ public class OrderService {
 
     public Map<String, OrderStatisticsDTO> getAllStatistics() {
         List<Object[]> rawData = orderRepository.getAllStatistics();
+        statistics.setLIMIT(5);
         return statistics.processOrderDataFoodChain(rawData);
     }
 
@@ -49,11 +50,13 @@ public class OrderService {
 
     public Map<String, OrderStatisticsDTO> getStatisticsByChainId(Long foodchainId) {
         List<Object[]> rawData = orderRepository.getStatisticsByChainId(foodchainId);
+        statistics.setLIMIT(5);
         return statistics.processOrderDataMenu(rawData);
     }
 
-    public Map<String, OrderStatisticsDTO> getStatisticsByRestaurantId(Long restaurantId) {
+    public Map<String, OrderStatisticsDTO> getStatisticsByRestaurantId(Long restaurantId, int limit) {
         List<Object[]> rawData = orderRepository.getStatisticsByRestaurantId(restaurantId);
+        statistics.setLIMIT(limit);
         return statistics.processOrderDataMenu(rawData);
     }
 }

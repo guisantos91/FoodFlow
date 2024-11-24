@@ -32,22 +32,19 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         try {
             if (token != null && jwtTokenProvider.validateToken(token)) {
-                String username = jwtTokenProvider.getUsername(token);
+                String email = jwtTokenProvider.getEmail(token);
                 String role = jwtTokenProvider.getUserType(token);
 
-                // Criando a autenticação com o papel (role) extraído do token JWT
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        username, 
+                        email, 
                         null, 
                         Collections.singletonList(new SimpleGrantedAuthority(role))
                 );
 
-                // Configurando detalhes e contexto de autenticação
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (JwtException | IllegalArgumentException e) {
-            // Em caso de erro de validação do JWT, limpa o contexto de autenticação
             SecurityContextHolder.clearContext();
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
             return;
