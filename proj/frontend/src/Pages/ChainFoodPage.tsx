@@ -172,6 +172,8 @@ const ChainFoodPage: React.FC = ({}) => {
                     lat: restaurant.latitude,
                     lon: restaurant.longitude,
                     label: restaurant.name,
+                    id:restaurant.id,
+                    chainId:foodChainID,
                   }))}
                 />
               </div>

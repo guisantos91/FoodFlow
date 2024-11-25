@@ -5,6 +5,8 @@ interface Marker {
   lat: number;
   lon: number;
   label?: string;
+  id?:number;
+  chainId?:number;
 }
 
 interface MapProps {
@@ -27,7 +29,7 @@ export default function Map({ zoomLevel, markers }: MapProps) {
 
       if (markers) {
         markers.forEach((marker) => {
-          mapRef.current?.addMarker(marker.lat, marker.lon, marker.label);
+          mapRef.current?.addMarker(marker.lat, marker.lon, marker.label,marker.id,marker.chainId);
         });
       }
     }

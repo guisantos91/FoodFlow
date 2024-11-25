@@ -42,7 +42,7 @@ export class MapWidget {
     this.map.setZoom(level);
   }
 
-  addMarker(lat: number, lng: number, label?: string) {
+  addMarker(lat: number, lng: number, label?: string, id?: number, chainId?: number) {
     const customIcon = L.icon({
       iconUrl: userIcon,
       iconSize: [32, 52], 
@@ -52,7 +52,11 @@ export class MapWidget {
     const marker = L.marker([lat, lng], { icon: customIcon }).addTo(this.map);
 
     if (label) {
-      marker.bindPopup(label).closePopup(); 
+      if (id && chainId) {
+        marker.bindPopup(label + '<a href="/foodChain/'+chainId+'/restaurant/'+id+'">Go to Restaurant</a>').closePopup();
+      } else {
+        marker.bindPopup(label).closePopup();
+      }
     }
 
     this.markers.push(marker);
