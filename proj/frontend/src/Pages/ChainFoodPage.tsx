@@ -120,6 +120,22 @@ const ChainFoodPage: React.FC = ({}) => {
     fetchStats();
   })
 
+  const useBlockScroll = (shouldBlock: boolean) => {
+    useEffect(() => {
+      if (shouldBlock) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+  
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }, [shouldBlock]);
+  };
+  const [isScrollBlocked, setIsScrollBlocked] = useState(false); // Estado para controle de scroll
+  useBlockScroll(isScrollBlocked);
+
   const handleScroll = (event: React.WheelEvent) => {
     if (event.deltaY > 0) {
       setZoomLevel((prevZoom) => Math.max(1, prevZoom - 1));
@@ -147,6 +163,8 @@ const ChainFoodPage: React.FC = ({}) => {
                 className="p-4  rounded-lg"
                 style={{ height: "500px", overflow: "hidden" }}
                 onWheel={handleScroll}
+                onMouseEnter={()=>setIsScrollBlocked(true)}   
+                onMouseLeave={()=>setIsScrollBlocked(false)}   
               >
                 <Map
                   zoomLevel={zoomLevel}
