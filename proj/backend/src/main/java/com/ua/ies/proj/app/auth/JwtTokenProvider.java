@@ -30,8 +30,8 @@ public class JwtTokenProvider {
         SECRET_KEY = Keys.hmacShaKeyFor(JWT_KEY.getBytes());
     }
 
-    public String createToken(String username, String user_type) {
-        Claims claims = Jwts.claims().setSubject(username);
+    public String createToken(String email, String user_type) {
+        Claims claims = Jwts.claims().setSubject(email);
         claims.put("user_type", user_type);
 
         Date now = new Date();
@@ -57,7 +57,7 @@ public class JwtTokenProvider {
         return false;
     }
 
-    public String getUsername(String token) {
+    public String getEmail(String token) {
         Claims claims = parseToken(token).getBody();
         return claims.getSubject();
     }

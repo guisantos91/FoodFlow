@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.models.Restaurant;
+import com.ua.ies.proj.app.models.User;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
@@ -89,4 +90,9 @@ public class UserService {
         restaurantRepository.save(restaurant);
 
     }
+
+    public User getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.get();
+    } 
 }

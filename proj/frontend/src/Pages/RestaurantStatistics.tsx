@@ -68,7 +68,9 @@ const RestaurantStatistics = () => {
                 );
                 setOrders_ready(sortedReady);
 
-                const responseGraph = await axios.get(`${baseUrl}/statistics`);
+                const responseGraph = await axios.get(`${baseUrl}/statistics`, {
+                    withCredentials: true
+                });
                 const formattedGraphData = Object.keys(responseGraph.data).map((menu) => {
                     return {
                         name: menu,

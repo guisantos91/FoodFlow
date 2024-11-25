@@ -5,6 +5,7 @@ import UserPage from "./Pages/UserPage";
 import SettingsPage from "./Pages/SettingsPage";
 import RestaurantStatistics from "./Pages/RestaurantStatistics";
 import ChainFoodPage from "./Pages/ChainFoodPage";
+import LoginPage from "./Pages/LoginPage";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/foodChain/:foodchainId/restaurant/:restaurantId" element={<RestaurantStatistics />} />
           <Route path="/foodChain/:id" element={<ChainFoodPage />} />
+          <Route path="/login" element={<LoginPage/>}/>
         </Routes>
       </Layout>
     </Router>
