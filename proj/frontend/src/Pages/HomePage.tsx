@@ -132,11 +132,23 @@ const HomePage: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
+                        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
                             {filteredFoodChains.map((chain) => (
                                 <FoodChainCard key={chain.id} name={chain.name} image={MCImage} id={chain.id} />
                             ))}
+                        </div> */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
+                            {filteredFoodChains.length > 0 ? (
+                                filteredFoodChains.map((chain) => (
+                                    <FoodChainCard key={chain.id} name={chain.name} image={MCImage} id={chain.id} />
+                                ))
+                            ) : (
+                                <p className="text-gray-500 text-center col-span-full">
+                                    No results found. Please try a different search term.
+                                </p>
+                            )}
                         </div>
+
                     </div>
                 </div>
                 <Sidebar name="Top Menus" data={foodChainsTopOrders} foodchainId={1} />
