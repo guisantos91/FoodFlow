@@ -4,7 +4,6 @@ import userIcon from "../assets/images/icons/marker-icon.png";
 
 export class MapWidget {
   private map: L.Map;
-  private markers: L.Marker[] = [];
 
   constructor(domNode: HTMLElement) {
     this.map = L.map(domNode, {
@@ -59,7 +58,6 @@ export class MapWidget {
       }
     }
 
-    this.markers.push(marker);
   }
 
 
@@ -75,8 +73,8 @@ export class MapWidget {
       L.circleMarker([e.latlng.lat, e.latlng.lng], {
         radius: 10,
         // radius: radius,
-        color: "blue",
-        fillColor: "lightblue",
+        color: "red",
+        fillColor: "red",
         fillOpacity: 0.4,
         opacity: 0.5,
       }).addTo(this.map);
