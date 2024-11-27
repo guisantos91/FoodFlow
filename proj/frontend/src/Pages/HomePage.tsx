@@ -12,7 +12,7 @@ interface FoodChain {
     name: string;
 }
 
-interface FoodChainData{
+interface FoodChainData {
     name: string;
     values: number[];
 }
@@ -96,7 +96,7 @@ const HomePage: React.FC = () => {
     const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
         acc[name] = `hsl(${(index * 360) / dataNames.length}, 70%, 50%)`;
         return acc;
-      }, {});
+    }, {});
 
     return (
         <Layout>
@@ -105,8 +105,8 @@ const HomePage: React.FC = () => {
                     <div className="text-center">
                         <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
                             <h1 className="text-4xl font-bold text-center mb-8">Trending Restaurants</h1>
-                            <div className="p-4">
-                                <LineGraph data={graphData} colorMapping={colorMapping}/>
+                            <div className="p-4 min-w-[700px]">
+                                <LineGraph data={graphData} colorMapping={colorMapping} />
                             </div>
                         </div>
                         <div className="relative mb-4 flex justify-center items-center">
@@ -116,7 +116,7 @@ const HomePage: React.FC = () => {
                                     placeholder="Search Food Chains"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-72 bg-gray-300 text-black placeholder-black"
+                                    className="p-2 pl-10 border-4 border-orange-500 rounded-xl w- 72 bg-gray-300 text-black placeholder-black"
                                 />
                                 <img
                                     src={SearchSVG}
@@ -131,16 +131,22 @@ const HomePage: React.FC = () => {
                                 See All
                             </button>
                         </div>
-
-
+                        
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
-                            {filteredFoodChains.map((chain) => (
-                                <FoodChainCard key={chain.id} name={chain.name} image={MCImage} id={chain.id} />
-                            ))}
+                            {filteredFoodChains.length > 0 ? (
+                                filteredFoodChains.map((chain) => (
+                                    <FoodChainCard key={chain.id} name={chain.name} image={MCImage} id={chain.id} />
+                                ))
+                            ) : (
+                                <p className="text-gray-500 text-center col-span-full">
+                                    No results found. Please try a different search term.
+                                </p>
+                            )}
                         </div>
+
                     </div>
                 </div>
-                <Sidebar name="Top Menus" data={foodChainsTopOrders} foodchainId={1}/>
+                <Sidebar name="Top Menus" data={foodChainsTopOrders} foodchainId={1} />
             </div>
         </Layout>
     );

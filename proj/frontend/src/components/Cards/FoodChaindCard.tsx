@@ -2,18 +2,18 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 interface FoodChainCardProps {
-    id:number;
+    id: number;
     name: string;
     image: string;
 }
 
-const FoodChainCard: React.FC<FoodChainCardProps> = ({ id,name, image, }) => {
-    const navigate = useNavigate(); 
+const FoodChainCard: React.FC<FoodChainCardProps> = ({ id, name, image, }) => {
+    const navigate = useNavigate();
 
     const handleSeeMore = () => {
-      navigate(`/foodChain/${id}`); 
+        navigate(`/foodChain/${id}`);
     };
-    
+
     return (
         <div className="card card-side bg-orange-500 shadow-xl">
             <figure className="w-36 h-36 flex items-center justify-center">
