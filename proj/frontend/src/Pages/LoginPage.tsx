@@ -20,9 +20,12 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="flex h-screen">
-      <div className="w-2/3 bg-orange-500 flex flex-col items-center justify-center">
-        <h1 className="text-5xl text-white font-bold mb-4">FoodFlow</h1>
-        <p className="text-white text-xl text-center px-4">Where food trends meet data for tastier decisions!</p>
+      <div className="w-2/3 bg-orange-500 flex flex-col justify-center">
+        <div className='ml-44 mb-28'>
+          <h1 className="text-6xl text-white font-bold mb-2">FoodFlow</h1>
+          <p className="text-white text-2xl">Where food trends meet data for tastier decisions!</p>
+          <button className="btn w-36 bg-orange-400 text-white border-orange-500 rounded-3xl mt-4 hover:bg-orange-200 hover:text-orange-500">Admin Login</button>
+        </div>
       </div>
       <div className="w-1/3 bg-white flex items-center justify-center">
         <div className="w-4/5">
