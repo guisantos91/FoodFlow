@@ -9,6 +9,7 @@ import homeIconWhite from '../assets/images/icons/casa_white.png';
 import userIconWhite from '../assets/images/icons/user_white.png';
 import settingsIconWhite from '../assets/images/icons/setting_white.png';
 // import logoutIcon from './assets/images/icons/logout_grey.png';
+import { useLocation } from "react-router-dom";
 
 const SideBarLayout = () => {
     // const [selected, setSelected] = useState<string>("");
@@ -47,6 +48,13 @@ const SideBarLayout = () => {
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+    const location = useLocation();
+    const excludeRoutes = ["/login"];
+
+    if (excludeRoutes.includes(location.pathname)) {
+        return <>{children}</>;
+    }
+
     return (
         <>
             <div className="flex flex-col h-full bg-white bg-scroll">
