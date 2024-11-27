@@ -15,6 +15,8 @@ import com.ua.ies.proj.app.repos.ManagerFormRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
 import com.ua.ies.proj.app.repos.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
     @Autowired
@@ -64,6 +66,15 @@ public class UserService {
 
     public List<ManagerForm> getForms() {
         return managerFormRepository.findAll();
+    }
+
+    public ManagerForm getFormById(Long form_id) {
+        Optional<ManagerForm> form = managerFormRepository.findById(form_id);
+        if (form.isPresent()) {
+            return form.get();
+        } else {
+            throw new EntityNotFoundException("Form not found with id: " + form_id);
+        }
     }
 
     public void deleteForm(Long form_id) {

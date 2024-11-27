@@ -17,6 +17,8 @@ import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.services.UserService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
@@ -62,6 +64,16 @@ public class AdminController {
     public ResponseEntity<List<ManagerForm>> getForms() {
         List<ManagerForm> forms = userService.getForms();
         return new ResponseEntity<>(forms, HttpStatus.OK);
+    }
+
+    @GetMapping("/forms/{form_id}")
+    public ResponseEntity<ManagerForm> getFormById(@PathVariable("form_id") Long form_id) {
+        try {
+            ManagerForm form = userService.getFormById(form_id);
+            return new ResponseEntity<>(form, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/forms/{form_id}")
