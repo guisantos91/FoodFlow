@@ -19,7 +19,7 @@ const App = () => {
           <Route path="/foodChain/:foodchainId/restaurant/:restaurantId" element={<RestaurantStatistics />} />
           <Route path="/foodChain/:id" element={<ChainFoodPage />} />
           <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/user_form" element={<UserForm/>}/>
+          <Route path="/form/:formId" element={<UserForm/>}/>
         </Routes>
       </Layout>
     </Router>

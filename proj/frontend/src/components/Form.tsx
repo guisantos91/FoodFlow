@@ -1,6 +1,20 @@
 import { Button, Label, TextInput } from "flowbite-react";
 
-export function Form() {
+interface FormData {
+    fname: string;
+    lname: string;
+    email: string;
+    birthDate: string;
+    restaurantName: string;
+    restaurantAddress: string;
+}[]
+
+interface FormProps {
+    data: FormData;
+}
+
+export function Form({data}: FormProps) {
+
   return (
     <div className="flex items-center justify-center min-h-screen">
         <div className="flex items-center justify-center mt-8 rounded-3xl w-1/2 shadow-lg bg-gray-200">
@@ -13,13 +27,13 @@ export function Form() {
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="Name" />
                         </div>
-                        <TextInput className="w-96" id="name" type="text" placeholder="Enter your name" required shadow />
+                        <TextInput className="w-96" id="name" type="text" placeholder={data.fname} required shadow />
                     </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="surname" value="Surname" />
                         </div>
-                        <TextInput className="w-96" id="surname" type="text" placeholder="Enter your surname" required shadow />
+                        <TextInput className="w-96" id="surname" type="text" placeholder={data.lname} required shadow />
                     </div>
                 </div>
                 <div className="flex items-center justify-center ml-4 space-x-20">
@@ -27,31 +41,27 @@ export function Form() {
                         <div className="mb-2 block">
                             <Label htmlFor="date" value="Birth Date" />
                         </div>
-                        <TextInput className="w-96" id="date" type="text" placeholder="DD - MM - YYYY" required shadow />
+                        <TextInput className="w-96" id="date" type="text" placeholder={data.birthDate} required shadow />
                     </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="email" value="Email" />
                         </div>
-                        <TextInput className="w-96" id="email" type="email" placeholder="example@domain.com" required shadow />
+                        <TextInput className="w-96" id="email" type="email" placeholder={data.email} required shadow />
                     </div>
                 </div>
-                <div className="ml-12">
-                    <div className="mb-2 block">
-                        <Label htmlFor="credential" value="Credential" />
+                <div className="flex items-center justify-center ml-4 space-x-20">
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="restname" value="Restaurant Name" />
+                        </div>
+                        <TextInput className="w-96" id="restName" type="text" placeholder={data.restaurantName} required shadow />
                     </div>
-                    <div className="flex items-center gap-12">
-                        <TextInput className="w-96" id="credential" type="text" placeholder="Enter your credential" required shadow />
-                        <Button className="bg-orange-500 w-48 rounded-2xl" color="orange">Generate</Button>
-                    </div>
-                </div>
-                <div className="ml-12">
-                    <div className="mb-2 block">
-                        <Label htmlFor="password" value="Password" />
-                    </div>
-                    <div className="flex items-center gap-12">
-                        <TextInput className="w-96" id="password" type="password" placeholder="Enter your password" required shadow />
-                        <Button className="bg-orange-500 w-48 rounded-2xl" color="orange">Generate</Button>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="restAddress" value="Restaurant Address" />
+                        </div>
+                        <TextInput className="w-96" id="restAddress" type="text" placeholder={data.restaurantAddress} required shadow />
                     </div>
                 </div>
                 <div className="flex items-center justify-center mt-4 gap-12">
