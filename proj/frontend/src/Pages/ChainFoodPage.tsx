@@ -5,7 +5,7 @@ import axios from "axios";
 import Sidebar from "../components/SideBar";
 import * as L from "leaflet"; 
 import { useParams } from "react-router-dom";
-import DonutChart from "../components/Statistics/DonutChart.tsx";
+import DonutChartToChainFood from "../components/Statistics/DonutChartToChainFood.tsx";
 
 const ChainFoodPage: React.FC = ({}) => {
   const { id } = useParams<{ id: string }>();
@@ -33,14 +33,10 @@ const ChainFoodPage: React.FC = ({}) => {
     manager: string | null;
   }
 
-  interface DonutData {
-    name: string;
-    value: number;
-  }
+
 
   const [foodChain, setFoodChain] = useState<FoodChain | null>(null);
   const [restaurants, setRestaurant] = useState<Restaurant[]>([]);
-  const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
 
   useEffect(() => {
     const map = L.map(document.createElement("div"));
@@ -96,29 +92,23 @@ const ChainFoodPage: React.FC = ({}) => {
     fetchRestaurant();
   }, [foodChainID]);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/foodchains/${foodChainID}/orders/statistics`
-        );
-        console.log("Stats Data:", response.data);
 
-        const formattedDonutData = Object.keys(response.data).map((menu) => {
-          return {
-            name: menu,
-            value: response.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
-          }
-        });
 
-        setDonutGraphData(formattedDonutData);
-      } catch (err) {
-        console.error("Error fetching Stats:", err);
+  const useBlockScroll = (shouldBlock: boolean) => {
+    useEffect(() => {
+      if (shouldBlock) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
       }
-    };
-
-    fetchStats();
-  })
+  
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }, [shouldBlock]);
+  };
+  const [isScrollBlocked, setIsScrollBlocked] = useState(false); // Estado para controle de scroll
+  useBlockScroll(isScrollBlocked);
 
   const handleScroll = (event: React.WheelEvent) => {
     if (event.deltaY > 0) {
@@ -128,11 +118,7 @@ const ChainFoodPage: React.FC = ({}) => {
     }
   };
 
-  const dataNames = [...new Set([...donutGraphData.map(item => item.name), ...donutGraphData.map(item => item.name)])];
-  const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
-    acc[name] = `hsl(${(index * 360) / dataNames.length}, 70%, 50%)`;
-    return acc;
-  }, {});
+
 
   return (
     <Layout>
@@ -147,6 +133,8 @@ const ChainFoodPage: React.FC = ({}) => {
                 className="p-4  rounded-lg"
                 style={{ height: "500px", overflow: "hidden" }}
                 onWheel={handleScroll}
+                onMouseEnter={()=>setIsScrollBlocked(true)}   
+                onMouseLeave={()=>setIsScrollBlocked(false)}   
               >
                 <Map
                   zoomLevel={zoomLevel}
@@ -154,11 +142,13 @@ const ChainFoodPage: React.FC = ({}) => {
                     lat: restaurant.latitude,
                     lon: restaurant.longitude,
                     label: restaurant.name,
+                    id:restaurant.id,
+                    chainId:foodChainID,
                   }))}
                 />
               </div>
             </div>
-            <DonutChart data={donutGraphData} colorMapping={colorMapping} />
+            <DonutChartToChainFood foodChainID={foodChainID} />
           </div>
         </div>
         <Sidebar
