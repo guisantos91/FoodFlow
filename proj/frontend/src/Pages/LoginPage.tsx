@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -21,14 +21,19 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex h-screen">
       <div className="w-2/3 bg-orange-500 flex flex-col justify-center">
-        <div className='ml-44 mb-28'>
+        <div className='ml-40 mb-28'>
           <h1 className="text-6xl text-white font-bold mb-2">FoodFlow</h1>
           <p className="text-white text-2xl">Where food trends meet data for tastier decisions!</p>
-          <button className="btn w-36 bg-orange-400 text-white border-orange-500 rounded-3xl mt-4 hover:bg-orange-200 hover:text-orange-500">Admin Login</button>
+          <Link className="btn w-56 bg-white text-orange-500 text-base border-orange-500 rounded-3xl mt-4 hover:bg-gray-200 hover:text-orange-500" to="/">Go to the Home Page</Link>
         </div>
       </div>
       <div className="w-1/3 bg-white flex items-center justify-center">
-        <div className="w-4/5">
+        <div className="w-[380px]">
+          <div className='mb-16'>
+            <h1 className="text-3xl font-bold mb-1">Hello,</h1>
+            <h1 className="text-2xl font-bold mb-4">Welcome back to FoodFlow!</h1>
+            <p className="text-lg text-gray-500">Enter your credentials to access your account</p>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="form-control mb-4">
               <label className="label">
@@ -55,9 +60,9 @@ const LoginPage: React.FC = () => {
               />
             </div>
             {error && <p className="text-red-500 mb-2">{error}</p>}
-            <button type="submit" className="btn w-full bg-orange-500 text-white border-orange-500 rounded-lg">Login</button>
+            <button type="submit" className="btn w-full mt-10 bg-orange-500 text-white border-orange-500 rounded-3xl text-base hover:text-orange-500">Login</button>
           </form>
-          <button className="btn w-full mt-4 bg-white text-orange-500 border-orange-500 rounded-lg">Become a Manager</button>
+          <button className="btn w-full mt-4 bg-white text-orange-500 border-orange-500 border-2 rounded-3xl text-base">Become a Manager</button>
         </div>
       </div>
     </div>
