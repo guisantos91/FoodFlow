@@ -23,7 +23,9 @@ const UserForm = () => {
         const fetchUsers = async () => {
             try {
                 const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms/${formId}`);
+                const response = await axios.get(`${baseUrl}/forms/${formId}`, {
+                    withCredentials: true,
+                });
                 setForm(response.data);
                 console.log(response.data);
             } catch (error) {
