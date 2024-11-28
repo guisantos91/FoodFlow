@@ -27,13 +27,13 @@ export function Form({data}: FormProps) {
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="Name" />
                         </div>
-                        <TextInput className="w-96" id="name" type="text" placeholder={data.fname} required shadow />
+                        <TextInput className="w-96" id="name" type="text" value={data.fname} placeholder={data.fname} required shadow />
                     </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="surname" value="Surname" />
                         </div>
-                        <TextInput className="w-96" id="surname" type="text" placeholder={data.lname} required shadow />
+                        <TextInput className="w-96" id="surname" type="text" value={data.lname} placeholder={data.lname} required shadow />
                     </div>
                 </div>
                 <div className="flex items-center justify-center ml-4 space-x-20">
@@ -41,13 +41,13 @@ export function Form({data}: FormProps) {
                         <div className="mb-2 block">
                             <Label htmlFor="date" value="Birth Date" />
                         </div>
-                        <TextInput className="w-96" id="date" type="text" placeholder={data.birthDate} required shadow />
+                        <TextInput className="w-96" id="date" type="text" value={data.birthDate} placeholder={data.birthDate} required shadow />
                     </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="email" value="Email" />
                         </div>
-                        <TextInput className="w-96" id="email" type="email" placeholder={data.email} required shadow />
+                        <TextInput className="w-96" id="email" type="email" value={data.email} placeholder={data.email} required shadow />
                     </div>
                 </div>
                 <div className="flex items-center justify-center ml-4 space-x-20">
@@ -55,13 +55,13 @@ export function Form({data}: FormProps) {
                         <div className="mb-2 block">
                             <Label htmlFor="restname" value="Restaurant Name" />
                         </div>
-                        <TextInput className="w-96" id="restName" type="text" placeholder={data.restaurantName} required shadow />
+                        <TextInput className="w-96" id="restName" type="text" value={data.restaurantName} placeholder={data.restaurantName} required shadow />
                     </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="restAddress" value="Restaurant Address" />
                         </div>
-                        <TextInput className="w-96" id="restAddress" type="text" placeholder={data.restaurantAddress} required shadow />
+                        <TextInput className="w-96" id="restAddress" type="text" value={data.restaurantAddress} placeholder={data.restaurantAddress} required shadow />
                     </div>
                 </div>
                 <div className="flex items-center justify-center mt-4 gap-12">
