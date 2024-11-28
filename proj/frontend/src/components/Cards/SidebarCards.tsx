@@ -6,11 +6,12 @@ interface SideBarCardProps {
     foodchainId: number;
     item1: string;
     item2: string;
+    item3?: string;
     image: string;
     naveTrue?:boolean;
 }
 
-const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, item2, image,naveTrue }) => {
+const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, item2,item3, image,naveTrue }) => {
     const navigate = useNavigate();
     const handleCardClick = () => {
         if (naveTrue) {
@@ -27,8 +28,9 @@ const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, i
                     alt={item1}
                     className="w-14 h-14 object-contain rounded-lg bg-white p-2 ml-4" />
             </figure>
-            <div className="card-body p-2 mt-2">
+            <div className="card-body p-2 mt-1">
                 <h2 className="text-sm font-bold text-black">{item1}</h2>
+                {item3 && <h2 className="text-xs -mt-1.5 -mb-1.5 font-base text-black">{item3} m</h2>}
                 <h2 className="text-xs font-base text-black">{item2}</h2>
             </div>
         </div>

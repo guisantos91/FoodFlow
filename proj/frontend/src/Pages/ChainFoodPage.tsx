@@ -13,10 +13,7 @@ const ChainFoodPage: React.FC = ({}) => {
   console.log(foodChainID);
 
   const [zoomLevel, setZoomLevel] = useState(13);
-  const [userLocation, setUserLocation] = useState<{
-    lat: number;
-    lon: number;
-  } | null>(null);
+  const [userLocation, setUserLocation] = useState({});
 
   interface FoodChain {
     id: number;
@@ -46,8 +43,7 @@ const ChainFoodPage: React.FC = ({}) => {
     });
 
     map.on("locationfound", (e: L.LocationEvent) => {
-      const { lat, lng } = e.latlng;
-      setUserLocation({ lat, lon: lng });
+      setUserLocation({ lat: e.latlng.lat, lon: e.latlng.lng });
       console.log("User Location:", userLocation);
     });
 
@@ -55,6 +51,12 @@ const ChainFoodPage: React.FC = ({}) => {
       console.error("Location error:", e.message);
     });
   }, []);
+
+  useEffect(() => {
+    console.log("Updated User Location:", userLocation);
+
+  }, [userLocation]);
+  
 
   useEffect(() => {
     const fetchFoodChains = async () => {
@@ -76,21 +78,48 @@ const ChainFoodPage: React.FC = ({}) => {
     fetchFoodChains();
   }, []);
 
+  function distance(userLocation: any, lat: number, lon: number): number {
+    const R = 6378.137; // Raio da Terra em km
+    const dLat = (lat - userLocation.lat) * Math.PI / 180; // Diferença de latitude em radianos
+    const dLon = (lon - userLocation.lon) * Math.PI / 180; // Diferença de longitude em radianos
+    const lat1 = userLocation.lat * Math.PI / 180; // Latitude inicial em radianos
+    const lat2 = lat * Math.PI / 180; // Latitude final em radianos
+
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distância em km
+
+    return Math.round(d * 100000)/100; // Retorna a distância em metros
+}
+
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/foodchains/${foodChainID}/restaurants`
         );
-        setRestaurant(response.data);
-        console.log("Restaurants Data:", response.data);
+        if (Object.keys(userLocation).length !== 0) {
+          const restaurantsWithDistance = response.data.map((restaurant: any) => {
+            const dist = distance(userLocation, restaurant.latitude, restaurant.longitude);
+            return { ...restaurant, distance: dist };
+          });
+          restaurantsWithDistance.sort((a:any, b:any) => a.distance - b.distance);
+          setRestaurant(restaurantsWithDistance);
+          console.log("Restaurants Data with Distance:", restaurantsWithDistance);
+        } else {
+          setRestaurant(response.data);
+          console.log("Restaurants Data:", response.data);
+        }
       } catch (err) {
         console.error("Error fetching Restaurants:", err);
       }
     };
 
     fetchRestaurant();
-  }, [foodChainID]);
+  }, [foodChainID,userLocation]);
 
 
 

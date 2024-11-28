@@ -52,7 +52,7 @@ export class MapWidget {
 
     if (label) {
       if (id && chainId) {
-        marker.bindPopup(label + '<a href="/foodChain/'+chainId+'/restaurant/'+id+'">Go to Restaurant</a>').closePopup();
+        marker.bindPopup('<a href="/foodChain/'+chainId+'/restaurant/'+id+'">'+label+'</a>').closePopup();
       } else {
         marker.bindPopup(label).closePopup();
       }
