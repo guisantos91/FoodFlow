@@ -8,6 +8,7 @@ import ChainFoodPage from "./Pages/FoodChainPage";
 import LoginPage from "./Pages/LoginPage";
 import UserForm from "./Pages/UserForm";
 import ManagerForm from "./Pages/ManagerFormPage";
+import AdminPage from "./Pages/AdminPage";
 
 const App = () => {
   return (
@@ -19,9 +20,10 @@ const App = () => {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/foodChain/:foodchainId/restaurant/:restaurantId" element={<RestaurantStatistics />} />
           <Route path="/foodChain/:id" element={<ChainFoodPage />} />
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/form/:formId" element={<UserForm/>}/>
           <Route path="/managerForm" element={<ManagerForm/>}/>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/form/:formId" element={<UserForm />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Layout>
     </Router>
