@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ua.ies.proj.app.models.ManagerForm;
@@ -27,7 +27,7 @@ public class AdminController {
     public AdminController(UserService userService) {
         this.userService = userService;
     }
-    
+
     @GetMapping("/managers")
     public ResponseEntity<List<UserManager>> getManagers() {
         List<UserManager> managers = userService.getManagers();
@@ -41,11 +41,11 @@ public class AdminController {
     }
     
 
-    @DeleteMapping("/managers/{manager_id}")
-    public ResponseEntity<String> deleteManager(@PathVariable("manager_id") Long manager_id) {
-        userService.deleteManager(manager_id);
-        return new ResponseEntity<>("Manager deleted sucessfully", HttpStatus.OK);
-    }
+    // @DeleteMapping("/managers/{manager_id}")
+    // public ResponseEntity<String> deleteManager(@PathVariable("manager_id") Long manager_id) {
+    //     userService.deleteManager(manager_id);
+    //     return new ResponseEntity<>("Manager deleted sucessfully", HttpStatus.OK);
+    // }
 
     @PutMapping("/managers/{manager_id}")
     public ResponseEntity<UserManager> updateManager(@PathVariable("manager_id") Long manager_id, @RequestBody UserManager manager) {
@@ -59,10 +59,12 @@ public class AdminController {
         return ResponseEntity.ok("Manager and restaurant created successfully");
     }
 
-
+    // GET /api/v1/admin/forms
+    //      or
+    // GET /api/v1/admin/forms?state={state} (accepted, declined, pending, deleted)
     @GetMapping("/forms")
-    public ResponseEntity<List<ManagerForm>> getForms() {
-        List<ManagerForm> forms = userService.getForms();
+    public ResponseEntity<List<ManagerForm>> getForms(@RequestParam(required = false) String state) {
+        List<ManagerForm> forms = userService.getForms(state);
         return new ResponseEntity<>(forms, HttpStatus.OK);
     }
 
@@ -76,9 +78,9 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/forms/{form_id}")
-    public ResponseEntity<String> deleteForm(@PathVariable("form_id") Long form_id) {
-        userService.deleteForm(form_id);
-        return new ResponseEntity<>("Form deleted sucessfully", HttpStatus.OK);
+    @PutMapping("/forms/{form_id}")
+    public ResponseEntity<ManagerForm> updateForm(@PathVariable("form_id") Long form_id, @RequestBody ManagerForm form) {
+        ManagerForm formUpdated = userService.updateForm(form_id, form);
+        return new ResponseEntity<>(formUpdated, HttpStatus.OK);
     }
 }
