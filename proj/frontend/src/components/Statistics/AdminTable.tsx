@@ -38,7 +38,7 @@ const AdminTable = ({name}:managerName) => {
         const fetchForms = async () => {
             try {
                 const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms `, {
+                const response = await axios.get(`${baseUrl}/forms?state=accepted`, {
                     withCredentials: true,
                 });
                 // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
