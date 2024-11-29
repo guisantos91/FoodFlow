@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
+<<<<<<< HEAD
 import EditSVG from '../../assets/images/icons/edit.svg';
 import DeleteSVG from '../../assets/images/icons/delete.svg';
+=======
+>>>>>>> 28dc5ef (tables)
 
 interface managerName{
     name:string;
@@ -34,9 +37,13 @@ const AdminTable = ({name}:managerName) => {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 10;
+
     useEffect(() => {
         const fetchForms = async () => {
             try {
+<<<<<<< HEAD
                 const baseUrl = `http://localhost:8080/api/v1/admin`;
                 const response = await axios.get(`${baseUrl}/forms `, {
                     withCredentials: true,
@@ -49,6 +56,33 @@ const AdminTable = ({name}:managerName) => {
                   );
           
                   setForms(filteredForms);
+=======
+                const baseUrl = 'http://localhost:8080/api/v1/admin';
+                const response = await axios.get(`${baseUrl}/managers `, {
+                    withCredentials: true,
+                });
+                setManagers(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Failed to fetch managers: ", error);
+            }
+        };
+        fetchManagers();
+    }, []);
+
+    useEffect(() => {
+        const fetchRestaurants = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:8080/api/v1/foodchains/restaurants'
+                );
+                // const restaurantsWithDistance = response.data.map((restaurant: Restaurant) => {
+                //     return { ...restaurant, manager: 2 }; // change later
+                // });
+                setRestaurants(response.data);
+                console.log("Restaurants Data:", response.data);
+                console.log("Restaurants Data2:", response.data);
+>>>>>>> 28dc5ef (tables)
             } catch (err) {
                 console.error("Error fetching Forms:", err);
             }
@@ -85,6 +119,12 @@ const AdminTable = ({name}:managerName) => {
     const currentForms = forms.slice(indexOfFirstRow, indexOfLastRow);
 
     const totalPages = Math.ceil(forms.length / rowsPerPage);
+
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentRestaurants = restaurants.slice(indexOfFirstRow, indexOfLastRow);
+
+    const totalPages = Math.ceil(restaurants.length / rowsPerPage);
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-9/12">
