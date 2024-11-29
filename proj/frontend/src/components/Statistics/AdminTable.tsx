@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
+import EditSVG from '../../assets/images/icons/edit.svg';
+import DeleteSVG from '../../assets/images/icons/delete.svg';
 
 interface Manager {
     id: number;
@@ -104,7 +106,10 @@ const AdminTable: React.FC = () => {
                                 <span>{restaurant.name}</span>
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Olá
+                                <div className="flex items-center space-x-2">
+                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" />
+                                </div>
                             </td>
                         </tr>
                     ))}
