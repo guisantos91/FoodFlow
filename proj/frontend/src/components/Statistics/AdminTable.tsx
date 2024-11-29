@@ -4,10 +4,8 @@ import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit.svg';
 import DeleteSVG from '../../assets/images/icons/delete.svg';
 
-interface Manager {
-    id: number;
-    fname: string;
-    lname: string;
+interface managerName{
+    name:string;
 }
 
 interface FoodChain {
@@ -15,67 +13,78 @@ interface FoodChain {
     name: string;
 }
 
-interface Restaurant {
-    id: number;
-    name: string;
+interface Form {
+    id: number; 
     foodchain: FoodChain;
-    manager: Manager | null;
-}
+    fname: string;
+    lname: string;
+    // email: string;
+    // birthDate: string;
+    restaurantName: string;
+    // restaurantAddress: string;
+    // latitude: number;
+    // longitude: number;
+    restaurantEndpoint: string;
+    // password: string;
+  }
 
-const AdminTable: React.FC = () => {
-    const [restaurants, setRestaurants] = React.useState<Restaurant[]>([]);
+const AdminTable = ({name}:managerName) => {
+    const [forms, setForms] = React.useState<Form[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
-
     useEffect(() => {
-        const fetchRestaurants = async () => {
+        const fetchForms = async () => {
             try {
-                const response = await axios.get(
-                    'http://localhost:8080/api/v1/foodchains/restaurants'
-                );
-                // const restaurantsWithDistance = response.data.map((restaurant: Restaurant) => {
+                const baseUrl = `http://localhost:8080/api/v1/admin`;
+                const response = await axios.get(`${baseUrl}/forms `, {
+                    withCredentials: true,
+                });
+                // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
                 //     return { ...restaurant, manager: 2 }; // change later
                 // });
-                setRestaurants(response.data);
-                console.log("Restaurants Data:", response.data);
-                console.log("Restaurants Data2:", response.data);
+                const filteredForms = response.data.filter(
+                    (form: Form) => (  !name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                  );
+          
+                  setForms(filteredForms);
             } catch (err) {
-                console.error("Error fetching Restaurants:", err);
+                console.error("Error fetching Forms:", err);
             }
         };
 
-        fetchRestaurants();
-    }, []);
+        fetchForms();
+    }, [name]);
 
-    const handleDelete = async (managerId: number | null) => {
-        if (!managerId) return;
 
-        try {
-            await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
-                withCredentials: true,
-            });
-            alert("Manager deleted successfully");
+    // const handleDelete = async (managerId: number | null) => {
+    //     if (!managerId) return;
 
-            setRestaurants((prev) =>
-                prev.map((restaurant) =>
-                    restaurant.manager?.id === managerId
-                        ? { ...restaurant, manager: null }
-                        : restaurant
-                )
-            );
-        } catch (err) {
-            console.error("Error deleting manager:", err);
-            alert("Failed to delete manager");
-        }
-    };
+    //     try {
+    //         await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
+    //             withCredentials: true,
+    //         });
+    //         alert("Manager deleted successfully");
+
+    //         setRestaurants((prev) =>
+    //             prev.map((restaurant) =>
+    //                 restaurant.manager?.id === managerId
+    //                     ? { ...restaurant, manager: null }
+    //                     : restaurant
+    //             )
+    //         );
+    //     } catch (err) {
+    //         console.error("Error deleting manager:", err);
+    //         alert("Failed to delete manager");
+    //     }
+    // };
 
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-    const currentRestaurants = restaurants.slice(indexOfFirstRow, indexOfLastRow);
+    const currentForms = forms.slice(indexOfFirstRow, indexOfLastRow);
 
-    const totalPages = Math.ceil(restaurants.length / rowsPerPage);
+    const totalPages = Math.ceil(forms.length / rowsPerPage);
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-9/12">
@@ -99,29 +108,31 @@ const AdminTable: React.FC = () => {
                     }}
                     className="bg-white"
                 >
-                    {currentRestaurants.map((restaurant) => (
+                    {currentForms.map((restaurant) => (
                         <tr
                             key={restaurant.id}
                             className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="px-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {restaurant.manager && restaurant.manager.fname+' '+restaurant.manager.lname}
+                                {restaurant.fname+' '+restaurant.lname}
                             </td>
                             <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
                                 <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
-                                <span>{restaurant.name}</span>
+                                <span>{restaurant.restaurantName}</span>
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
                                     <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => handleDelete(restaurant.manager?.id || null)} />
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" 
+                                    // onClick={() => handleDelete(restaurant.manager?.id || null)} 
+                                    />
                                 </div>
                             </td>
                         </tr>
                     ))}
 
-                    {currentRestaurants.length < rowsPerPage &&
-                        Array.from({ length: rowsPerPage - currentRestaurants.length }).map((_, index) => (
+                    {currentForms.length < rowsPerPage &&
+                        Array.from({ length: rowsPerPage - currentForms.length }).map((_, index) => (
                             <tr key={`empty-${index}`} className="bg-white">
                                 <td className="px-12 py-4">&nbsp;</td>
                                 <td className="px-14 py-4">&nbsp;</td>

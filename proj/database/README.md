@@ -6,18 +6,16 @@
 - If necessary, some script for initialization of the database
 
 psql -U user -d foodflow_db_dev
-\d admin       
+\d app_user       
 \d foodchain   
-\d manager     
 \d menu        
 \d order_items 
 \d orders      
 \d restaurant  
 
 
-select * from admin;       
+select * from app_user;       
 select * from foodchain;   
-select * from manager;     
 select * from menu;        
 select * from order_items; 
 select * from orders;      

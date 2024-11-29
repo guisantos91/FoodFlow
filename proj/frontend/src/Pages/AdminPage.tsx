@@ -2,8 +2,10 @@ import Layout from '../components/Layout';
 import AdminTable from '../components/Statistics/AdminTable';
 import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
+import { useState } from 'react';
 
 const AdminPage = () => {
+    const [searchName, setSearchName] = useState("");
     return (
         <Layout>
             <div className="bg-white min-h-screen py-10 px-20">
@@ -27,6 +29,8 @@ const AdminPage = () => {
                                 type="text"
                                 placeholder="Search Managers"
                                 className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-full bg-gray-100 text-black placeholder-black"
+                                value={searchName}
+                                onChange={(e) => setSearchName(e.target.value)}
                             />
                             <img
                                 src={SearchSVG}
@@ -34,7 +38,7 @@ const AdminPage = () => {
                                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6"
                             />
                         </div>
-                        <button className="text-orange-500 font-medium hover:underline text-xl">
+                        <button className="text-orange-500 font-medium hover:underline text-xl" onClick={()=>{setSearchName("")}}>
                             See All
                         </button>
                     </div>
@@ -47,7 +51,7 @@ const AdminPage = () => {
                 </div>
 
                 <div className="flex justify-center items-center">
-                    <AdminTable />
+                    <AdminTable name={searchName}/>
                 </div>
             </div>
         </Layout>
