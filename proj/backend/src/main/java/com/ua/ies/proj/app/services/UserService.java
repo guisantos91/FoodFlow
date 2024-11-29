@@ -71,6 +71,7 @@ public class UserService {
         existingForm.setLatitude(form.getLatitude());
         existingForm.setLongitude(form.getLongitude());
         existingForm.setFoodchain(form.getFoodchain());
+        existingForm.setState(form.getState());
         ManagerForm updatedForm = managerFormRepository.save(existingForm);
         return updatedForm;
     }
