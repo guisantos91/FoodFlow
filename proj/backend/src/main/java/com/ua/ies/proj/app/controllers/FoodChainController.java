@@ -75,4 +75,10 @@ public class FoodChainController {
         Map<String, OrderStatisticsDTO> stats = orderService.getStatisticsByChainId(chainId);
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }
+
+    @GetMapping("/restaurants")
+    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
+        List<Restaurant> restaurants = restaurantsService.getRestaurants();
+        return new ResponseEntity<>(restaurants, HttpStatus.OK);
+    }
 }

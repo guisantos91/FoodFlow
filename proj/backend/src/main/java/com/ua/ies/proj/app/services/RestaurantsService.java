@@ -56,5 +56,9 @@ public class RestaurantsService {
         Optional<Restaurant> optionalRes = restaurantRepository.findById(restId);
         return optionalRes.get();
     }
+
+    public List<Restaurant> getRestaurants() {
+        return restaurantRepository.findAll();
+    }
    
 }
