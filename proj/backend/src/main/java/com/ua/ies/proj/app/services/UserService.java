@@ -102,9 +102,6 @@ public class UserService {
     }
 
     public void approveForm(ManagerForm form) {
-        ManagerForm existingForm = managerFormRepository.findById(form.getId()).get();
-        existingForm.setState("accepted");
-        managerFormRepository.save(existingForm);
 
         UserManager manager = new UserManager();
         manager.setFname(form.getFname());
@@ -124,6 +121,8 @@ public class UserService {
         restaurant.setManager(manager);
         restaurantRepository.save(restaurant);
 
+        form.setState("accepted");
+        managerFormRepository.save(form);
     }
 
     public User getUserByEmail(String email) {
