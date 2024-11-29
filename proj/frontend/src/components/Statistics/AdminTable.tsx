@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import McImage from "../../assets/images/logos/mcdonalds.png";
+import MCImage from '../../assets/images/logos/mcdonalds.png';
 
 interface Manager {
     id: number;
@@ -24,14 +24,17 @@ const AdminTable: React.FC = () => {
     const [managers, setManagers] = React.useState<Manager[]>([]);
     const [restaurants, setRestaurants] = React.useState<Restaurant[]>([]);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 10;
+
     useEffect(() => {
         const fetchManagers = async () => {
             try {
                 const baseUrl = 'http://localhost:8080/api/v1/admin';
-                const response = await axios.get(`${baseUrl}/managers `, { //O espaço e, `${baseUrl}/managers ` é obrigatório
+                const response = await axios.get(`${baseUrl}/managers `, {
                     withCredentials: true,
                 });
-                setManagers(response.data)
+                setManagers(response.data);
                 console.log(response.data);
             } catch (error) {
                 console.error("Failed to fetch managers: ", error);
@@ -46,14 +49,12 @@ const AdminTable: React.FC = () => {
                 const response = await axios.get(
                     'http://localhost:8080/api/v1/foodchains/restaurants'
                 );
-                const restaurantsWithDistance = response.data.map((restaurant: Restaurant) => {
-                    return { ...restaurant, manager: 2 };   // change later
-                });
-                setRestaurants(restaurantsWithDistance);
-                //   setRestaurants(response.data);
+                // const restaurantsWithDistance = response.data.map((restaurant: Restaurant) => {
+                //     return { ...restaurant, manager: 2 }; // change later
+                // });
+                setRestaurants(response.data);
                 console.log("Restaurants Data:", response.data);
-                console.log("Restaurants Data2:", restaurantsWithDistance);
-
+                console.log("Restaurants Data2:", response.data);
             } catch (err) {
                 console.error("Error fetching Restaurants:", err);
             }
@@ -61,6 +62,12 @@ const AdminTable: React.FC = () => {
 
         fetchRestaurants();
     }, []);
+
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentRestaurants = restaurants.slice(indexOfFirstRow, indexOfLastRow);
+
+    const totalPages = Math.ceil(restaurants.length / rowsPerPage);
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-9/12">
@@ -78,27 +85,54 @@ const AdminTable: React.FC = () => {
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    {restaurants.map((restaurant) => (
+                <tbody
+                    style={{
+                        minHeight: `${10 * 48}px`,
+                    }}
+                    className="bg-white"
+                >
+                    {currentRestaurants.map((restaurant) => (
                         <tr
                             key={restaurant.id}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="px-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {managers.find((manager) => manager.id === restaurant.manager)?.fname}
                             </td>
-                            <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {restaurant.name}
+                            <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
+                                <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
+                                <span>{restaurant.name}</span>
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 Olá
                             </td>
                         </tr>
                     ))}
+
+                    {currentRestaurants.length < rowsPerPage &&
+                        Array.from({ length: rowsPerPage - currentRestaurants.length }).map((_, index) => (
+                            <tr key={`empty-${index}`} className="bg-white">
+                                <td className="px-12 py-4">&nbsp;</td>
+                                <td className="px-14 py-4">&nbsp;</td>
+                                <td className="px-6 py-4">&nbsp;</td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
-        </div>
 
+            <div className="flex justify-center mt-4 pb-3">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                    <button
+                        key={pageNumber}
+                        onClick={() => setCurrentPage(pageNumber)}
+                        className={`px-4 py-2 mx-1 text-sm font-medium text-white ${pageNumber === currentPage ? "bg-orange-400" : "bg-gray-500"
+                            } rounded hover:bg-orange-500`}
+                    >
+                        {pageNumber}
+                    </button>
+                ))}
+            </div>
+        </div>
     );
 };
 
