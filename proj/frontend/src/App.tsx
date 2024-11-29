@@ -4,7 +4,7 @@ import HomePage from "./Pages/HomePage";
 import UserPage from "./Pages/UserPage";
 import SettingsPage from "./Pages/SettingsPage";
 import RestaurantStatistics from "./Pages/RestaurantStatistics";
-import ChainFoodPage from "./Pages/ChainFoodPage";
+import ChainFoodPage from "./Pages/FoodChainPage";
 import LoginPage from "./Pages/LoginPage";
 import UserForm from "./Pages/UserForm";
 

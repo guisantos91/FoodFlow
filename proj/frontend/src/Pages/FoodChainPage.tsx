@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout.tsx";
 import Map from "../components/Map.tsx";
 import axios from "axios";
-import Sidebar from "../components/SideBar";
+import Sidebar from "../components/SideBar.tsx";
 import * as L from "leaflet"; 
 import { useParams } from "react-router-dom";
-import DonutChartToChainFood from "../components/Statistics/DonutChartToChainFood.tsx";
+// import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 
-const ChainFoodPage: React.FC = ({}) => {
+const FoodChainPage: React.FC = ({}) => {
   const { id } = useParams<{ id: string }>();
   const foodChainID = Number(id);
   console.log(foodChainID);
@@ -177,7 +177,7 @@ const ChainFoodPage: React.FC = ({}) => {
                 />
               </div>
             </div>
-            <DonutChartToChainFood foodChainID={foodChainID} />
+            {/* <DonutChartToFoodChain foodChainID={foodChainID} /> */}
           </div>
         </div>
         <Sidebar
@@ -191,4 +191,4 @@ const ChainFoodPage: React.FC = ({}) => {
   );
 };
 
-export default ChainFoodPage;
+export default FoodChainPage;

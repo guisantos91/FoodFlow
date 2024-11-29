@@ -10,7 +10,7 @@ interface DonutChartProps{
     foodChainID:number;
 }
 
-const DonutChartToChainFood = ({foodChainID}:DonutChartProps) => {
+const DonutChartToFoodChain = ({foodChainID}:DonutChartProps) => {
 const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
            
     useEffect(() => {
@@ -46,4 +46,4 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     return ( <DonutChart data={donutGraphData} colorMapping={colorMapping} />)
 }
 
-export default DonutChartToChainFood;
+export default DonutChartToFoodChain;
