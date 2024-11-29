@@ -17,15 +17,15 @@ cadeias = [
 
 
 restaurantes = [
-    (1, "McDonald's Pingo Doce", "Rua Feira Hipermercados, 3800-000 Aveiro", 40.6519812362783, -8.620476728835527, 1),
-    (2, "McDonald's Universidade", "Rua das Pombas, 3810-150 Aveiro", 40.63260134516651, -8.649728523856686, 1),
-    (3, "Burger King Forum", "Forum Aveiro, 3800-000 Aveiro", 40.638333, -8.653679, 2),
-    (4, "Burger King Glicínias", "Av. Dr. Lourenço Peixinho, 3800-000 Aveiro", 40.643154, -8.650535, 2),
-    (5, "KFC Centro", "Rua de Coimbra, 3000-000 Coimbra", 40.205641, -8.419551, 3),
-    (6, "Pizza Hut NorteShopping", "R. Sara Afonso 105, 4460-841 Porto", 41.176760, -8.623547, 4),
-    (7, "Taco Bell Lisboa", "Rua Augusta 100, 1100-053 Lisboa", 38.710507, -9.137789, 5),
-    (8, "Domino's Porto Centro", "Rua de Santa Catarina, 4000-000 Porto", 41.1485, -8.611, 6),
-    (9, "Telepizza Faro", "R. de Faro 50, 8000-000 Faro", 37.0194, -7.93044, 7)
+    (1, "McDonald's Pingo Doce", "Rua Feira Hipermercados, 3800-000 Aveiro", 40.6519812362783, -8.620476728835527, 1, 2),
+    (2, "McDonald's Universidade", "Rua das Pombas, 3810-150 Aveiro", 40.63260134516651, -8.649728523856686, 1, 3),
+    (3, "Burger King Forum", "Forum Aveiro, 3800-000 Aveiro", 40.638333, -8.653679, 2, 4),
+    (4, "Burger King Glicínias", "Av. Dr. Lourenço Peixinho, 3800-000 Aveiro", 40.643154, -8.650535, 2, 5),
+    (5, "KFC Centro", "Rua de Coimbra, 3000-000 Coimbra", 40.205641, -8.419551, 3, 3),
+    (6, "Pizza Hut NorteShopping", "R. Sara Afonso 105, 4460-841 Porto", 41.176760, -8.623547, 4, 2),
+    (7, "Taco Bell Lisboa", "Rua Augusta 100, 1100-053 Lisboa", 38.710507, -9.137789, 5, 4),
+    (8, "Domino's Porto Centro", "Rua de Santa Catarina, 4000-000 Porto", 41.1485, -8.611, 6, 5),
+    (9, "Telepizza Faro", "R. de Faro 50, 8000-000 Faro", 37.0194, -7.93044, 7, 2),
 ]
 
 
@@ -51,8 +51,11 @@ senha = "123456789"
 hashed = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
 
 users = [
-    (1, "Alice", "Green","ADMIN", "alice@gmail.com", "1980-01-01", hashed.decode('utf-8')),
-    (2, "Bob", "Brown","MANAGER", "bob@gmail.com", "1980-01-02", hashed.decode('utf-8')),
+    (1, "Alice", "Green", "ADMIN", "alice@gmail.com", "1980-01-01", hashed.decode('utf-8')),
+    (2, "Bob", "Brown", "MANAGER", "bob@gmail.com", "1980-01-02", hashed.decode('utf-8')),
+    (3, "Charlie", "Smith", "MANAGER", "charlie@gmail.com", "1985-05-10", hashed.decode('utf-8')),
+    (4, "Diana", "Jones", "MANAGER", "diana@gmail.com", "1990-11-22", hashed.decode('utf-8')),
+    (5, "Eve", "Williams", "MANAGER", "eve@gmail.com", "1987-03-15", hashed.decode('utf-8')),
 ]
 
 
@@ -68,11 +71,27 @@ cursor = conn.cursor()
 
 
 def inserir_dados():
-    cursor.executemany("INSERT INTO foodchain (id, name, food_type) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING", cadeias)
-    cursor.executemany("INSERT INTO restaurant (id, name, address, latitude, longitude, foodchain_id) VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", restaurantes)
+    cursor.executemany(
+        "INSERT INTO foodchain (id, name, food_type) VALUES (%s, %s, %s) ON CONFLICT (id) DO NOTHING", 
+        cadeias
+    )
+    cursor.executemany(
+        "INSERT INTO app_user (id, fname, lname, user_type, email, birth_date, password) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", 
+        users
+    )
+    cursor.executemany(
+        """
+        INSERT INTO restaurant (id, name, address, latitude, longitude, foodchain_id, manager_id) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING
+        """, 
+        restaurantes
+    )
     for menu_id, (nome, price, cadeia_id) in menus.items():
-        cursor.execute("INSERT INTO menu (id, name, price, foodchain_id) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", (menu_id, nome, price, cadeia_id))
-    cursor.executemany("INSERT INTO app_user (id, fname, lname,user_type, email, birth_date, password) VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", users)
+        cursor.execute(
+            "INSERT INTO menu (id, name, price, foodchain_id) VALUES (%s, %s, %s, %s) ON CONFLICT (id) DO NOTHING", 
+            (menu_id, nome, price, cadeia_id)
+        )
+
     conn.commit()
 
 

@@ -19,31 +19,15 @@ interface Restaurant {
     id: number;
     name: string;
     foodchain: FoodChain;
-    manager: number | null;
+    manager: Manager | null;
 }
 
 const AdminTable: React.FC = () => {
-    const [managers, setManagers] = React.useState<Manager[]>([]);
     const [restaurants, setRestaurants] = React.useState<Restaurant[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
-    useEffect(() => {
-        const fetchManagers = async () => {
-            try {
-                const baseUrl = 'http://localhost:8080/api/v1/admin';
-                const response = await axios.get(`${baseUrl}/managers `, {
-                    withCredentials: true,
-                });
-                setManagers(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error("Failed to fetch managers: ", error);
-            }
-        };
-        fetchManagers();
-    }, []);
 
     useEffect(() => {
         const fetchRestaurants = async () => {
@@ -64,6 +48,28 @@ const AdminTable: React.FC = () => {
 
         fetchRestaurants();
     }, []);
+
+    const handleDelete = async (managerId: number | null) => {
+        if (!managerId) return;
+
+        try {
+            await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
+                withCredentials: true,
+            });
+            alert("Manager deleted successfully");
+
+            setRestaurants((prev) =>
+                prev.map((restaurant) =>
+                    restaurant.manager?.id === managerId
+                        ? { ...restaurant, manager: null }
+                        : restaurant
+                )
+            );
+        } catch (err) {
+            console.error("Error deleting manager:", err);
+            alert("Failed to delete manager");
+        }
+    };
 
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -99,7 +105,7 @@ const AdminTable: React.FC = () => {
                             className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="px-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {managers.find((manager) => manager.id === restaurant.manager)?.fname}
+                                {restaurant.manager && restaurant.manager.fname+' '+restaurant.manager.lname}
                             </td>
                             <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
                                 <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
@@ -108,7 +114,7 @@ const AdminTable: React.FC = () => {
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
                                     <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" />
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => handleDelete(restaurant.manager?.id || null)} />
                                 </div>
                             </td>
                         </tr>
