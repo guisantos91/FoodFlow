@@ -50,10 +50,12 @@ public class ManagerForm {
 	@NotBlank
 	private String password;
 
+	private String state;
+
 	public ManagerForm() {
 	}
 
-	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password, Date birthDate) {
+	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password, Date birthDate, String state) {
 		this.foodchain = foodchain;
 		this.fname = fname;
 		this.lname = lname;
@@ -65,6 +67,7 @@ public class ManagerForm {
 		this.restaurantEndpoint = restaurantEndpoint;
 		this.password = password;
 		this.birthDate = birthDate;
+		this.state = state;
 	}
 
 	public Long getId() {
@@ -115,6 +118,10 @@ public class ManagerForm {
 		return birthDate;
 	}
 
+	public String getState() {
+		return state;
+	}
+
 	public void setFoodchain(Foodchain foodchain) {
 		this.foodchain = foodchain;
 	}
@@ -157,5 +164,9 @@ public class ManagerForm {
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

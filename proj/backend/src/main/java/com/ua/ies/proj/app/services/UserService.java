@@ -59,12 +59,32 @@ public class UserService {
         return updatedManager;
     }
 
+    public ManagerForm updateForm(Long form_id, ManagerForm form){
+        ManagerForm existingForm = managerFormRepository.findById(form_id).get();
+        existingForm.setFname(form.getFname());
+        existingForm.setLname(form.getLname());
+        existingForm.setEmail(form.getEmail());
+        existingForm.setPassword(form.getPassword());
+        existingForm.setBirthDate(form.getBirthDate());
+        existingForm.setRestaurantName(form.getRestaurantName());
+        existingForm.setRestaurantAddress(form.getRestaurantAddress());
+        existingForm.setLatitude(form.getLatitude());
+        existingForm.setLongitude(form.getLongitude());
+        existingForm.setFoodchain(form.getFoodchain());
+        ManagerForm updatedForm = managerFormRepository.save(existingForm);
+        return updatedForm;
+    }
+
 
     public ManagerForm addForm(ManagerForm form) {
+        form.setState("pending");
         return managerFormRepository.save(form);
     }
 
-    public List<ManagerForm> getForms() {
+    public List<ManagerForm> getForms(String state) {
+        if (state != null) {
+            return managerFormRepository.findByState(state);
+        }
         return managerFormRepository.findAll();
     }
 
@@ -82,6 +102,10 @@ public class UserService {
     }
 
     public void approveForm(ManagerForm form) {
+        ManagerForm existingForm = managerFormRepository.findById(form.getId()).get();
+        existingForm.setState("accepted");
+        managerFormRepository.save(existingForm);
+
         UserManager manager = new UserManager();
         manager.setFname(form.getFname());
         manager.setLname(form.getLname());
