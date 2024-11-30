@@ -65,7 +65,8 @@ const PendingTable = ({name}:managerName) => {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
             const response = axios.put(`${baseUrl}/forms/${formId}`,
                 newForm, 
-                { withCredentials: true });
+                { withCredentials: true }
+            );
             console.log(response);
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {

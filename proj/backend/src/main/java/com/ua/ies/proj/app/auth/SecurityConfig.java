@@ -87,7 +87,7 @@ public class SecurityConfig{
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/v1/**")
                 .allowedOrigins("http://"+ORIGIN_NETWORK+":"+ORIGIN_PORT)
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
             }
