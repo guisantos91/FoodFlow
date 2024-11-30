@@ -3,9 +3,17 @@ import AdminTable from '../components/Statistics/AdminTable';
 import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
     const [searchName, setSearchName] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleNavigation = () => {
+        navigate('/requests');
+    };
+
     return (
         <Layout>
             <div className="bg-white min-h-screen py-10 px-20">
@@ -44,7 +52,7 @@ const AdminPage = () => {
                     </div>
 
                     <div>
-                        <button className="bg-orange-500 text-white text-lg px-10 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all">
+                        <button className="bg-orange-500 text-white text-lg px-10 py-2 rounded-lg shadow-md hover:bg-orange-600 transition-all" onClick={handleNavigation} >
                             See Requests
                         </button>
                     </div>

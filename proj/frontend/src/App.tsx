@@ -9,6 +9,7 @@ import LoginPage from "./Pages/LoginPage";
 import UserForm from "./Pages/UserForm";
 import ManagerForm from "./Pages/ManagerFormPage";
 import AdminPage from "./Pages/AdminPage";
+import Requests from "./Pages/RequestPage";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/form/:formId" element={<UserForm />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/requests" element={<Requests />} />
         </Routes>
       </Layout>
     </Router>
