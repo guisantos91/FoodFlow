@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
-import EditSVG from '../../assets/images/icons/edit.svg';
-import DeleteSVG from '../../assets/images/icons/delete.svg';
+import EditSVG from '../../assets/images/icons/edit-button.svg';
+import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 
-interface managerName{
-    name:string;
+interface managerName {
+    name: string;
 }
 
 interface FoodChain {
@@ -14,7 +14,7 @@ interface FoodChain {
 }
 
 interface Form {
-    id: number; 
+    id: number;
     foodchain: FoodChain;
     fname: string;
     lname: string;
@@ -26,9 +26,9 @@ interface Form {
     // longitude: number;
     restaurantEndpoint: string;
     // password: string;
-  }
+}
 
-const AdminTable = ({name}:managerName) => {
+const AdminTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<Form[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,10 +45,10 @@ const AdminTable = ({name}:managerName) => {
                 //     return { ...restaurant, manager: 2 }; // change later
                 // });
                 const filteredForms = response.data.filter(
-                    (form: Form) => (  !name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
-                  );
-          
-                  setForms(filteredForms);
+                    (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                );
+
+                setForms(filteredForms);
             } catch (err) {
                 console.error("Error fetching Forms:", err);
             }
@@ -114,7 +114,7 @@ const AdminTable = ({name}:managerName) => {
                             className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="px-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {restaurant.fname+' '+restaurant.lname}
+                                {restaurant.fname + ' ' + restaurant.lname}
                             </td>
                             <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
                                 <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
@@ -123,7 +123,7 @@ const AdminTable = ({name}:managerName) => {
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
                                     <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" 
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer"
                                     // onClick={() => handleDelete(restaurant.manager?.id || null)} 
                                     />
                                 </div>
