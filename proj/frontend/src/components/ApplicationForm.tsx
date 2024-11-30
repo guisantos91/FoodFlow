@@ -64,7 +64,7 @@ export function ApplicationForm({ handleSubmit }: { handleSubmit: (formData: any
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-        <div className="flex items-center justify-center mt-8 rounded-3xl w-1/2 shadow-lg bg-gray-200">
+        <div className="flex items-center justify-center mt-8 rounded-3xl w-2/3 shadow-lg bg-gray-200">
             <form className="flex w-full flex-col gap-6 mt-8 mb-4" onSubmit={onSubmit} >
                 <div className="flex flex-col border-b-2 border-gray-400">
                     <h2 className="flex text-2xl font-bold mb-2 ml-12">Apply for Manager</h2>
