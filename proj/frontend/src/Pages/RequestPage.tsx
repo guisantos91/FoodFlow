@@ -3,6 +3,7 @@ import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
 import { Tabs } from "flowbite-react";
+import PendingTable from "../components/Statistics/PendingTable";
 
 const Requests = () => {
     const [searchName, setSearchName] = useState("");
@@ -23,30 +24,30 @@ const Requests = () => {
                     </div>
                 </div>
 
-                <div className="relative flex items-center justify-between mr-40 ml-20 mt-10">
-                    <Tabs className="mt-10" aria-label="Default tabs" variant="default">
+                <div className="mr-40 ml-20 mt-20">
+                    <Tabs className="" aria-label="Default tabs" variant="default">
                         <Tabs.Item active title="Pending">
-                            
+                            <PendingTable name={searchName} />
                         </Tabs.Item>
                         <Tabs.Item title="Rejected">
                             
                         </Tabs.Item>
                     </Tabs>
+                </div>
 
-                    <div className="relative flex items-center mb-6">
-                        <img
-                            src={SearchSVG}
-                            alt="Search"
-                            className="absolute left-3 w-6 h-6"
-                        />
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-64 bg-gray-100 text-black placeholder-black"
-                            value={searchName}
-                            onChange={(e) => setSearchName(e.target.value)}
-                        />
-                    </div>
+                <div className="relative flex items-center mb-6">
+                    <img
+                        src={SearchSVG}
+                        alt="Search"
+                        className="absolute left-3 w-6 h-6"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-64 bg-gray-100 text-black placeholder-black"
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                    />
                 </div>
 
                 <div className="flex justify-center items-center">

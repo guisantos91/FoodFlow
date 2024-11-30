@@ -56,13 +56,18 @@ const PendingTable = ({name}:managerName) => {
 
     const handleAccept = (formId: number) => {
         const form = forms.find((form) => form.id === formId);
-        const newForm = { ...form, state: "approved" };
+        if (!form) {
+            console.error("Form not found");
+            return;
+        }
+        const newForm = { ...form, state: "accepted" };
         try {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
             const response = axios.put(`${baseUrl}/forms/${formId}`,
                 newForm, 
                 { withCredentials: true });
             console.log(response);
+            setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {
             console.error("Failed to accept form:", error);
         }
@@ -70,13 +75,18 @@ const PendingTable = ({name}:managerName) => {
 
     const handleReject = (formId: number) => {
         const form = forms.find((form) => form.id === formId);
-        const newForm = { ...form, state: "rejected" };
+        if (!form) {
+            console.error("Form not found");
+            return;
+        }
+        const newForm = { ...form, state: "declined" };
         try {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
             const response = axios.put(`${baseUrl}/forms/${formId}`, 
                 newForm,
                 { withCredentials: true });
             console.log(response);
+            setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {
             console.error("Failed to reject form:", error);
         }
