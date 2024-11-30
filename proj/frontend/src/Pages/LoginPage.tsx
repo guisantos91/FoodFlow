@@ -8,6 +8,10 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const handleNavigation = () => {
+      navigate('/managerForm');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -62,7 +66,7 @@ const LoginPage: React.FC = () => {
             {error && <p className="text-red-500 mb-2">{error}</p>}
             <button type="submit" className="btn w-full mt-10 bg-orange-500 text-white border-orange-500 rounded-3xl text-base hover:text-orange-500">Login</button>
           </form>
-          <button className="btn w-full mt-4 bg-white text-orange-500 border-orange-500 border-2 rounded-3xl text-base">Become a Manager</button>
+          <button className="btn w-full mt-4 bg-white text-orange-500 border-orange-500 border-2 rounded-3xl text-base" onClick={handleNavigation} >Become a Manager</button>
         </div>
       </div>
     </div>
