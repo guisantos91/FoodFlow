@@ -3,6 +3,7 @@ import AdminTable from '../components/Statistics/AdminTable';
 import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
+import DeclinedTable from '../components/Statistics/DeclinedTable';
 import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
@@ -46,7 +47,7 @@ const AdminPage = () => {
                                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6"
                             />
                         </div>
-                        <button className="text-orange-500 font-medium hover:underline text-xl" onClick={()=>{setSearchName("")}}>
+                        <button className="text-orange-500 font-medium hover:underline text-xl" onClick={() => { setSearchName("") }}>
                             See All
                         </button>
                     </div>
@@ -59,7 +60,11 @@ const AdminPage = () => {
                 </div>
 
                 <div className="flex justify-center items-center">
-                    <AdminTable name={searchName}/>
+                    <AdminTable name={searchName} />
+                </div>
+
+                <div className='flex justify-center items-center mt-20'>
+                    <DeclinedTable name={searchName} />
                 </div>
             </div>
         </Layout>
