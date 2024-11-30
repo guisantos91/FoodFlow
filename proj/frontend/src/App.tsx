@@ -7,6 +7,7 @@ import RestaurantStatistics from "./Pages/RestaurantStatistics";
 import ChainFoodPage from "./Pages/FoodChainPage";
 import LoginPage from "./Pages/LoginPage";
 import UserForm from "./Pages/UserForm";
+import ManagerForm from "./Pages/ManagerFormPage";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/foodChain/:id" element={<ChainFoodPage />} />
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/form/:formId" element={<UserForm/>}/>
+          <Route path="/managerForm" element={<ManagerForm/>}/>
         </Routes>
       </Layout>
     </Router>
