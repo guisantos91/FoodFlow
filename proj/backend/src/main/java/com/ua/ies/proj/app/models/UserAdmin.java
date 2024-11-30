@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("ADMIN")
 public class UserAdmin extends User {
     public UserAdmin() {
+        super();
     }
 
     public UserAdmin(String fname, String lname, String email, String password, Date birthDate) {
