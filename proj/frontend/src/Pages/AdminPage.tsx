@@ -4,7 +4,6 @@ import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DeclinedTable from '../components/Statistics/DeclinedTable';
 
 const AdminPage = () => {
     const [searchName, setSearchName] = useState("");
@@ -61,10 +60,6 @@ const AdminPage = () => {
 
                 <div className="flex justify-center items-center">
                     <AdminTable name={searchName} />
-                </div>
-
-                <div className='flex justify-center items-center mt-20'>
-                    <DeclinedTable name={searchName} />
                 </div>
             </div>
         </Layout>
