@@ -50,10 +50,13 @@ const Requests = () => {
                                     See All
                                 </button>
                             </div>
+
                             <div className="flex justify-center">
                                 <PendingTable name={searchName} />
                             </div>
+                            
                         </Tabs.Item>
+
                         <Tabs.Item title="Rejected">
                             <div className="flex justify-center items-center space-x-4 mb-6">
                                 <div className="relative w-1/2">
@@ -77,9 +80,11 @@ const Requests = () => {
                                     See All
                                 </button>
                             </div>
+
                             <div className="flex justify-center">
                                 <DeclinedTable name={searchName} />
                             </div>
+
                         </Tabs.Item>
                     </Tabs>
                 </div>
