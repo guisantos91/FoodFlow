@@ -5,7 +5,6 @@ import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DeclinedTable from '../components/Statistics/DeclinedTable';
-import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
     const [searchName, setSearchName] = useState("");

@@ -30,7 +30,6 @@ interface Form {
 
 const DeclinedTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<Form[]>([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
@@ -41,13 +40,9 @@ const DeclinedTable = ({ name }: managerName) => {
                 const response = await axios.get(`${baseUrl}/forms?state=declined`, {
                     withCredentials: true,
                 });
-                // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
-                //     return { ...restaurant, manager: 2 }; // change later
-                // });
                 const filteredForms = response.data.filter(
                     (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
-
                 setForms(filteredForms);
             } catch (err) {
                 console.error("Error fetching Forms:", err);
@@ -57,54 +52,55 @@ const DeclinedTable = ({ name }: managerName) => {
         fetchForms();
     }, [name]);
 
-
     const handleDelete = async (managerFormId: number | null) => {
         if (!managerFormId) return;
 
-        const newForm = {
-            ...forms.find((form) => form.id === managerFormId),
-            state: "deleted",
-        };
+        const formToUpdate = forms.find((form) => form.id === managerFormId);
+        if (!formToUpdate) {
+            console.error("Form not found");
+            return;
+        }
+
+        const newForm = { ...formToUpdate, state: "deleted" };
 
         try {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = await axios.put(`${baseUrl}/managers/${managerFormId}`, { newForm }, {
-                withCredentials: true,
-            });
+            const response = await axios.put(
+                `${baseUrl}/forms/${managerFormId}`,
+                newForm,
+                { withCredentials: true }
+            );
+            console.log("Delete response:", response.data);
 
-            console.log(response.data);
-
-            setForms(forms.filter((form) => form.id !== managerFormId));
-
-            console.log();
-
-        } catch (err) {
-            console.error("Error deleting manager:", err);
+            setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
+        } catch (error) {
+            console.error("Failed to reject form:", error);
         }
     };
 
     const handlePending = async (managerFormId: number | null) => {
         if (!managerFormId) return;
 
-        const newForm = {
-            ...forms.find((form) => form.id === managerFormId),
-            state: "pending",
-        };
+        const formToUpdate = forms.find((form) => form.id === managerFormId);
+        if (!formToUpdate) {
+            console.error("Form not found");
+            return;
+        }
 
-        console.log(newForm);
+        const newForm = { ...formToUpdate, state: "pending" };
 
         try {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = await axios.put(`${baseUrl}/managers/${managerFormId} `, { newForm }, {
-                withCredentials: true,
-            });
+            const response = await axios.put(
+                `${baseUrl}/forms/${managerFormId}`,
+                newForm,
+                { withCredentials: true }
+            );
+            console.log("Pending response:", response.data);
 
-            console.log(response.data);
-            setForms(forms.filter((form) => form.id !== managerFormId));
-            // setForms((prev) => prev.filter((form) => form.id !== managerFormId));
-
-        } catch (err) {
-            console.error("Error pending manager:", err);
+            setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
+        } catch (error) {
+            console.error("Failed to reject form:", error);
         }
     };
 
@@ -150,17 +146,22 @@ const DeclinedTable = ({ name }: managerName) => {
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={ArrowBack} alt="Edit" className="w-5 h-5 cursor-pointer"
+                                    <img
+                                        src={ArrowBack}
+                                        alt="Edit"
+                                        className="w-5 h-5 cursor-pointer"
                                         onClick={() => handlePending(form.id)}
                                     />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer"
+                                    <img
+                                        src={DeleteSVG}
+                                        alt="Delete"
+                                        className="w-5 h-5 cursor-pointer"
                                         onClick={() => handleDelete(form.id)}
                                     />
                                 </div>
                             </td>
                         </tr>
                     ))}
-
                     {currentForms.length < rowsPerPage &&
                         Array.from({ length: rowsPerPage - currentForms.length }).map((_, index) => (
                             <tr key={`empty-${index}`} className="bg-white">

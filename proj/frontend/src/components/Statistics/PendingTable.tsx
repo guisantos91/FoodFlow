@@ -7,7 +7,7 @@ import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
 
 interface managerName {
-    name:string;
+    name: string;
 }
 
 interface FoodChain {
@@ -16,15 +16,15 @@ interface FoodChain {
 }
 
 interface Form {
-    id: number; 
+    id: number;
     foodchain: FoodChain;
     fname: string;
     lname: string;
     restaurantName: string;
     restaurantEndpoint: string;
- }
+}
 
-const PendingTable = ({name}:managerName) => {
+const PendingTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<Form[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -39,12 +39,12 @@ const PendingTable = ({name}:managerName) => {
                 const response = await axios.get(`${baseUrl}/forms?state=pending`, {
                     withCredentials: true,
                 });
-                
+
                 const filteredForms = response.data.filter(
-                    (form: Form) => (  !name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                    (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
-          
-                  setForms(filteredForms);
+
+                setForms(filteredForms);
             } catch (err) {
                 console.error("Error fetching Forms:", err);
             }
@@ -52,6 +52,8 @@ const PendingTable = ({name}:managerName) => {
 
         fetchForms();
     }, [name]);
+
+    console.log(forms);
 
 
     const handleAccept = (formId: number) => {
@@ -63,8 +65,8 @@ const PendingTable = ({name}:managerName) => {
         const newForm = { ...form, state: "accepted" };
         try {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = axios.put(`${baseUrl}/forms/${formId}`,
-                newForm, 
+            const response = axios.post(`${baseUrl}/managers`,
+                newForm,
                 { withCredentials: true }
             );
             console.log(response);
@@ -83,7 +85,7 @@ const PendingTable = ({name}:managerName) => {
         const newForm = { ...form, state: "declined" };
         try {
             const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = axios.put(`${baseUrl}/forms/${formId}`, 
+            const response = axios.put(`${baseUrl}/forms/${formId}`,
                 newForm,
                 { withCredentials: true });
             console.log(response);
@@ -131,7 +133,7 @@ const PendingTable = ({name}:managerName) => {
                             className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="px-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {restaurant.fname+' '+restaurant.lname}
+                                {restaurant.fname + ' ' + restaurant.lname}
                             </td>
                             <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
                                 <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
