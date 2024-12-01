@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
-import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
+import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
 
 interface managerName {
     name: string;
@@ -18,19 +18,18 @@ interface Form {
     foodchain: FoodChain;
     fname: string;
     lname: string;
-    // email: string;
-    // birthDate: string;
+    email: string;
+    birthDate: string;
     restaurantName: string;
-    // restaurantAddress: string;
-    // latitude: number;
-    // longitude: number;
+    restaurantAddress: string;
+    latitude: number;
+    longitude: number;
     restaurantEndpoint: string;
-    // password: string;
+    password: string;
 }
 
-const AdminTable = ({ name }: managerName) => {
+const DeclinedTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<Form[]>([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
@@ -38,16 +37,12 @@ const AdminTable = ({ name }: managerName) => {
         const fetchForms = async () => {
             try {
                 const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms?state=accepted`, {
+                const response = await axios.get(`${baseUrl}/forms?state=declined`, {
                     withCredentials: true,
                 });
-                // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
-                //     return { ...restaurant, manager: 2 }; // change later
-                // });
                 const filteredForms = response.data.filter(
                     (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
-
                 setForms(filteredForms);
             } catch (err) {
                 console.error("Error fetching Forms:", err);
@@ -57,28 +52,57 @@ const AdminTable = ({ name }: managerName) => {
         fetchForms();
     }, [name]);
 
+    const handleDelete = async (managerFormId: number | null) => {
+        if (!managerFormId) return;
 
-    // const handleDelete = async (managerId: number | null) => {
-    //     if (!managerId) return;
+        const formToUpdate = forms.find((form) => form.id === managerFormId);
+        if (!formToUpdate) {
+            console.error("Form not found");
+            return;
+        }
 
-    //     try {
-    //         await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
-    //             withCredentials: true,
-    //         });
-    //         alert("Manager deleted successfully");
+        const newForm = { ...formToUpdate, state: "deleted" };
 
-    //         setRestaurants((prev) =>
-    //             prev.map((restaurant) =>
-    //                 restaurant.manager?.id === managerId
-    //                     ? { ...restaurant, manager: null }
-    //                     : restaurant
-    //             )
-    //         );
-    //     } catch (err) {
-    //         console.error("Error deleting manager:", err);
-    //         alert("Failed to delete manager");
-    //     }
-    // };
+        try {
+            const baseUrl = `http://localhost:8080/api/v1/admin`;
+            const response = await axios.put(
+                `${baseUrl}/forms/${managerFormId}`,
+                newForm,
+                { withCredentials: true }
+            );
+            console.log("Delete response:", response.data);
+
+            setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
+        } catch (error) {
+            console.error("Failed to reject form:", error);
+        }
+    };
+
+    const handlePending = async (managerFormId: number | null) => {
+        if (!managerFormId) return;
+
+        const formToUpdate = forms.find((form) => form.id === managerFormId);
+        if (!formToUpdate) {
+            console.error("Form not found");
+            return;
+        }
+
+        const newForm = { ...formToUpdate, state: "pending" };
+
+        try {
+            const baseUrl = `http://localhost:8080/api/v1/admin`;
+            const response = await axios.put(
+                `${baseUrl}/forms/${managerFormId}`,
+                newForm,
+                { withCredentials: true }
+            );
+            console.log("Pending response:", response.data);
+
+            setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
+        } catch (error) {
+            console.error("Failed to reject form:", error);
+        }
+    };
 
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -108,29 +132,36 @@ const AdminTable = ({ name }: managerName) => {
                     }}
                     className="bg-white"
                 >
-                    {currentForms.map((restaurant) => (
+                    {currentForms.map((form) => (
                         <tr
-                            key={restaurant.id}
+                            key={form.id}
                             className="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
                             <td className="px-12 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {restaurant.fname + ' ' + restaurant.lname}
+                                {form.fname + ' ' + form.lname}
                             </td>
                             <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
                                 <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
-                                <span>{restaurant.restaurantName}</span>
+                                <span>{form.restaurantName}</span>
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer"
-                                    // onClick={() => handleDelete(restaurant.manager?.id || null)} 
+                                    <img
+                                        src={ArrowBack}
+                                        alt="Edit"
+                                        className="w-5 h-5 cursor-pointer"
+                                        onClick={() => handlePending(form.id)}
+                                    />
+                                    <img
+                                        src={DeleteSVG}
+                                        alt="Delete"
+                                        className="w-5 h-5 cursor-pointer"
+                                        onClick={() => handleDelete(form.id)}
                                     />
                                 </div>
                             </td>
                         </tr>
                     ))}
-
                     {currentForms.length < rowsPerPage &&
                         Array.from({ length: rowsPerPage - currentForms.length }).map((_, index) => (
                             <tr key={`empty-${index}`} className="bg-white">
@@ -158,4 +189,4 @@ const AdminTable = ({ name }: managerName) => {
     );
 };
 
-export default AdminTable;
+export default DeclinedTable;

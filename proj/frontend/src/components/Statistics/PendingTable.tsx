@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
-import EditSVG from '../../assets/images/icons/edit-button.svg';
-import DeleteSVG from '../../assets/images/icons/delete-button.svg';
+import tick from '../../assets/images/icons/checkmark.png';
+import cross from '../../assets/images/icons/cross.png';
+import eye from '../../assets/images/icons/visible.png';
+import { useNavigate } from 'react-router-dom';
 
 interface managerName {
     name: string;
@@ -18,32 +20,26 @@ interface Form {
     foodchain: FoodChain;
     fname: string;
     lname: string;
-    // email: string;
-    // birthDate: string;
     restaurantName: string;
-    // restaurantAddress: string;
-    // latitude: number;
-    // longitude: number;
     restaurantEndpoint: string;
-    // password: string;
 }
 
-const AdminTable = ({ name }: managerName) => {
+const PendingTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<Form[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchForms = async () => {
             try {
                 const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms?state=accepted`, {
+                const response = await axios.get(`${baseUrl}/forms?state=pending`, {
                     withCredentials: true,
                 });
-                // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
-                //     return { ...restaurant, manager: 2 }; // change later
-                // });
+
                 const filteredForms = response.data.filter(
                     (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
@@ -57,28 +53,51 @@ const AdminTable = ({ name }: managerName) => {
         fetchForms();
     }, [name]);
 
+    console.log(forms);
 
-    // const handleDelete = async (managerId: number | null) => {
-    //     if (!managerId) return;
 
-    //     try {
-    //         await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
-    //             withCredentials: true,
-    //         });
-    //         alert("Manager deleted successfully");
+    const handleAccept = (formId: number) => {
+        const form = forms.find((form) => form.id === formId);
+        if (!form) {
+            console.error("Form not found");
+            return;
+        }
+        const newForm = { ...form, state: "accepted" };
+        try {
+            const baseUrl = `http://localhost:8080/api/v1/admin`;
+            const response = axios.post(`${baseUrl}/managers`,
+                newForm,
+                { withCredentials: true }
+            );
+            console.log(response);
+            setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
+        } catch (error) {
+            console.error("Failed to accept form:", error);
+        }
+    };
 
-    //         setRestaurants((prev) =>
-    //             prev.map((restaurant) =>
-    //                 restaurant.manager?.id === managerId
-    //                     ? { ...restaurant, manager: null }
-    //                     : restaurant
-    //             )
-    //         );
-    //     } catch (err) {
-    //         console.error("Error deleting manager:", err);
-    //         alert("Failed to delete manager");
-    //     }
-    // };
+    const handleReject = (formId: number) => {
+        const form = forms.find((form) => form.id === formId);
+        if (!form) {
+            console.error("Form not found");
+            return;
+        }
+        const newForm = { ...form, state: "declined" };
+        try {
+            const baseUrl = `http://localhost:8080/api/v1/admin`;
+            const response = axios.put(`${baseUrl}/forms/${formId}`,
+                newForm,
+                { withCredentials: true });
+            console.log(response);
+            setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
+        } catch (error) {
+            console.error("Failed to reject form:", error);
+        }
+    };
+
+    const handleDetails = (formId: number) => {
+        navigate(`/form/${formId}`);
+    };
 
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -122,10 +141,9 @@ const AdminTable = ({ name }: managerName) => {
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer"
-                                    // onClick={() => handleDelete(restaurant.manager?.id || null)} 
-                                    />
+                                    <img src={tick} alt="Accept" className="w-5 h-5 cursor-pointer" onClick={() => handleAccept(restaurant.id)} />
+                                    <img src={cross} alt="Reject" className="w-5 h-5 cursor-pointer" onClick={() => handleReject(restaurant.id)} />
+                                    <img src={eye} alt="View Details" className="w-5 h-5 cursor-pointer" onClick={() => handleDetails(restaurant.id)} />
                                 </div>
                             </td>
                         </tr>
@@ -158,4 +176,4 @@ const AdminTable = ({ name }: managerName) => {
     );
 };
 
-export default AdminTable;
+export default PendingTable;
