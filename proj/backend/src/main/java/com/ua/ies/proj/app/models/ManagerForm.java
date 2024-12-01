@@ -28,8 +28,7 @@ public class ManagerForm {
 	@NotBlank
 	private String lname;
 
-	@Column(unique = true)
-	@NotBlank
+	@Column(unique = true, nullable = false)
 	private String email;
 
 	private Date birthDate;
@@ -41,10 +40,10 @@ public class ManagerForm {
 	private String restaurantAddress;
 
 	@NotNull
-	private float latitude;
+	private double latitude;
 
 	@NotNull
-	private float longitude;
+	private double longitude;
 
 	@NotBlank
 	private String restaurantEndpoint;
@@ -57,7 +56,7 @@ public class ManagerForm {
 	public ManagerForm() {
 	}
 
-	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password, Date birthDate, String state) {
+	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, double latitude, double longitude, String restaurantEndpoint, String password, Date birthDate, String state) {
 		this.foodchain = foodchain;
 		this.fname = fname;
 		this.lname = lname;
@@ -100,11 +99,11 @@ public class ManagerForm {
 		return restaurantAddress;
 	}
 
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 
@@ -148,11 +147,11 @@ public class ManagerForm {
 		this.restaurantAddress = restaurantAddress;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 

@@ -1,61 +1,33 @@
 package com.ua.ies.proj.app.models;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-@Entity(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderKafkaDTO {
     private Long id;
 
-    // This is the order_id that will be sent from the datagenerator
-    @Column(unique = true, nullable=false)
     private Long orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @NotNull
     private double price;
 
-    @NotBlank
     private String status;
 
-    @Column(name = "createdAt", nullable = false)
-    private Instant createdAt;
+    private String createdAt;
 
-    @ManyToMany
-    @JoinTable(
-        name = "order_items",
-        joinColumns = @JoinColumn(name = "order_id"), 
-        inverseJoinColumns = @JoinColumn(name = "menu_id") 
-    )
     private List<Menu> menus = new ArrayList<>();
        
-    public Order() {
+    public OrderKafkaDTO() {
     }
 
-    public Order(Restaurant restaurant, double price, String status, List<Menu> menus, Long orderId) {
+    public OrderKafkaDTO(Restaurant restaurant, double price, String status, List<Menu> menus, Long orderId, String createdAt) {
         this.restaurant = restaurant;
         this.price = price;
         this.status = status;
         this.menus = menus;
         this.orderId = orderId;
+        this.createdAt = createdAt;
     }
 
     public long getId() {
@@ -74,7 +46,7 @@ public class Order {
         return status;
     }
 
-    public Instant getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
@@ -98,7 +70,7 @@ public class Order {
         this.status = status;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -116,3 +88,4 @@ public class Order {
                 + price + ", restaurant=" + restaurant + ", status=" + status + "]";
     }
 }
+

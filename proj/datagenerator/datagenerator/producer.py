@@ -159,7 +159,7 @@ def insert_order():
     global order_id, orders
     order_id += 1
 
-    msg={"order_id":order_id, "restaurant_id":restaurant_id, "created_at":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
+    msg={"orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
     print(f"Msg: {msg}")
     topic=restaurantsTopic[restaurant_id]
     producer.send(topic, msg)
@@ -170,7 +170,7 @@ def insert_order():
 
     timeToNextState=[time.isoformat() for time in timeToNextState]
     
-    orders[str(order_id)]={ "restaurant_id":restaurant_id, "created_at":created_at.isoformat(), "price":total_price, "status":status,
+    orders[str(order_id)]={ "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
     "menus":[{"id":menu_id} for menu_id, quantity in items.items()],
      "timeToNextState":timeToNextState}
     
@@ -192,7 +192,7 @@ def nextState():
         time_to_next = datetime.fromisoformat(value["timeToNextState"][state])
         if time_to_next < datetime.now():
             value["status"]=states[state+1]
-            msg={"order_id":ID, "restaurant_id":value["restaurant_id"], "created_at":value["created_at"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
+            msg={"orderId":ID, "restaurant_id":value["restaurant_id"], "createdAt":value["createdAt"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
             print(f"Msg: {msg}")
             topic=restaurantsTopic[value["restaurant_id"]]
             producer.send(topic, msg)

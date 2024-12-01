@@ -29,8 +29,7 @@ public abstract class User {
     @NotBlank
     private String lname;
 
-    @Column(unique = true)
-    @NotBlank
+    @Column(unique = true, nullable = false)
     private String email;
 
     private Date birthDate;

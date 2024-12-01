@@ -16,18 +16,17 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    @NotBlank
+    @Column(unique = true, nullable = false)
     private String name;
 
     @NotBlank
     private String address;
 
     @NotNull
-    private float latitude;
+    private double latitude;
 
     @NotNull
-    private float longitude;
+    private double longitude;
 
     @ManyToOne
     @JoinColumn(name = "foodchain_id")
@@ -42,7 +41,7 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String name, String address, float latitude, float longitude, Foodchain foodchain, UserManager manager, String topic) {
+    public Restaurant(String name, String address, double latitude, double longitude, Foodchain foodchain, UserManager manager, String topic) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
@@ -64,11 +63,11 @@ public class Restaurant {
         return address;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -92,11 +91,11 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
