@@ -25,7 +25,7 @@ services:
       - kafka
     environment:
       JWT_KEY: ${JWT_KEY}
-      ORIGIN_NETWORK: ${HOST}
+      ORIGIN_NETWORK: ${FRONTEND_HOST}
       ORIGIN_PORT: ${FRONTEND_LOCAL_PORT}
       SPRING_APPLICATION_JSON: '{ 
         "spring.datasource.url"  : "jdbc:postgresql://database:$POSTGRES_DOCKER_PORT/$POSTGRES_DB",
@@ -70,14 +70,29 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:$ZOOKEEPER_DOCKER_PORT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:$KAFKA_LISTENER_PORT,PLAINTEXT_HOST://$HOST:$KAFKA_DOCKER_PORT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:$KAFKA_LISTENER_PORT,PLAINTEXT_HOST://$KAFKA_HOST:$KAFKA_DOCKER_PORT
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG_RETENTION_MS: 10000
       KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 5000
     restart: on-failure
+  
+  datagenerator:
+    build: 
+      context: ./datagenerator
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+      - backend
+    environment:
+      KAFKA_CONTAINER: kafka
+      KAFKA_LISTENER_PORT: $KAFKA_LISTENER_PORT
+    volumes:
+      - datagenereator_data:/app/data
+    restart: on-failure
 
 
 volumes:
   postgres_data:
+  datagenereator_data:

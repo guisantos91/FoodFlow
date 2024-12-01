@@ -2,6 +2,7 @@ package com.ua.ies.proj.app.models;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class ManagerForm {
 	@NotBlank
 	private String lname;
 
+	@Column(unique = true)
 	@NotBlank
 	private String email;
 

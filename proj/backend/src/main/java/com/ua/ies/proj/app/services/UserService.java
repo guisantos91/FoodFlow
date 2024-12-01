@@ -120,6 +120,7 @@ public class UserService {
         // Send to the publisher the restaurantEndpoint
         restaurant.setFoodchain(form.getFoodchain());
         restaurant.setManager(manager);
+        restaurant.setTopic(form.getRestaurantEndpoint());
         restaurantRepository.save(restaurant);
 
         form.setState("accepted");

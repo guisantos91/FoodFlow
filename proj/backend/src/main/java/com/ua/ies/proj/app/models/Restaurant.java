@@ -1,5 +1,6 @@
 package com.ua.ies.proj.app.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,7 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     @NotBlank
     private String name;
 
@@ -35,16 +37,19 @@ public class Restaurant {
     @JoinColumn(name = "manager_id")
     private UserManager manager;
 
+    private String topic;
+
     public Restaurant() {
     }
 
-    public Restaurant(String name, String address, float latitude, float longitude, Foodchain foodchain, UserManager manager) {
+    public Restaurant(String name, String address, float latitude, float longitude, Foodchain foodchain, UserManager manager, String topic) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.foodchain = foodchain;
         this.manager = manager;
+        this.topic = topic;
     }
 
     public Long getId() {
@@ -75,6 +80,10 @@ public class Restaurant {
         return manager;
     }
 
+    public String getTopic() {
+        return topic;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -97,5 +106,9 @@ public class Restaurant {
 
     public void setManager(UserManager manager) {
         this.manager = manager;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

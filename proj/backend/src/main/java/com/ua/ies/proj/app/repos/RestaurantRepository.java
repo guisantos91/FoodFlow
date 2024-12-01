@@ -8,4 +8,5 @@ import com.ua.ies.proj.app.models.Restaurant;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     List<Restaurant> findByFoodchainId(Long foodchain_id);
+    Restaurant findByTopic(String topic);
 }

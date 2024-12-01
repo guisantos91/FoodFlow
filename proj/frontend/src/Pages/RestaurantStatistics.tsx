@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 interface Order {
     id: number;
     createdAt: string; 
+    order_id: number;
 }
 
 interface MenuData {
@@ -113,9 +114,9 @@ const RestaurantStatistics = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const todo = orders_todo.map((order) => order.id);
-    const preparing = orders_preparing.map((order) => order.id);
-    const ready = orders_ready.map((order) => order.id);
+    const todo = orders_todo.map((order) => order.order_id);
+    const preparing = orders_preparing.map((order) => order.order_id);
+    const ready = orders_ready.map((order) => order.order_id);
 
     const dataNames = [...new Set([...graphData.map(item => item.name), ...donutGraphData.map(item => item.name)])];
     const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {

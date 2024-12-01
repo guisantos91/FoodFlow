@@ -22,6 +22,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // This is the order_id that will be sent from the datagenerator
+    private Long order_id;
+
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
@@ -46,11 +49,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(Restaurant restaurant, double price, String status, List<Menu> menus) {
+    public Order(Restaurant restaurant, double price, String status, List<Menu> menus, Long order_id) {
         this.restaurant = restaurant;
         this.price = price;
         this.status = status;
         this.menus = menus;
+        this.order_id = order_id;
     }
 
     public long getId() {
@@ -77,6 +81,10 @@ public class Order {
         return menus;
     }
 
+    public Long getOrder_id() {
+        return order_id;
+    }
+
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
@@ -95,5 +103,9 @@ public class Order {
 
     public void setMenus(List<Menu> menus) {
         this.menus = menus;
+    }
+
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
     }
 }
