@@ -13,35 +13,78 @@ import json
 import random
 import time
 import os
+import tempfile
+from filelock import FileLock, Timeout
 
 DATA_DIR = '/app/data'
 ORDER_ID_FILE = os.path.join(DATA_DIR, 'order_id.txt')
 ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
+LOCK_FILE = os.path.join(DATA_DIR, 'orders.lock')
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
-# Initialize order_id and orders
 if not os.path.exists(ORDER_ID_FILE):
     order_id = 0
+    with open(ORDER_ID_FILE, 'w') as f:
+        f.write(str(order_id))
 else:
     with open(ORDER_ID_FILE, 'r') as f:
-        order_id = int(f.read())
+        try:
+            order_id = int(f.read())
+        except ValueError:
+            print("Invalid order_id in file. Resetting to 0.")
+            order_id = 0
+            with open(ORDER_ID_FILE, 'w') as fw:
+                fw.write(str(order_id))
 
 if not os.path.exists(ORDERS_FILE):
     orders = {}
+    with open(ORDERS_FILE, 'w') as f:
+        json.dump(orders, f, indent=4)
 else:
     with open(ORDERS_FILE, 'r') as f:
-        orders = json.load(f)
+        try:
+            orders = json.load(f)
+        except json.JSONDecodeError:
+            print("Invalid JSON in orders file. Reinitializing to empty dictionary.")
+            orders = {}
+            with open(ORDERS_FILE, 'w') as fw:
+                json.dump(orders, fw, indent=4)
 
 kafka_container = os.environ.get('KAFKA_CONTAINER')
 kafka_listener_port = os.environ.get('KAFKA_LISTENER_PORT')
 
 producer = KafkaProducer(
     bootstrap_servers=[f'{kafka_container}:{kafka_listener_port}'],
-    value_serializer=lambda m: json.dumps(m).encode() 
+    value_serializer=lambda m: json.dumps(m).encode('utf-8') 
 )
 
 states=['to-do', 'in-progress', 'done','delivered']
+
+def serialize_data(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    elif isinstance(obj, list):
+        return [serialize_data(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: serialize_data(value) for key, value in obj.items()}
+    else:
+        return obj
+
+def atomic_write(file_path, data):
+    serialized_data = serialize_data(data)
+    try:
+        with tempfile.NamedTemporaryFile('w', delete=False, dir=DATA_DIR) as tmp_file:
+            json.dump(serialized_data, tmp_file, indent=4)
+            temp_name = tmp_file.name
+        os.replace(temp_name, file_path)
+    except TypeError as e:
+        print(f"Serialization Error: {e}")
+        print("Data causing error:")
+        print(serialized_data)
+        sys.exit(1)  # Exit or handle as needed
+
+
 foodchains = [
     (1, "McDonald's", "Burgers"),
     (2, "Burger King", "Burgers"),
@@ -124,16 +167,21 @@ def insert_order():
     timeToNextState=[created_at+timedelta(seconds=2*random.randint(2,8))]
     timeToNextState.append(timeToNextState[0]+timedelta(seconds=8*random.randint(2,8)))
     timeToNextState.append(timeToNextState[1]+timedelta(seconds=2*random.randint(2,8)))
+
+    timeToNextState=[time.isoformat() for time in timeToNextState]
     
-    orders[str(order_id)]={ "restaurant_id":restaurant_id, "created_at":created_at, "price":total_price, "status":status,
+    orders[str(order_id)]={ "restaurant_id":restaurant_id, "created_at":created_at.isoformat(), "price":total_price, "status":status,
     "menus":[{"id":menu_id} for menu_id, quantity in items.items()],
      "timeToNextState":timeToNextState}
     
-    with open(ORDER_ID_FILE, 'w') as f:
-        f.write(str(order_id))
-    
-    with open(ORDERS_FILE, 'w') as f:
-        json.dump(orders, f)
+    lock = FileLock(LOCK_FILE, timeout=10)
+    try:
+        with lock:
+            with open(ORDER_ID_FILE, 'w') as f:
+                f.write(str(order_id))
+            atomic_write(ORDERS_FILE, orders)
+    except Timeout:
+        print("Could not acquire the lock to write files.")
 
 stateDic={'to-do':0, 'in-progress':1, 'done':2}
 
@@ -141,9 +189,10 @@ def nextState():
     ignores=[]
     for ID,value in orders.items():
         state=stateDic[value["status"]]
-        if value["timeToNextState"][state]<datetime.now():
+        time_to_next = datetime.fromisoformat(value["timeToNextState"][state])
+        if time_to_next < datetime.now():
             value["status"]=states[state+1]
-            msg={"order_id":ID, "restaurant_id":value["restaurant_id"], "created_at":value["created_at"].isoformat(), "price":value["price"],"menus":value["menus"], "status":value["status"]}
+            msg={"order_id":ID, "restaurant_id":value["restaurant_id"], "created_at":value["created_at"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
             print(f"Msg: {msg}")
             topic=restaurantsTopic[value["restaurant_id"]]
             producer.send(topic, msg)
@@ -153,8 +202,12 @@ def nextState():
     for i in ignores:
         orders.pop(i)
     
-    with open(ORDERS_FILE, 'w') as f:
-        json.dump(orders, f)   
+    lock = FileLock(LOCK_FILE, timeout=10)
+    try:
+        with lock:
+            atomic_write(ORDERS_FILE, orders)
+    except Timeout:
+        print("Could not acquire the lock to write files.")
 
 try:
     while True:

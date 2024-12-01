@@ -89,10 +89,10 @@ services:
       KAFKA_CONTAINER: kafka
       KAFKA_LISTENER_PORT: $KAFKA_LISTENER_PORT
     volumes:
-      - datagenereator_data:/app/data
+      - datagenerator_data:/app/data
     restart: on-failure
 
 
 volumes:
   postgres_data:
-  datagenereator_data:
+  datagenerator_data:
