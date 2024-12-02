@@ -22,6 +22,11 @@ interface FoodChainData {
   values: number[];
 }
 
+export interface DonutData {
+  name: string;
+  value: number;
+}
+
 interface FoodChainTopOrders {
   id: number;
   name: string;
@@ -89,7 +94,7 @@ export const getMenusStatistics = async (): Promise<FoodChainTopOrders[]> => {
   }
 };
 
-export const getOrdersStatisticsById = async ( id: number ): Promise<FoodChainData[]> => {
+export const getOrdersStatisticsById = async ( id: number ): Promise<DonutData[]> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/orders/statistics`);
     return response.data;
