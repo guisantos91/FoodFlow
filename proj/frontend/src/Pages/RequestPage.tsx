@@ -4,6 +4,7 @@ import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
 import { Tabs } from "flowbite-react";
 import PendingTable from "../components/Statistics/PendingTable";
+import DeclinedTable from "../components/Statistics/DeclinedTable";
 
 const Requests = () => {
     const [searchName, setSearchName] = useState("");
@@ -24,34 +25,68 @@ const Requests = () => {
                     </div>
                 </div>
 
-                <div className="mr-40 ml-20 mt-20">
-                    <Tabs className="" aria-label="Default tabs" variant="default">
+                <div className="flex justify-center items-center mx-40 mt-10">
+                    <Tabs className="w-full" aria-label="Request Tabs" variant="default">
                         <Tabs.Item active title="Pending">
-                            <PendingTable name={searchName} />
-                        </Tabs.Item>
-                        <Tabs.Item title="Rejected">
+                            <div className="flex justify-center items-center space-x-4 mb-6">
+                                <div className="relative w-1/2">
+                                    <input
+                                        type="text"
+                                        placeholder="Search Requests"
+                                        className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-full bg-gray-100 text-black placeholder-black"
+                                        value={searchName}
+                                        onChange={(e) => setSearchName(e.target.value)}
+                                    />
+                                    <img
+                                        src={SearchSVG}
+                                        alt="Search"
+                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6"
+                                    />
+                                </div>
+                                <button
+                                    className="text-orange-500 font-medium hover:underline text-xl"
+                                    onClick={() => setSearchName("")}
+                                >
+                                    See All
+                                </button>
+                            </div>
+
+                            <div className="flex justify-center">
+                                <PendingTable name={searchName} />
+                            </div>
                             
                         </Tabs.Item>
+
+                        <Tabs.Item title="Rejected">
+                            <div className="flex justify-center items-center space-x-4 mb-6">
+                                <div className="relative w-1/2">
+                                    <input
+                                        type="text"
+                                        placeholder="Search Requests"
+                                        className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-full bg-gray-100 text-black placeholder-black"
+                                        value={searchName}
+                                        onChange={(e) => setSearchName(e.target.value)}
+                                    />
+                                    <img
+                                        src={SearchSVG}
+                                        alt="Search"
+                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6"
+                                    />
+                                </div>
+                                <button
+                                    className="text-orange-500 font-medium hover:underline text-xl"
+                                    onClick={() => setSearchName("")}
+                                >
+                                    See All
+                                </button>
+                            </div>
+
+                            <div className="flex justify-center">
+                                <DeclinedTable name={searchName} />
+                            </div>
+
+                        </Tabs.Item>
                     </Tabs>
-                </div>
-
-                <div className="relative flex items-center mb-6">
-                    <img
-                        src={SearchSVG}
-                        alt="Search"
-                        className="absolute left-3 w-6 h-6"
-                    />
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="p-2 pl-10 border-4 border-orange-500 rounded-xl w-64 bg-gray-100 text-black placeholder-black"
-                        value={searchName}
-                        onChange={(e) => setSearchName(e.target.value)}
-                    />
-                </div>
-
-                <div className="flex justify-center items-center">
-                    {/* Something here */}
                 </div>
             </div>
         </Layout>
