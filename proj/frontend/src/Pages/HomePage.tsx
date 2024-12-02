@@ -5,27 +5,8 @@ import Sidebar from "../components/SideBar";
 import MCImage from "../assets/images/logos/mcdonalds.png";
 import SearchSVG from "../assets/images/icons/search.svg";
 import LineGraph from "../components/Statistics/LineGraph";
-import { getChains, getMenusStatistics, getOrdersStatistics } from "../api/apiFoodChain";
+import { getChains, getMenusStatistics, getOrdersStatistics, FoodChain, FoodChainData, FoodChainTopOrders } from "../api/apiFoodChain";
 
-interface FoodChain {
-    id: number;
-    name: string;
-}
-
-interface FoodChainData {
-    name: string;
-    values: number[];
-}
-interface FoodChainTopOrders {
-    id: number;
-    name: string;
-    price: number;
-    foodchain: {
-        id: number;
-        name: string;
-        food_type: string;
-    };
-}
 
 const HomePage: React.FC = () => {
     const [foodChains, setFoodChains] = useState<FoodChain[]>([]);

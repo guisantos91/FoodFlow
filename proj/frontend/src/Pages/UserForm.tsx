@@ -3,20 +3,12 @@ import Layout from '../components/Layout';
 import userIcon from "../assets/images/icons/user.png";
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getForm } from '../api/apiAdmin';
+import { getForm, FormData } from '../api/apiAdmin';
 
-interface Form {
-    fname: string;
-    lname: string;
-    email: string;
-    birthDate: string;
-    restaurantName: string;
-    restaurantAddress: string;
-}
 
 const UserForm = () => {
     const formId = useParams<{ formId: string }>().formId;
-    const [form, setForm] = useState<Form>();
+    const [form, setForm] = useState<FormData>();
     console.log(formId);
 
     useEffect(() => {

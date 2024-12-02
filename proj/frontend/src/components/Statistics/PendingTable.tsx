@@ -4,34 +4,15 @@ import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
 import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
-import { getPendingForms, changeForm } from '../../api/apiAdmin';
+import { getPendingForms, changeForm, FormData } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
 }
 
-interface FoodChain {
-    id: number;
-    name: string;
-}
-
-interface Form {
-    id: number;
-    foodchain: FoodChain;
-    fname: string;
-    lname: string;
-    email: string;
-    birthDate: string;
-    restaurantName: string;
-    restaurantAddress: string;
-    latitude: number;
-    longitude: number;
-    restaurantEndpoint: string;
-    password: string;
-}
 
 const PendingTable = ({ name }: managerName) => {
-    const [forms, setForms] = React.useState<Form[]>([]);
+    const [forms, setForms] = React.useState<FormData[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
@@ -44,7 +25,7 @@ const PendingTable = ({ name }: managerName) => {
                 const response = await getPendingForms();
 
                 const filteredForms = response.filter(
-                    (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                    (form: FormData) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
 
                 setForms(filteredForms);

@@ -2,34 +2,15 @@ import React, { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
-import { changeForm, getDeclinedForms } from '../../api/apiAdmin';
+import { changeForm, getDeclinedForms, FormData } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
 }
 
-interface FoodChain {
-    id: number;
-    name: string;
-}
-
-interface Form {
-    id: number;
-    foodchain: FoodChain;
-    fname: string;
-    lname: string;
-    email: string;
-    birthDate: string;
-    restaurantName: string;
-    restaurantAddress: string;
-    latitude: number;
-    longitude: number;
-    restaurantEndpoint: string;
-    password: string;
-}
 
 const DeclinedTable = ({ name }: managerName) => {
-    const [forms, setForms] = React.useState<Form[]>([]);
+    const [forms, setForms] = React.useState<FormData[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
@@ -38,7 +19,7 @@ const DeclinedTable = ({ name }: managerName) => {
             try {
                 const response = await getDeclinedForms();
                 const filteredForms = response.filter(
-                    (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                    (form: FormData) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
                 setForms(filteredForms);
             } catch (err) {

@@ -4,7 +4,7 @@ import Map from "../components/Map.tsx";
 import Sidebar from "../components/SideBar.tsx";
 import * as L from "leaflet"; 
 import { useParams } from "react-router-dom";
-import { getChains, getRestaurants } from "../api/apiFoodChain.tsx";
+import { getChains, getRestaurants, FoodChain, Restaurant } from "../api/apiFoodChain.tsx";
 import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 // import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 
@@ -15,21 +15,6 @@ const FoodChainPage: React.FC = ({}) => {
 
   const [zoomLevel, setZoomLevel] = useState(13);
   const [userLocation, setUserLocation] = useState({});
-
-  interface FoodChain {
-    id: number;
-    name: string;
-  }
-
-  interface Restaurant {
-    id: number;
-    name: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-    foodchain: FoodChain;
-    manager: string | null;
-  }
 
 
 

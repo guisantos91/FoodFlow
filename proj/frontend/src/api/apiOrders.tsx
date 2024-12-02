@@ -9,7 +9,7 @@ export interface Order {
     restaurantId: number;
 }
 
-interface MenuData {
+export interface MenuData {
     name: string;
     values: number[];
 }
@@ -46,7 +46,7 @@ export const getOrdersDone = async ( id: number ): Promise<Order[]> => {
 
 export const getOrdersStatistics = async ( id: number ): Promise<MenuData[]> => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/restaurants/${id}/orders/statistics`);
+        const response = await axios.get(`${API_BASE_URL}/restaurants/${id}/orders/statistics`, { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);

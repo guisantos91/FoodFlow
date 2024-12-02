@@ -1,21 +1,12 @@
 import axios from "axios";
 import API_BASE_URL from "./apiConfig";
 
-export interface Form {
-    fname: string;
-    lname: string;
-    email: string;
-    birthDate: string;
-    restaurantName: string;
-    restaurantAddress: string;
-}
-
-interface FoodChain {
+export interface FoodChain {
     id: number;
     name: string;
 }
 
-interface FormData {
+export interface FormData {
     id: number;
     foodchain: FoodChain;
     fname: string;
@@ -30,7 +21,7 @@ interface FormData {
     password: string;
 }
 
-export const getForm = async ( id: string | undefined ): Promise<Form> => {
+export const getForm = async ( id: string | undefined ): Promise<FormData> => {
     try {
       const response = await axios.post(`${API_BASE_URL}/admin/forms/${id}`, { withCredentials: true, });
       return response.data;

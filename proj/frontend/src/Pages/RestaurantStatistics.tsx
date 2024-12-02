@@ -10,32 +10,8 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
 import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
-import { getMenus } from "../api/apiFoodChain";
-import { getOrdersStatistics } from "../api/apiOrders";
-
-interface Order {
-    id: number;
-    createdAt: string; 
-    orderId: number;
-    status: string;
-    restaurantId: number;
-}
-
-interface MenuData {
-    name: string;
-    values: number[];
-}
-
-interface DonutData {
-    name: string;
-    value: number;
-}
-
-interface Menu {
-    id: number;
-    name: string;
-    price: number;
-}
+import { getMenus, Menu, DonutData } from "../api/apiFoodChain";
+import { getOrdersStatistics, Order, MenuData } from "../api/apiOrders";
 
 const RestaurantStatistics = () => {
     const { foodchainId, restaurantId } = useParams<{ foodchainId: string; restaurantId: string }>();

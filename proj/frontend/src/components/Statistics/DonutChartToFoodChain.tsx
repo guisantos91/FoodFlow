@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import DonutChart from "./DonutChart";
-import { getOrdersStatisticsById } from "../../api/apiFoodChain";
-interface DonutData {
-    name: string;
-    value: number;
-  }
+import { getOrdersStatisticsById, DonutData } from "../../api/apiFoodChain";
 
 interface DonutChartProps{
     foodChainID:number;
@@ -16,7 +12,7 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     useEffect(() => {
         const fetchStats = async () => {
           try {
-            const response = getOrdersStatisticsById(foodChainID);
+            const response = await getOrdersStatisticsById(foodChainID);
             // console.log("Stats Data:", response.data);
     
             const formattedDonutData = Object.keys(response).map((menu) => {
@@ -33,7 +29,7 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
         };
     
         fetchStats();
-      })
+      }, [foodChainID])
 
       const dataNames = [...new Set([...donutGraphData.map(item => item.name), ...donutGraphData.map(item => item.name)])];
       const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {

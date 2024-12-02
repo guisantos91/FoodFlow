@@ -2,34 +2,15 @@ import React, { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
-import { getAcceptedForms } from '../../api/apiAdmin';
+import { getAcceptedForms, FormData } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
 }
 
-interface FoodChain {
-    id: number;
-    name: string;
-}
-
-interface Form {
-    id: number;
-    foodchain: FoodChain;
-    fname: string;
-    lname: string;
-    // email: string;
-    // birthDate: string;
-    restaurantName: string;
-    // restaurantAddress: string;
-    // latitude: number;
-    // longitude: number;
-    restaurantEndpoint: string;
-    // password: string;
-}
 
 const AdminTable = ({ name }: managerName) => {
-    const [forms, setForms] = React.useState<Form[]>([]);
+    const [forms, setForms] = React.useState<FormData[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
@@ -42,7 +23,7 @@ const AdminTable = ({ name }: managerName) => {
                 //     return { ...restaurant, manager: 2 }; // change later
                 // });
                 const filteredForms = response.filter(
-                    (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                    (form: FormData) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
 
                 setForms(filteredForms);

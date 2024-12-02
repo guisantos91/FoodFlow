@@ -1,12 +1,7 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getChains } from "../api/apiFoodChain";
-
-interface FoodChain {
-    id: number;
-    name: string;
-}
+import { getChains, FoodChain } from "../api/apiFoodChain";
 
 export function ApplicationForm({ handleSubmit }: { handleSubmit: (formData: any) => void }) {
     const navigate = useNavigate();
@@ -20,6 +15,7 @@ export function ApplicationForm({ handleSubmit }: { handleSubmit: (formData: any
         const chains = response.map((chain: { id: number; name: string; food_type: string }) => ({
                 id: chain.id,
                 name: chain.name,
+                food_type: chain.food_type,
             })
         );
         setFoodChains(chains);

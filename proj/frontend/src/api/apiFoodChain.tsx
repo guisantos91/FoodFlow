@@ -17,7 +17,7 @@ export interface Restaurant {
   manager: string | null;
 }
 
-interface FoodChainData {
+export interface FoodChainData {
   name: string;
   values: number[];
 }
@@ -27,7 +27,7 @@ export interface DonutData {
   value: number;
 }
 
-interface FoodChainTopOrders {
+export interface FoodChainTopOrders {
   id: number;
   name: string;
   price: number;
@@ -38,7 +38,7 @@ interface FoodChainTopOrders {
   };
 }
 
-interface Menu {
+export interface Menu {
   id: number;
   name: string;
   price: number;
