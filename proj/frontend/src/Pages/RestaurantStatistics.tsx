@@ -9,11 +9,14 @@ import { HiSortDescending } from "react-icons/hi";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import * as StompJs from "@stomp/stompjs";
 
 interface Order {
     id: number;
     createdAt: string; 
     orderId: number;
+    status: string;
+    restaurantId: number;
 }
 
 interface MenuData {
@@ -42,6 +45,72 @@ const RestaurantStatistics = () => {
     const [graphData, setGraphData] = useState<MenuData[]>([]);
     const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     const [menus, setMenus] = useState<Menu[]>([]);
+
+    let stompClientOrders: StompJs.Client | null = null; // Keep track of the connection
+
+    const connectWebSocketOrder = async (restaurantId: number) => {
+
+        if (stompClientOrders && stompClientOrders.active) {
+            console.log("WebSocket already connected");
+            return;
+        }
+
+        stompClientOrders = new StompJs.Client({
+            brokerURL: "ws://localhost:8080/ws", 
+            reconnectDelay: 5000,                         
+            heartbeatIncoming: 4000,                        
+        });
+
+        // Define behavior on successful connection
+        stompClientOrders.onConnect = (frame) => {
+            console.log("Connected: " + frame);
+
+            // Subscribe to the topic and listen for updates
+            stompClientOrders?.subscribe("/topic/orders", (message) => {
+                const newOrder = JSON.parse(message.body);
+                console.log("Received new data: ", newOrder);
+
+                // If the order if from this restaurant, update the order list
+                if (newOrder.restaurantId === restaurantId) {
+                    // Remove the order from all lists
+                    setOrders_todo((prevOrders) => prevOrders.filter(order => order.orderId !== newOrder.orderId));
+                    setOrders_preparing((prevOrders) => prevOrders.filter(order => order.orderId !== newOrder.orderId));
+                    setOrders_ready((prevOrders) => prevOrders.filter(order => order.orderId !== newOrder.orderId));
+
+                    // Add the order to the correct list
+                    if (newOrder.status === "to-do") {
+                        setOrders_todo((prevOrders) => [newOrder, ...prevOrders]);
+                    } else if (newOrder.status === "in-progress") {
+                        setOrders_preparing((prevOrders) => [newOrder, ...prevOrders]);
+                    } else if (newOrder.status === "done") {
+                        setOrders_ready((prevOrders) => [newOrder, ...prevOrders]);
+                    }
+                }
+            });
+        }
+
+        // Handle WebSocket errors
+        stompClientOrders.onWebSocketError = (error) => {
+            console.error("WebSocket error: ", error);
+        };
+
+        // Handle STOMP protocol errors
+        stompClientOrders.onStompError = (frame) => {
+            console.error("Broker reported error: " + frame.headers["message"]);
+            console.error("Additional details: " + frame.body);
+        };
+
+        // Activate the client
+        stompClientOrders.activate();
+
+        // Cleanup on component unmount
+        return () => {
+            if (stompClientOrders && stompClientOrders.active) {
+                stompClientOrders.deactivate();
+                console.log("WebSocket connection closed");
+            }
+        };
+    }
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -104,14 +173,7 @@ const RestaurantStatistics = () => {
         // Initial fetch
         fetchMenus();
         fetchOrders();
-
-        // Fetch data every 10 seconds
-        const interval = setInterval(() => {
-            fetchOrders();
-        }, 10000);
-
-        // Cleanup on unmount
-        return () => clearInterval(interval);
+        connectWebSocketOrder(restID);
     }, []);
 
     const todo = orders_todo.map((order) => order.orderId);
