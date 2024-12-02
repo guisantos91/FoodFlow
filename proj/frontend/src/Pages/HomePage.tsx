@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
                 const formattedGraphData = Object.keys(responseGraph).map((chain: string) => {
                     return {
                         name: chain,
-                        values: responseGraph[chain].values
+                        values: (responseGraph as any)[chain].values
                     };
                 });
                 setGraphData(formattedGraphData);

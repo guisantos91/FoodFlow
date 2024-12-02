@@ -22,7 +22,7 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
             const formattedDonutData = Object.keys(response).map((menu) => {
               return {
                 name: menu,
-                value: response[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                value: (response as any)[menu].values.reduce((acc: number, val: number) => acc + val, 0)
               }
             });
     

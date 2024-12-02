@@ -7,10 +7,11 @@ import CardComponent from "../components/Cards/Card";
 import Table from "../components/Statistics/Table";
 import { HiSortDescending } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
 import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
-import { getMenus, getOrdersStatistics } from "../api/apiFoodChain";
+import { getMenus } from "../api/apiFoodChain";
+import { getOrdersStatistics } from "../api/apiOrders";
 
 interface Order {
     id: number;
@@ -117,38 +118,39 @@ const RestaurantStatistics = () => {
         const fetchOrders = async () => {
             try {
                 // Fetch and sort "to-do" orders
-                const responseTodo = await getOrdersToDo();
+                const responseTodo = await getOrdersToDo(restID);
                 const sortedTodo = responseTodo.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_todo(sortedTodo);
 
                 // Fetch and sort "in-progress" orders
-                const responsePreparing = await getOrdersInProgress();
+                const responsePreparing = await getOrdersInProgress(restID);
                 const sortedPreparing = responsePreparing.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_preparing(sortedPreparing);
 
                 // Fetch and sort "done" orders
-                const responseReady = await getOrdersDone();
+                const responseReady = await getOrdersDone(restID);
                 const sortedReady = responseReady.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_ready(sortedReady);
 
-                const responseGraph = await getOrdersStatistics();
+                const responseGraph = await getOrdersStatistics(restID);
+                console.log("Orders Data:", responseGraph);
                 const formattedGraphData = Object.keys(responseGraph).map((menu: string) => {
                     return {
                         name: menu,
-                        values: responseGraph[menu].values
+                        values: (responseGraph as any)[menu].values
                     };
                 });
                 setGraphData(formattedGraphData);
                 const formattedDonutData = Object.keys(responseGraph).map((menu) => {
                     return {
                         name: menu,
-                        value: responseGraph[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                        value: (responseGraph as any)[menu].values.reduce((acc: number, val: number) => acc + val, 0)
                     };
                 });
                 setDonutGraphData(formattedDonutData);
@@ -221,11 +223,13 @@ const RestaurantStatistics = () => {
                     </Tabs>
                 </div>
                 <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4 shadow-2xl">
-                    <div className="flex items-center mt-8 ml-4 space-x-2">
+                    <div className="flex items-center mt-8 space-x-2">
                         <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
                             <img src={userIcon} alt="User Icon" className="w-4 h-4" />
                         </div>
-                        <h3 className="text-xl font-bold text-black">Login</h3>
+                        <Link to="/login" className="text-xl font-bold text-black hover:text-orange-500 hover:underline">
+                            Login
+                        </Link>
                     </div>
                     <h2 className="text-2xl text-black font-bold mt-8 ml-4">Live Orders</h2>
                     <Table todo={todo} preparing={preparing} ready={ready} />

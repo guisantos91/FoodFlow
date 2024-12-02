@@ -12,7 +12,7 @@ export const login = async ( email: string, password: string ) => {
 
 export const submitForm = async (formData: any) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/form`, formData);
+      const response = await axios.post(`${API_BASE_URL}/auth/form`, formData, { withCredentials: true });
       return response.data;
     } catch (error) {
       console.error("Error fetching food chains:", error);

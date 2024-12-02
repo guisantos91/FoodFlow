@@ -9,9 +9,14 @@ export interface Order {
     restaurantId: number;
 }
 
-export const getOrdersToDo = async (): Promise<Order[]> => {
+interface MenuData {
+    name: string;
+    values: number[];
+}
+
+export const getOrdersToDo = async ( id: number ): Promise<Order[]> => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/orders?status=to-do`);
+        const response = await axios.get(`${API_BASE_URL}/restaurants/${id}/orders?status=to-do`);
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);
@@ -19,9 +24,9 @@ export const getOrdersToDo = async (): Promise<Order[]> => {
     }
 };
 
-export const getOrdersInProgress = async (): Promise<Order[]> => {
+export const getOrdersInProgress = async ( id: number ): Promise<Order[]> => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/orders?status=in-progress`);
+        const response = await axios.get(`${API_BASE_URL}/restaurants/${id}/orders?status=in-progress`);
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);
@@ -29,9 +34,19 @@ export const getOrdersInProgress = async (): Promise<Order[]> => {
     }
 };
 
-export const getOrdersDone = async (): Promise<Order[]> => {
+export const getOrdersDone = async ( id: number ): Promise<Order[]> => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/orders?status=done`);
+        const response = await axios.get(`${API_BASE_URL}/restaurants/${id}/orders?status=done`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        throw error;
+    }
+};
+
+export const getOrdersStatistics = async ( id: number ): Promise<MenuData[]> => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/restaurants/${id}/orders/statistics`);
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);

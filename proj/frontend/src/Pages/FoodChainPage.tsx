@@ -5,6 +5,7 @@ import Sidebar from "../components/SideBar.tsx";
 import * as L from "leaflet"; 
 import { useParams } from "react-router-dom";
 import { getChains, getRestaurants } from "../api/apiFoodChain.tsx";
+import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 // import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 
 const FoodChainPage: React.FC = ({}) => {
@@ -173,7 +174,7 @@ const FoodChainPage: React.FC = ({}) => {
                 />
               </div>
             </div>
-            {/* <DonutChartToFoodChain foodChainID={foodChainID} /> */}
+            <DonutChartToFoodChain foodChainID={foodChainID} />
           </div>
         </div>
         <Sidebar
