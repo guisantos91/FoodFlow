@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import FoodChainCard from "../components/Cards/FoodChaindCard";
 import Layout from "../components/Layout";
 import Sidebar from "../components/SideBar";
-import axios from "axios";
 import MCImage from "../assets/images/logos/mcdonalds.png";
 import SearchSVG from "../assets/images/icons/search.svg";
 import LineGraph from "../components/Statistics/LineGraph";
+import { getChains, getMenusStatistics, getOrdersStatistics } from "../api/apiFoodChain";
 
 interface FoodChain {
     id: number;
@@ -36,9 +36,9 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         const fetchFoodChainsTopOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/foodchains/menus/statistics');
-                setFoodChainsTopOrders(response.data);
-                console.log('Food Chains Data:', response.data);
+                const response = await getMenusStatistics();
+                setFoodChainsTopOrders(response);
+                console.log('Food Chains Data:', response);
             } catch (err) {
                 console.error('Error fetching food chains:', err);
             }
@@ -47,9 +47,9 @@ const HomePage: React.FC = () => {
 
         const fetchFoodChains = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/v1/foodchains/");
-                setFoodChains(response.data);
-                console.log("Food Chains Data:", response.data);
+                const response = await getChains();
+                setFoodChains(response);
+                console.log("Food Chains Data:", response);
             } catch (err) {
                 console.error("Error fetching food chains:", err);
             }
@@ -57,12 +57,12 @@ const HomePage: React.FC = () => {
 
         const fetchOrders = async () => {
             try {
-                const responseGraph = await axios.get("http://localhost:8080/api/v1/foodchains/orders/statistics");
-                console.log("Orders Data:", responseGraph.data);
-                const formattedGraphData = Object.keys(responseGraph.data).map((chain) => {
+                const responseGraph = await getOrdersStatistics();
+                console.log("Orders Data:", responseGraph);
+                const formattedGraphData = Object.keys(responseGraph).map((chain: string) => {
                     return {
                         name: chain,
-                        values: responseGraph.data[chain].values
+                        values: responseGraph[chain].values
                     };
                 });
                 setGraphData(formattedGraphData);

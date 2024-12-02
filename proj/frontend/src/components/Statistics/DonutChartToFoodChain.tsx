@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import DonutChart from "./DonutChart";
+import { getOrdersStatisticsById } from "../../api/apiFoodChain";
 interface DonutData {
     name: string;
     value: number;
@@ -16,15 +16,13 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     useEffect(() => {
         const fetchStats = async () => {
           try {
-            const response = await axios.get(
-              `http://localhost:8080/api/v1/foodchains/${foodChainID}/orders/statistics`
-            );
+            const response = getOrdersStatisticsById(foodChainID);
             // console.log("Stats Data:", response.data);
     
-            const formattedDonutData = Object.keys(response.data).map((menu) => {
+            const formattedDonutData = Object.keys(response).map((menu) => {
               return {
                 name: menu,
-                value: response.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                value: response[menu].values.reduce((acc: number, val: number) => acc + val, 0)
               }
             });
     

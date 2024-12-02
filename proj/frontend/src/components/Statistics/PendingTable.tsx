@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
 import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
+import { getPendingForms, changeForm } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
@@ -20,8 +20,14 @@ interface Form {
     foodchain: FoodChain;
     fname: string;
     lname: string;
+    email: string;
+    birthDate: string;
     restaurantName: string;
+    restaurantAddress: string;
+    latitude: number;
+    longitude: number;
     restaurantEndpoint: string;
+    password: string;
 }
 
 const PendingTable = ({ name }: managerName) => {
@@ -35,12 +41,9 @@ const PendingTable = ({ name }: managerName) => {
     useEffect(() => {
         const fetchForms = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms?state=pending`, {
-                    withCredentials: true,
-                });
+                const response = await getPendingForms();
 
-                const filteredForms = response.data.filter(
+                const filteredForms = response.filter(
                     (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
 
@@ -64,11 +67,7 @@ const PendingTable = ({ name }: managerName) => {
         }
         const newForm = { ...form, state: "accepted" };
         try {
-            const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = axios.post(`${baseUrl}/managers`,
-                newForm,
-                { withCredentials: true }
-            );
+            const response = changeForm(formId, newForm);
             console.log(response);
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {
@@ -84,10 +83,7 @@ const PendingTable = ({ name }: managerName) => {
         }
         const newForm = { ...form, state: "declined" };
         try {
-            const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = axios.put(`${baseUrl}/forms/${formId}`,
-                newForm,
-                { withCredentials: true });
+            const response = changeForm(formId, newForm);
             console.log(response);
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {

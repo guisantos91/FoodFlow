@@ -6,10 +6,11 @@ import LineGraph from '../components/Statistics/LineGraph';
 import CardComponent from "../components/Cards/Card";
 import Table from "../components/Statistics/Table";
 import { HiSortDescending } from "react-icons/hi";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
+import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
+import { getMenus, getOrdersStatistics } from "../api/apiFoodChain";
 
 interface Order {
     id: number;
@@ -115,43 +116,39 @@ const RestaurantStatistics = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/restaurants/${restID}/orders`;
-
                 // Fetch and sort "to-do" orders
-                const responseTodo = await axios.get(`${baseUrl}?status=to-do`);
-                const sortedTodo = responseTodo.data.sort(
+                const responseTodo = await getOrdersToDo();
+                const sortedTodo = responseTodo.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_todo(sortedTodo);
 
                 // Fetch and sort "in-progress" orders
-                const responsePreparing = await axios.get(`${baseUrl}?status=in-progress`);
-                const sortedPreparing = responsePreparing.data.sort(
+                const responsePreparing = await getOrdersInProgress();
+                const sortedPreparing = responsePreparing.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_preparing(sortedPreparing);
 
                 // Fetch and sort "done" orders
-                const responseReady = await axios.get(`${baseUrl}?status=done`);
-                const sortedReady = responseReady.data.sort(
+                const responseReady = await getOrdersDone();
+                const sortedReady = responseReady.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_ready(sortedReady);
 
-                const responseGraph = await axios.get(`${baseUrl}/statistics`, {
-                    withCredentials: true
-                });
-                const formattedGraphData = Object.keys(responseGraph.data).map((menu) => {
+                const responseGraph = await getOrdersStatistics();
+                const formattedGraphData = Object.keys(responseGraph).map((menu: string) => {
                     return {
                         name: menu,
-                        values: responseGraph.data[menu].values
+                        values: responseGraph[menu].values
                     };
                 });
                 setGraphData(formattedGraphData);
-                const formattedDonutData = Object.keys(responseGraph.data).map((menu) => {
+                const formattedDonutData = Object.keys(responseGraph).map((menu) => {
                     return {
                         name: menu,
-                        value: responseGraph.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                        value: responseGraph[menu].values.reduce((acc: number, val: number) => acc + val, 0)
                     };
                 });
                 setDonutGraphData(formattedDonutData);
@@ -163,8 +160,8 @@ const RestaurantStatistics = () => {
 
         const fetchMenus = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/foodchains/${foodchainID}/menus`);
-                setMenus(response.data);
+                const response = await getMenus(foodchainID);
+                setMenus(response);
             } catch (err) {
                 console.error("Error fetching menus:", err);
             }

@@ -1,7 +1,7 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { getChains } from "../api/apiFoodChain";
 
 interface FoodChain {
     id: number;
@@ -16,8 +16,8 @@ export function ApplicationForm({ handleSubmit }: { handleSubmit: (formData: any
     useEffect(() => {
     const fetchFoodChains = async () => {
         try {
-        const response = await axios.get("http://localhost:8080/api/v1/foodchains/");
-        const chains = response.data.map((chain: { id: number; name: string; food_type: string }) => ({
+        const response = await getChains();
+        const chains = response.map((chain: { id: number; name: string; food_type: string }) => ({
                 id: chain.id,
                 name: chain.name,
             })

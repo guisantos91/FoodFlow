@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
+import { getAcceptedForms } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
@@ -37,14 +37,11 @@ const AdminTable = ({ name }: managerName) => {
     useEffect(() => {
         const fetchForms = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms?state=accepted`, {
-                    withCredentials: true,
-                });
+                const response = await getAcceptedForms();
                 // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
                 //     return { ...restaurant, manager: 2 }; // change later
                 // });
-                const filteredForms = response.data.filter(
+                const filteredForms = response.filter(
                     (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
+import { changeForm, getDeclinedForms } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
@@ -36,11 +36,8 @@ const DeclinedTable = ({ name }: managerName) => {
     useEffect(() => {
         const fetchForms = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms?state=declined`, {
-                    withCredentials: true,
-                });
-                const filteredForms = response.data.filter(
+                const response = await getDeclinedForms();
+                const filteredForms = response.filter(
                     (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
                 setForms(filteredForms);
@@ -64,13 +61,8 @@ const DeclinedTable = ({ name }: managerName) => {
         const newForm = { ...formToUpdate, state: "deleted" };
 
         try {
-            const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = await axios.put(
-                `${baseUrl}/forms/${managerFormId}`,
-                newForm,
-                { withCredentials: true }
-            );
-            console.log("Delete response:", response.data);
+            const response = changeForm(managerFormId, newForm);
+            console.log("Delete response:", response);
 
             setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
         } catch (error) {
@@ -90,14 +82,8 @@ const DeclinedTable = ({ name }: managerName) => {
         const newForm = { ...formToUpdate, state: "pending" };
 
         try {
-            const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = await axios.put(
-                `${baseUrl}/forms/${managerFormId}`,
-                newForm,
-                { withCredentials: true }
-            );
-            console.log("Pending response:", response.data);
-
+            const response = changeForm(managerFormId, newForm);
+            console.log("Pending response:", response);
             setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
         } catch (error) {
             console.error("Failed to reject form:", error);

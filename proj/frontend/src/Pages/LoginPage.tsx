@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../api/apiLogin';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/api/v1/auth/login', { email, password }, { withCredentials: true });
+      login(email, password);
       navigate('/');
     } catch {
       setError('Invalid email or password');
