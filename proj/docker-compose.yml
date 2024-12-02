@@ -51,6 +51,9 @@ services:
       - $FRONTEND_LOCAL_PORT:$FRONTEND_DOCKER_PORT
     depends_on:
       - backend
+    environment:
+      - VITE_BACKEND_HOST=${BACKEND_HOST}
+      - VITE_BACKEND_PORT=${BACKEND_LOCAL_PORT}
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4
