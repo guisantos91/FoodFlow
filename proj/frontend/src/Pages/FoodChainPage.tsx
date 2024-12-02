@@ -5,6 +5,7 @@ import axios from "axios";
 import Sidebar from "../components/SideBar.tsx";
 import * as L from "leaflet"; 
 import { useParams } from "react-router-dom";
+import { fetchFoodChains } from "../api/fetchFoodChains.tsx";
 // import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 
 const FoodChainPage: React.FC = ({}) => {
@@ -61,9 +62,7 @@ const FoodChainPage: React.FC = ({}) => {
   useEffect(() => {
     const fetchFoodChains = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/foodchains/"
-        );
+        const response = await fetchFoodChains();
         const allFoodChains: FoodChain[] = response.data;
         const targetFoodChain = allFoodChains.find(
           (fc) => fc.id === foodChainID
