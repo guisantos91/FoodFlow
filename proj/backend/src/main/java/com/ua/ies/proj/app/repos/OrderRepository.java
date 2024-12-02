@@ -1,6 +1,7 @@
 package com.ua.ies.proj.app.repos;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.ua.ies.proj.app.models.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Long>{
+        Optional<Order> findByOrderId(Long orderId);
         List<Order> findByRestaurantIdAndStatus(Long restaurant_id, String status);
         List<Order> findByRestaurantId(Long restaurant_id);
 

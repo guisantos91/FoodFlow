@@ -4,7 +4,6 @@ import userIcon from "../assets/images/icons/marker-icon.png";
 
 export class MapWidget {
   private map: L.Map;
-  private markers: L.Marker[] = [];
 
   constructor(domNode: HTMLElement) {
     this.map = L.map(domNode, {
@@ -42,7 +41,7 @@ export class MapWidget {
     this.map.setZoom(level);
   }
 
-  addMarker(lat: number, lng: number, label?: string) {
+  addMarker(lat: number, lng: number, label?: string, id?: number, chainId?: number) {
     const customIcon = L.icon({
       iconUrl: userIcon,
       iconSize: [32, 52], 
@@ -52,10 +51,13 @@ export class MapWidget {
     const marker = L.marker([lat, lng], { icon: customIcon }).addTo(this.map);
 
     if (label) {
-      marker.bindPopup(label).closePopup(); 
+      if (id && chainId) {
+        marker.bindPopup('<a href="/foodChain/'+chainId+'/restaurant/'+id+'">'+label+'</a>').closePopup();
+      } else {
+        marker.bindPopup(label).closePopup();
+      }
     }
 
-    this.markers.push(marker);
   }
 
 
@@ -71,8 +73,8 @@ export class MapWidget {
       L.circleMarker([e.latlng.lat, e.latlng.lng], {
         radius: 10,
         // radius: radius,
-        color: "blue",
-        fillColor: "lightblue",
+        color: "red",
+        fillColor: "red",
         fillOpacity: 0.4,
         opacity: 0.5,
       }).addTo(this.map);

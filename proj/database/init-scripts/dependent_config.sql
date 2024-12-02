@@ -7,6 +7,6 @@ BEGIN
     ) THEN
         PERFORM create_hypertable('orders', 'created_at');
     ELSE
-        RAISE NOTICE 'Tabela "orders" not found, trying again...';
+        RAISE NOTICE 'Table "orders" not found, trying again...';
     END IF;
 END $$;

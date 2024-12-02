@@ -2,6 +2,7 @@ package com.ua.ies.proj.app.models;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class ManagerForm {
 	@NotBlank
 	private String lname;
 
-	@NotBlank
+	@Column(unique = true, nullable = false)
 	private String email;
 
 	private Date birthDate;
@@ -39,10 +40,10 @@ public class ManagerForm {
 	private String restaurantAddress;
 
 	@NotNull
-	private float latitude;
+	private double latitude;
 
 	@NotNull
-	private float longitude;
+	private double longitude;
 
 	@NotBlank
 	private String restaurantEndpoint;
@@ -50,10 +51,12 @@ public class ManagerForm {
 	@NotBlank
 	private String password;
 
+	private String state;
+
 	public ManagerForm() {
 	}
 
-	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, long latitude, long longitude, String restaurantEndpoint, String password, Date birthDate) {
+	public ManagerForm(Foodchain foodchain, String fname, String lname, String email, String restaurantName, String restaurantAddress, double latitude, double longitude, String restaurantEndpoint, String password, Date birthDate, String state) {
 		this.foodchain = foodchain;
 		this.fname = fname;
 		this.lname = lname;
@@ -65,6 +68,7 @@ public class ManagerForm {
 		this.restaurantEndpoint = restaurantEndpoint;
 		this.password = password;
 		this.birthDate = birthDate;
+		this.state = state;
 	}
 
 	public Long getId() {
@@ -95,11 +99,11 @@ public class ManagerForm {
 		return restaurantAddress;
 	}
 
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 
@@ -113,6 +117,10 @@ public class ManagerForm {
 
 	public Date getBirthDate() {
 		return birthDate;
+	}
+
+	public String getState() {
+		return state;
 	}
 
 	public void setFoodchain(Foodchain foodchain) {
@@ -139,11 +147,11 @@ public class ManagerForm {
 		this.restaurantAddress = restaurantAddress;
 	}
 
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -157,5 +165,9 @@ public class ManagerForm {
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

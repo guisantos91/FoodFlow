@@ -51,5 +51,10 @@ public class RestaurantsService {
     public List<Menu> getMenusByChain(Long chainId) {
         return menuRepository.findByFoodchainId(chainId);
     }
+
+    public Restaurant getRestaurantById(Long restId) {
+        Optional<Restaurant> optionalRes = restaurantRepository.findById(restId);
+        return optionalRes.get();
+    }
    
 }

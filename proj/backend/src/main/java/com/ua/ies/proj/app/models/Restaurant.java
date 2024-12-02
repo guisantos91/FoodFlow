@@ -1,5 +1,6 @@
 package com.ua.ies.proj.app.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,17 +16,17 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @Column(unique = true, nullable = false)
     private String name;
 
     @NotBlank
     private String address;
 
     @NotNull
-    private float latitude;
+    private double latitude;
 
     @NotNull
-    private float longitude;
+    private double longitude;
 
     @ManyToOne
     @JoinColumn(name = "foodchain_id")
@@ -35,16 +36,19 @@ public class Restaurant {
     @JoinColumn(name = "manager_id")
     private UserManager manager;
 
+    private String topic;
+
     public Restaurant() {
     }
 
-    public Restaurant(String name, String address, float latitude, float longitude, Foodchain foodchain, UserManager manager) {
+    public Restaurant(String name, String address, double latitude, double longitude, Foodchain foodchain, UserManager manager, String topic) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.foodchain = foodchain;
         this.manager = manager;
+        this.topic = topic;
     }
 
     public Long getId() {
@@ -59,11 +63,11 @@ public class Restaurant {
         return address;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -75,6 +79,10 @@ public class Restaurant {
         return manager;
     }
 
+    public String getTopic() {
+        return topic;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -83,11 +91,11 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -97,5 +105,9 @@ public class Restaurant {
 
     public void setManager(UserManager manager) {
         this.manager = manager;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 }

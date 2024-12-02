@@ -2,7 +2,9 @@ package com.ua.ies.proj.app.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +19,6 @@ import com.ua.ies.proj.app.auth.JwtTokenProvider;
 import com.ua.ies.proj.app.auth.LoginRequest;
 import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.services.UserService;
-
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -54,7 +55,17 @@ public class AuthController {
             String role = authentication.getAuthorities().iterator().next().getAuthority();
             String token = jwtTokenProvider.createToken(email, role);
             
-            return ResponseEntity.ok("Authenticated Successfully | Token " + token);
+            ResponseCookie cookie = ResponseCookie.from("jwt", token)
+                    .httpOnly(true)
+                    .secure(false)
+                    .path("/")
+                    .maxAge(24 * 60 * 60)
+                    .sameSite("Strict")
+                    .build();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                    .body("Login successful");
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
@@ -62,6 +73,16 @@ public class AuthController {
     
     @PostMapping("/logout")
     public ResponseEntity<String> logoutUser() {
-        return ResponseEntity.ok("Logged out successfully");
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("Strict")
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body("Logged out successfully");
     }
 }
