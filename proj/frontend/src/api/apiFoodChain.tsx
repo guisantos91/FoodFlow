@@ -59,7 +59,7 @@ export const getRestaurants = async (id: number): Promise<Restaurant[]> => {
     const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/restaurants`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching food chains:", error);
+    console.error("Error fetching a food chain restaurants:", error);
     throw error;
   }
 };
@@ -69,7 +69,7 @@ export const getMenus = async (id: number): Promise<Menu[]> => {
     const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/menus`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching food chains:", error);
+    console.error("Error fetching menus form a foodchain:", error);
     throw error;
   }
 };
@@ -79,7 +79,7 @@ export const getOrdersStatistics = async (): Promise<FoodChainData[]> => {
     const response = await axios.get(`${API_BASE_URL}/foodchains/orders/statistics`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching food chains:", error);
+    console.error("Error fetching statistics from the foodchains:", error);
     throw error;
   }
 };
@@ -89,7 +89,7 @@ export const getMenusStatistics = async (): Promise<FoodChainTopOrders[]> => {
     const response = await axios.get(`${API_BASE_URL}/foodchains/menus/statistics`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching food chains:", error);
+    console.error("Error fetching menus statistics from the foodchains:", error);
     throw error;
   }
 };
@@ -99,7 +99,7 @@ export const getOrdersStatisticsById = async ( id: number ): Promise<DonutData[]
     const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/orders/statistics`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching food chains:", error);
+    console.error("Error fetching order statistics from a foodchain:", error);
     throw error;
   }
 };

@@ -149,6 +149,12 @@ const RestaurantStatistics = () => {
         fetchMenus();
         fetchOrders();
         connectWebSocketOrder(restID);
+
+        const interval = setInterval(() => {
+            fetchOrders();
+        }, 5000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const todo = orders_todo.map((order) => order.orderId);

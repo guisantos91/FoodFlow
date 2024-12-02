@@ -23,10 +23,10 @@ export interface FormData {
 
 export const getForm = async ( id: string | undefined ): Promise<FormData> => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/admin/forms/${id}`, { withCredentials: true, });
+      const response = await axios.get(`${API_BASE_URL}/admin/forms/${id}`, { withCredentials: true, });
       return response.data;
     } catch (error) {
-      console.error("Error fetching food chains:", error);
+      console.error("Error fetching a form:", error);
       throw error
     }
 };
@@ -36,7 +36,7 @@ export const getAcceptedForms = async (): Promise<FormData[]> => {
         const response = await axios.get(`${API_BASE_URL}/admin/forms?state=accepted`, { withCredentials: true, });
         return response.data;
     } catch (error) {
-        console.error("Error fetching food chains:", error);
+        console.error("Error fetching the accepted forms:", error);
         throw error;
     }
 };
@@ -46,7 +46,7 @@ export const getDeclinedForms = async (): Promise<FormData[]> => {
         const response = await axios.get(`${API_BASE_URL}/admin/forms?state=declined`, { withCredentials: true, });
         return response.data;
     } catch (error) {
-        console.error("Error fetching food chains:", error);
+        console.error("Error fetching the declined forms:", error);
         throw error;
     }
 }
@@ -56,7 +56,7 @@ export const getPendingForms = async (): Promise<FormData[]> => {
         const response = await axios.get(`${API_BASE_URL}/admin/forms?state=pending`, { withCredentials: true, });
         return response.data;
     } catch (error) {
-        console.error("Error fetching food chains:", error);
+        console.error("Error fetching pending forms:", error);
         throw error;
     }
 }
@@ -66,7 +66,17 @@ export const changeForm = async( id: number, newForm: FormData ): Promise<FormDa
         const response = await axios.put(`${API_BASE_URL}/admin/forms/${id}`, newForm, { withCredentials: true, });
         return response.data;
     } catch (error) {
-        console.error("Error fetching food chains:", error);
+        console.error("Error changin form state:", error);
+        throw error;
+    }
+}
+
+export const aproveForm = async( newForm: FormData ): Promise<FormData> => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/admin/managers`, newForm, { withCredentials: true, });
+        return response.data;
+    } catch (error) {
+        console.error("Error aproving a forms:", error);
         throw error;
     }
 }

@@ -4,7 +4,7 @@ import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
 import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
-import { getPendingForms, changeForm, FormData } from '../../api/apiAdmin';
+import { getPendingForms, changeForm, FormData, aproveForm } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
@@ -48,7 +48,7 @@ const PendingTable = ({ name }: managerName) => {
         }
         const newForm = { ...form, state: "accepted" };
         try {
-            const response = changeForm(formId, newForm);
+            const response = aproveForm(newForm);
             console.log(response);
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {
