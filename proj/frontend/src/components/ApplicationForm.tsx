@@ -63,47 +63,79 @@ export function ApplicationForm({ handleSubmit }: { handleSubmit: (formData: any
     };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-        <div className="flex items-center justify-center mt-8 rounded-3xl w-2/3 shadow-lg bg-gray-200">
-            <form className="flex w-full flex-col gap-6 mt-8 mb-4" onSubmit={onSubmit} >
-                <div className="flex flex-col border-b-2 border-gray-400">
-                    <h2 className="flex text-2xl font-bold mb-2 ml-12">Apply for Manager</h2>
-                    <h4 className="flex text-xl text-gray mb-8 ml-12">Please fill all the information</h4>
+    <div className="flex items-center justify-center min-h-screen px-4">
+        <div className="flex items-center justify-center mt-8 rounded-3xl w-full max-w-5xl shadow-lg bg-gray-200">
+            <form className="flex w-full flex-col gap-6 mt-8 mb-4" onSubmit={onSubmit}>
+                <div className="flex flex-col border-b-2 border-gray-400 px-4">
+                    <h2 className="text-2xl font-bold mb-2 ml-4">Apply for Manager</h2>
+                    <h4 className="text-xl text-gray mb-8 ml-4">Please fill all the information</h4>
                 </div>
-                <div className="flex items-center justify-center mt-8 ml-4 space-x-20">
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="fname" value="Name" />
-                        </div>
-                        <TextInput className="w-96" id="fname" type="text" placeholder="Name" value={formData.fname} onChange={handleChange} required shadow />
+                <div className="flex flex-wrap gap-10 px-8">
+                    <div className="flex-1">
+                        <Label htmlFor="fname" value="Name" />
+                        <TextInput
+                            className="w-full"
+                            id="fname"
+                            type="text"
+                            placeholder="Name"
+                            value={formData.fname}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="lname" value="Surname" />
-                        </div>
-                        <TextInput className="w-96" id="lname" type="text" placeholder="Surname" value={formData.lname} onChange={handleChange} required shadow />
+                    <div className="flex-1">
+                        <Label htmlFor="lname" value="Surname" />
+                        <TextInput
+                            className="w-full"
+                            id="lname"
+                            type="text"
+                            placeholder="Surname"
+                            value={formData.lname}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
                 </div>
-                <div className="flex items-center justify-center ml-4 space-x-20">
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="email" value="Email" />
-                        </div>
-                        <TextInput className="w-96" id="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} required shadow />
+                <div className="flex flex-wrap gap-10 px-8">
+                    <div className="flex-1">
+                        <Label htmlFor="email" value="Email" />
+                        <TextInput
+                            className="w-full"
+                            id="email"
+                            type="email"
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="password" value="Password" />
-                        </div>
-                        <TextInput className="w-96" id="password" type="password" placeholder="Password" value={formData.password} onChange={handleChange} required shadow />
+                    <div className="flex-1">
+                        <Label htmlFor="password" value="Password" />
+                        <TextInput
+                            className="w-full"
+                            id="password"
+                            type="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
                 </div>
-                <div className="flex items-center justify-center ml-4 space-x-20">
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="date" value="Chain" />
-                        </div>
-                        <select id="foodchain" className="w-96 p-2 border rounded-md shadow" value={formData.foodchain.id || ""} onChange={handleChange} required>
+                <div className="flex flex-wrap gap-10 px-8">
+                    <div className="flex-1">
+                        <Label htmlFor="foodchain" value="Chain" />
+                        <select
+                            id="foodchain"
+                            className="w-full p-2 border rounded-md shadow"
+                            value={formData.foodchain.id || ""}
+                            onChange={handleChange}
+                            required
+                        >
                             <option value="" disabled>
                                 -- Select a Food Chain --
                             </option>
@@ -111,55 +143,108 @@ export function ApplicationForm({ handleSubmit }: { handleSubmit: (formData: any
                                 <option key={chain.id} value={chain.id}>
                                     {chain.name}
                                 </option>
-                                ))}
+                            ))}
                         </select>
                     </div>
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="date" value="Birth Date" />
-                        </div>
-                        <TextInput className="w-96" id="birthDate" type="text" placeholder="YYYY-MM-DD" value={formData.birthDate} onChange={handleChange} required shadow />
+                    <div className="flex-1">
+                        <Label htmlFor="birthDate" value="Birth Date" />
+                        <TextInput
+                            className="w-full"
+                            id="birthDate"
+                            type="text"
+                            placeholder="YYYY-MM-DD"
+                            value={formData.birthDate}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
                 </div>
-                <div className="flex items-center justify-center ml-4 space-x-20">
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="restname" value="Restaurant Name" />
-                        </div>
-                        <TextInput className="w-96" id="restaurantName" type="text" placeholder="Restaurant Name" value={formData.restaurantName} onChange={handleChange} required shadow />
+                <div className="flex flex-wrap gap-10 px-8">
+                    <div className="flex-1">
+                        <Label htmlFor="restaurantName" value="Restaurant Name" />
+                        <TextInput
+                            className="w-full"
+                            id="restaurantName"
+                            type="text"
+                            placeholder="Restaurant Name"
+                            value={formData.restaurantName}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="restAddress" value="Address" />
-                        </div>
-                        <TextInput className="w-96" id="restaurantAddress" type="text" placeholder="Address" value={formData.restaurantAddress} onChange={handleChange} required shadow />
-                    </div>
-                </div>
-                <div className="flex items-center justify-center ml-4 space-x-20">
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="lat" value="Latitude" />
-                        </div>
-                        <TextInput className="w-96" id="latitude" type="number" placeholder="Latitude" value={formData.latitude} onChange={handleChange} required shadow />
-                    </div>
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="longitude" value="Longitude" />
-                        </div>
-                        <TextInput className="w-96" id="longitude" type="number" placeholder="Longitude" value={formData.longitude} onChange={handleChange} required shadow />
-                    </div>
-                </div>
-                <div className="flex items-center justify-center ml-4 space-x-20">
-                    <div>
-                        <div className="mb-2 block">
-                            <Label htmlFor="restaurantEndpoint" value="Endpoint" />
-                        </div>
-                        <TextInput className="w-96" id="restaurantEndpoint" type="text" placeholder="Endpoint" value={formData.restaurantEndpoint} onChange={handleChange} required shadow />
+                    <div className="flex-1">
+                        <Label htmlFor="restaurantAddress" value="Address" />
+                        <TextInput
+                            className="w-full"
+                            id="restaurantAddress"
+                            type="text"
+                            placeholder="Address"
+                            value={formData.restaurantAddress}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
                     </div>
                 </div>
-                <div className="flex items-center justify-center mt-4 gap-12">
-                    <Button className="bg-red-500 w-48 rounded-2xl" type="button" onClick={handleNavigation} >Back</Button>
-                    <Button className="bg-green-500 w-48 rounded-2xl" type="submit" >Submit</Button>
+                <div className="flex flex-wrap gap-10 px-8">
+                    <div className="flex-1">
+                        <Label htmlFor="latitude" value="Latitude" />
+                        <TextInput
+                            className="w-full"
+                            id="latitude"
+                            type="number"
+                            placeholder="Latitude"
+                            value={formData.latitude}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <Label htmlFor="longitude" value="Longitude" />
+                        <TextInput
+                            className="w-full"
+                            id="longitude"
+                            type="number"
+                            placeholder="Longitude"
+                            value={formData.longitude}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
+                    </div>
+                </div>
+                <div className="flex justify-center items-center px-56">
+                    <div className="flex-1">
+                        <Label htmlFor="restaurantEndpoint" value="Endpoint" />
+                        <TextInput
+                            className="w-full"
+                            id="restaurantEndpoint"
+                            type="text"
+                            placeholder="Endpoint"
+                            value={formData.restaurantEndpoint}
+                            onChange={handleChange}
+                            required
+                            shadow
+                        />
+                    </div>
+                </div>
+                <div className="flex justify-center gap-6 px-4 mt-4">
+                    <Button
+                        className="bg-red-500 w-32 sm:w-48 rounded-2xl"
+                        type="button"
+                        onClick={handleNavigation}
+                    >
+                        Back
+                    </Button>
+                    <Button
+                        className="bg-green-500 w-32 sm:w-48 rounded-2xl"
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
                 </div>
             </form>
         </div>
