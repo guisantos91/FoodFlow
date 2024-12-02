@@ -15,8 +15,7 @@ const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, i
     const navigate = useNavigate();
     const handleCardClick = () => {
         if (naveTrue) {
-       navigate(`/foodchain/${foodchainId}/restaurant/${restId}`);
-            
+            navigate(`/foodchain/${foodchainId}/restaurant/${restId}`);
         }
     };
 

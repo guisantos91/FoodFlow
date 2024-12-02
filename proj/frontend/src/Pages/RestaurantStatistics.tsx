@@ -6,34 +6,12 @@ import LineGraph from '../components/Statistics/LineGraph';
 import CardComponent from "../components/Cards/Card";
 import Table from "../components/Statistics/Table";
 import { HiSortDescending } from "react-icons/hi";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
-
-interface Order {
-    id: number;
-    createdAt: string; 
-    orderId: number;
-    status: string;
-    restaurantId: number;
-}
-
-interface MenuData {
-    name: string;
-    values: number[];
-}
-
-interface DonutData {
-    name: string;
-    value: number;
-}
-
-interface Menu {
-    id: number;
-    name: string;
-    price: number;
-}
+import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
+import { getMenus, Menu, DonutData } from "../api/apiFoodChain";
+import { getOrdersStatistics, Order, MenuData } from "../api/apiOrders";
 
 const RestaurantStatistics = () => {
     const { foodchainId, restaurantId } = useParams<{ foodchainId: string; restaurantId: string }>();
@@ -115,43 +93,40 @@ const RestaurantStatistics = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/restaurants/${restID}/orders`;
-
                 // Fetch and sort "to-do" orders
-                const responseTodo = await axios.get(`${baseUrl}?status=to-do`);
-                const sortedTodo = responseTodo.data.sort(
+                const responseTodo = await getOrdersToDo(restID);
+                const sortedTodo = responseTodo.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_todo(sortedTodo);
 
                 // Fetch and sort "in-progress" orders
-                const responsePreparing = await axios.get(`${baseUrl}?status=in-progress`);
-                const sortedPreparing = responsePreparing.data.sort(
+                const responsePreparing = await getOrdersInProgress(restID);
+                const sortedPreparing = responsePreparing.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_preparing(sortedPreparing);
 
                 // Fetch and sort "done" orders
-                const responseReady = await axios.get(`${baseUrl}?status=done`);
-                const sortedReady = responseReady.data.sort(
+                const responseReady = await getOrdersDone(restID);
+                const sortedReady = responseReady.sort(
                     (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                 );
                 setOrders_ready(sortedReady);
 
-                const responseGraph = await axios.get(`${baseUrl}/statistics`, {
-                    withCredentials: true
-                });
-                const formattedGraphData = Object.keys(responseGraph.data).map((menu) => {
+                const responseGraph = await getOrdersStatistics(restID);
+                console.log("Orders Data:", responseGraph);
+                const formattedGraphData = Object.keys(responseGraph).map((menu: string) => {
                     return {
                         name: menu,
-                        values: responseGraph.data[menu].values
+                        values: (responseGraph as any)[menu].values
                     };
                 });
                 setGraphData(formattedGraphData);
-                const formattedDonutData = Object.keys(responseGraph.data).map((menu) => {
+                const formattedDonutData = Object.keys(responseGraph).map((menu) => {
                     return {
                         name: menu,
-                        value: responseGraph.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                        value: (responseGraph as any)[menu].values.reduce((acc: number, val: number) => acc + val, 0)
                     };
                 });
                 setDonutGraphData(formattedDonutData);
@@ -163,8 +138,8 @@ const RestaurantStatistics = () => {
 
         const fetchMenus = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/foodchains/${foodchainID}/menus`);
-                setMenus(response.data);
+                const response = await getMenus(foodchainID);
+                setMenus(response);
             } catch (err) {
                 console.error("Error fetching menus:", err);
             }
@@ -174,6 +149,12 @@ const RestaurantStatistics = () => {
         fetchMenus();
         fetchOrders();
         connectWebSocketOrder(restID);
+
+        const interval = setInterval(() => {
+            fetchOrders();
+        }, 5000);
+
+        return () => clearInterval(interval);
     }, []);
 
     const todo = orders_todo.map((order) => order.orderId);
@@ -224,11 +205,13 @@ const RestaurantStatistics = () => {
                     </Tabs>
                 </div>
                 <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4 shadow-2xl">
-                    <div className="flex items-center mt-8 ml-4 space-x-2">
+                    <div className="flex items-center mt-8 space-x-2">
                         <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
                             <img src={userIcon} alt="User Icon" className="w-4 h-4" />
                         </div>
-                        <h3 className="text-xl font-bold text-black">Login</h3>
+                        <Link to="/login" className="text-xl font-bold text-black hover:text-orange-500 hover:underline">
+                            Login
+                        </Link>
                     </div>
                     <h2 className="text-2xl text-black font-bold mt-8 ml-4">Live Orders</h2>
                     <Table todo={todo} preparing={preparing} ready={ready} />

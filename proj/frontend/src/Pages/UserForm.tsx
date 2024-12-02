@@ -1,33 +1,22 @@
 import { Form } from '../components/Form';
 import Layout from '../components/Layout';
 import userIcon from "../assets/images/icons/user.png";
-import axios from "axios";
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getForm, FormData } from '../api/apiAdmin';
 
-interface Form {
-    fname: string;
-    lname: string;
-    email: string;
-    birthDate: string;
-    restaurantName: string;
-    restaurantAddress: string;
-}
 
 const UserForm = () => {
     const formId = useParams<{ formId: string }>().formId;
-    const [form, setForm] = useState<Form>();
+    const [form, setForm] = useState<FormData>();
     console.log(formId);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms/${formId}`, {
-                    withCredentials: true,
-                });
-                setForm(response.data);
-                console.log(response.data);
+                const response = await getForm(formId);
+                setForm(response);
+                console.log(response);
             } catch (error) {
                 console.error("Failed to fetch users: ", error);
             }

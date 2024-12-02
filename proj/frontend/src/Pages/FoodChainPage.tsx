@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout.tsx";
 import Map from "../components/Map.tsx";
-import axios from "axios";
 import Sidebar from "../components/SideBar.tsx";
 import * as L from "leaflet"; 
 import { useParams } from "react-router-dom";
+import { getChains, getRestaurants, FoodChain, Restaurant } from "../api/apiFoodChain.tsx";
+import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 // import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 
 const FoodChainPage: React.FC = ({}) => {
@@ -14,21 +15,6 @@ const FoodChainPage: React.FC = ({}) => {
 
   const [zoomLevel, setZoomLevel] = useState(13);
   const [userLocation, setUserLocation] = useState({});
-
-  interface FoodChain {
-    id: number;
-    name: string;
-  }
-
-  interface Restaurant {
-    id: number;
-    name: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-    foodchain: FoodChain;
-    manager: string | null;
-  }
 
 
 
@@ -61,10 +47,8 @@ const FoodChainPage: React.FC = ({}) => {
   useEffect(() => {
     const fetchFoodChains = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/foodchains/"
-        );
-        const allFoodChains: FoodChain[] = response.data;
+        const response = await getChains();
+        const allFoodChains: FoodChain[] = response;
         const targetFoodChain = allFoodChains.find(
           (fc) => fc.id === foodChainID
         );
@@ -98,11 +82,9 @@ const FoodChainPage: React.FC = ({}) => {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/foodchains/${foodChainID}/restaurants`
-        );
+        const response = await getRestaurants(foodChainID);
         if (Object.keys(userLocation).length !== 0) {
-          const restaurantsWithDistance = response.data.map((restaurant: any) => {
+          const restaurantsWithDistance = response.map((restaurant: any) => {
             const dist = distance(userLocation, restaurant.latitude, restaurant.longitude);
             return { ...restaurant, distance: dist };
           });
@@ -110,8 +92,8 @@ const FoodChainPage: React.FC = ({}) => {
           setRestaurant(restaurantsWithDistance);
           console.log("Restaurants Data with Distance:", restaurantsWithDistance);
         } else {
-          setRestaurant(response.data);
-          console.log("Restaurants Data:", response.data);
+          setRestaurant(response);
+          console.log("Restaurants Data:", response);
         }
       } catch (err) {
         console.error("Error fetching Restaurants:", err);
@@ -177,7 +159,7 @@ const FoodChainPage: React.FC = ({}) => {
                 />
               </div>
             </div>
-            {/* <DonutChartToFoodChain foodChainID={foodChainID} /> */}
+            <DonutChartToFoodChain foodChainID={foodChainID} />
           </div>
         </div>
         <Sidebar

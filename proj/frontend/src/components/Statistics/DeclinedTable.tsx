@@ -1,47 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
+import { changeForm, getDeclinedForms, FormData } from '../../api/apiAdmin';
 
 interface managerName {
     name: string;
 }
 
-interface FoodChain {
-    id: number;
-    name: string;
-}
-
-interface Form {
-    id: number;
-    foodchain: FoodChain;
-    fname: string;
-    lname: string;
-    email: string;
-    birthDate: string;
-    restaurantName: string;
-    restaurantAddress: string;
-    latitude: number;
-    longitude: number;
-    restaurantEndpoint: string;
-    password: string;
-}
 
 const DeclinedTable = ({ name }: managerName) => {
-    const [forms, setForms] = React.useState<Form[]>([]);
+    const [forms, setForms] = React.useState<FormData[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
 
     useEffect(() => {
         const fetchForms = async () => {
             try {
-                const baseUrl = `http://localhost:8080/api/v1/admin`;
-                const response = await axios.get(`${baseUrl}/forms?state=declined`, {
-                    withCredentials: true,
-                });
-                const filteredForms = response.data.filter(
-                    (form: Form) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
+                const response = await getDeclinedForms();
+                const filteredForms = response.filter(
+                    (form: FormData) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
                 setForms(filteredForms);
             } catch (err) {
@@ -64,13 +42,8 @@ const DeclinedTable = ({ name }: managerName) => {
         const newForm = { ...formToUpdate, state: "deleted" };
 
         try {
-            const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = await axios.put(
-                `${baseUrl}/forms/${managerFormId}`,
-                newForm,
-                { withCredentials: true }
-            );
-            console.log("Delete response:", response.data);
+            const response = changeForm(managerFormId, newForm);
+            console.log("Delete response:", response);
 
             setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
         } catch (error) {
@@ -90,14 +63,8 @@ const DeclinedTable = ({ name }: managerName) => {
         const newForm = { ...formToUpdate, state: "pending" };
 
         try {
-            const baseUrl = `http://localhost:8080/api/v1/admin`;
-            const response = await axios.put(
-                `${baseUrl}/forms/${managerFormId}`,
-                newForm,
-                { withCredentials: true }
-            );
-            console.log("Pending response:", response.data);
-
+            const response = changeForm(managerFormId, newForm);
+            console.log("Pending response:", response);
             setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
         } catch (error) {
             console.error("Failed to reject form:", error);

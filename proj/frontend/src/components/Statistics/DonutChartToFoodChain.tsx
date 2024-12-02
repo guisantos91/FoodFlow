@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import DonutChart from "./DonutChart";
-interface DonutData {
-    name: string;
-    value: number;
-  }
+import { getOrdersStatisticsById, DonutData } from "../../api/apiFoodChain";
 
 interface DonutChartProps{
     foodChainID:number;
@@ -16,15 +12,13 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     useEffect(() => {
         const fetchStats = async () => {
           try {
-            const response = await axios.get(
-              `http://localhost:8080/api/v1/foodchains/${foodChainID}/orders/statistics`
-            );
+            const response = await getOrdersStatisticsById(foodChainID);
             // console.log("Stats Data:", response.data);
     
-            const formattedDonutData = Object.keys(response.data).map((menu) => {
+            const formattedDonutData = Object.keys(response).map((menu) => {
               return {
                 name: menu,
-                value: response.data[menu].values.reduce((acc: number, val: number) => acc + val, 0)
+                value: (response as any)[menu].values.reduce((acc: number, val: number) => acc + val, 0)
               }
             });
     
@@ -35,7 +29,7 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
         };
     
         fetchStats();
-      })
+      }, [foodChainID])
 
       const dataNames = [...new Set([...donutGraphData.map(item => item.name), ...donutGraphData.map(item => item.name)])];
       const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
