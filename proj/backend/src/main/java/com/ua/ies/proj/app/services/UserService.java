@@ -20,6 +20,9 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class UserService {
     @Autowired
+    private final OrderProcessingService orderProcessingService;
+
+    @Autowired
     private final UserRepository userRepository;
     @Autowired
     private final ManagerFormRepository managerFormRepository;
@@ -28,10 +31,11 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository, RestaurantRepository restaurantRepository) {
+    public UserService(UserRepository userRepository, ManagerFormRepository managerFormRepository, RestaurantRepository restaurantRepository, OrderProcessingService orderProcessingService) {
         this.userRepository = userRepository;
         this.managerFormRepository = managerFormRepository;
         this.restaurantRepository = restaurantRepository;
+        this.orderProcessingService = orderProcessingService;
     }
 
     public List<UserManager> getManagers() {
@@ -117,10 +121,12 @@ public class UserService {
         restaurant.setAddress(form.getRestaurantAddress());
         restaurant.setLatitude(form.getLatitude());
         restaurant.setLongitude(form.getLongitude());
-        // Send to the publisher the restaurantEndpoint
         restaurant.setFoodchain(form.getFoodchain());
         restaurant.setManager(manager);
+        restaurant.setTopic(form.getRestaurantEndpoint());
         restaurantRepository.save(restaurant);
+
+        orderProcessingService.createListenerForRestaurant(restaurant.getTopic(), "group-" + restaurant.getId());
 
         form.setState("accepted");
         managerFormRepository.save(form);

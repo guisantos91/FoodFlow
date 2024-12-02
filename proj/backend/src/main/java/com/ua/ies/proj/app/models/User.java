@@ -2,6 +2,7 @@ package com.ua.ies.proj.app.models;
 
 import java.util.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
@@ -28,7 +29,7 @@ public abstract class User {
     @NotBlank
     private String lname;
 
-    @NotBlank
+    @Column(unique = true, nullable = false)
     private String email;
 
     private Date birthDate;

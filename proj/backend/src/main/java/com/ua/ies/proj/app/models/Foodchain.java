@@ -13,8 +13,7 @@ public class Foodchain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique=true)
-    @NotBlank
+    @Column(unique=true, nullable=false)
     private String name;
 
     @NotBlank
