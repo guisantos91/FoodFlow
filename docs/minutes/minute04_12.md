@@ -33,7 +33,7 @@ Discutir o progresso do projeto e planear as tarefas a realizar até ao final da
 
 - **Resolver problemas no data generator, garantindo que os estados das encomendas (orders) são simulados de forma correta e consistente. Controlar melhor o fluxo e a qualidade dos dados gerados.**
 
-- **Adicionar dados relevantes para testes mais abrangentes, como imagens associadas a cadeias de restaurantes e respetivos menus. Garantir diversidade e relevância dos dados para simular adequadamente o comportamento da aplicação em produção.**
+- **Adicionar dados relevantes para melhor a experiência de utilização, como imagens associadas a cadeias de restaurantes e respetivos menus.**
 
 
 ### Discussion items:
@@ -45,6 +45,6 @@ Discutir o progresso do projeto e planear as tarefas a realizar até ao final da
 
 - **Atualização e melhoria da documentação da API** - Tornar a documentação um recurso acessível e compreensível para futuros desenvolvimentos e integrações.
 
-- **Correção do data generator** - Garantir que os dados simulados representem com precisão cenários reais.
+- **Correção do data generator** - Garantir que os dados simulados representem possíveis cenários reais.
 
-- **Inserção de dados adicionais na base de dados** - Incorporar atributos e conteúdos que enriqueçam os testes e as funcionalidades do sistema.
+- **Inserção de dados adicionais na base de dados** - Incorporar atributos e conteúdos que enriqueçam as funcionalidades do sistema.
