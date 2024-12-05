@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
