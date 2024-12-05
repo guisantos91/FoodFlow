@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
@@ -6,6 +6,7 @@ import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from "../../context/FormContext";
 import { getPendingForms, changeForm, FormData, aproveForm } from '../../api/apiAdmin';
+import { handleForm } from '../../utils/userActions';
 
 interface managerName {
     name: string;
@@ -41,39 +42,6 @@ const PendingTable = ({ name }: managerName) => {
     }, [name, activeTab]);
 
     console.log(forms);
-
-
-    const handleAccept = (formId: number) => {
-        const form = forms.find((form) => form.id === formId);
-        if (!form) {
-            console.error("Form not found");
-            return;
-        }
-        const newForm = { ...form, state: "accepted" };
-        try {
-            const response = aproveForm(newForm);
-            console.log(response);
-            setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
-        } catch (error) {
-            console.error("Failed to accept form:", error);
-        }
-    };
-
-    const handleReject = (formId: number) => {
-        const form = forms.find((form) => form.id === formId);
-        if (!form) {
-            console.error("Form not found");
-            return;
-        }
-        const newForm = { ...form, state: "declined" };
-        try {
-            const response = changeForm(formId, newForm);
-            console.log(response);
-            setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
-        } catch (error) {
-            console.error("Failed to reject form:", error);
-        }
-    };
 
     const handleDetails = (formId: number) => {
         navigate(`/form/${formId}`);
@@ -121,8 +89,8 @@ const PendingTable = ({ name }: managerName) => {
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={tick} alt="Accept" className="w-5 h-5 cursor-pointer" onClick={() => handleAccept(restaurant.id)} />
-                                    <img src={cross} alt="Reject" className="w-5 h-5 cursor-pointer" onClick={() => handleReject(restaurant.id)} />
+                                    <img src={tick} alt="Accept" className="w-5 h-5 cursor-pointer" onClick={() => handleForm(restaurant.id, forms, setForms, "accepted")} />
+                                    <img src={cross} alt="Reject" className="w-5 h-5 cursor-pointer" onClick={() => handleForm(restaurant.id, forms, setForms, "declined")} />
                                     <img src={eye} alt="View Details" className="w-5 h-5 cursor-pointer" onClick={() => handleDetails(restaurant.id)} />
                                 </div>
                             </td>
