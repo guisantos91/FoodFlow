@@ -20,43 +20,43 @@ export function Form({data}: FormProps) {
                 <div className="flex flex-wrap gap-10 px-8">
                     <div className="flex-1">
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="Name" />
+                            <Label htmlFor="fname" value="Name" />
                         </div>
-                        <TextInput className="w-full" id="name" type="text" value={data.fname} placeholder={data.fname} required shadow />
+                        <TextInput className="w-full" id="fname" type="text" value={data.fname} placeholder={data.fname} readOnly required shadow />
                     </div>
                     <div className="flex-1">
                         <div className="mb-2 block">
-                            <Label htmlFor="surname" value="Surname" />
+                            <Label htmlFor="lname" value="Surname" />
                         </div>
-                        <TextInput className="w-full" id="surname" type="text" value={data.lname} placeholder={data.lname} required shadow />
+                        <TextInput className="w-full" id="lname" type="text" value={data.lname} placeholder={data.lname} readOnly required shadow />
                     </div>
                 </div>
                 <div className="flex flex-wrap gap-10 px-8">
                     <div className="flex-1">
                         <div className="mb-2 block">
-                            <Label htmlFor="date" value="Birth Date" />
+                            <Label htmlFor="birthDate" value="Birth Date" />
                         </div>
-                        <TextInput className="w-full" id="date" type="text" value={data.birthDate} placeholder={data.birthDate} required shadow />
+                        <TextInput className="w-full" id="birthDate" type="text" value={data.birthDate} placeholder={data.birthDate} readOnly required shadow />
                     </div>
                     <div className="flex-1">
                         <div className="mb-2 block">
                             <Label htmlFor="email" value="Email" />
                         </div>
-                        <TextInput className="w-full" id="email" type="email" value={data.email} placeholder={data.email} required shadow />
+                        <TextInput className="w-full" id="email" type="email" value={data.email} placeholder={data.email} readOnly required shadow />
                     </div>
                 </div>
                 <div className="flex flex-wrap gap-10 px-8">
                     <div className="flex-1">
                         <div className="mb-2 block">
-                            <Label htmlFor="restname" value="Restaurant Name" />
+                            <Label htmlFor="restaurantName" value="Restaurant Name" />
                         </div>
-                        <TextInput className="w-full" id="restName" type="text" value={data.restaurantName} placeholder={data.restaurantName} required shadow />
+                        <TextInput className="w-full" id="restaurantName" type="text" value={data.restaurantName} placeholder={data.restaurantName} readOnly required shadow />
                     </div>
                     <div className="flex-1">
                         <div className="mb-2 block">
-                            <Label htmlFor="restAddress" value="Restaurant Address" />
+                            <Label htmlFor="restaurantAddress" value="Restaurant Address" />
                         </div>
-                        <TextInput className="w-full" id="restAddress" type="text" value={data.restaurantAddress} placeholder={data.restaurantAddress} required shadow />
+                        <TextInput className="w-full" id="restaurantAddress" type="text" value={data.restaurantAddress} placeholder={data.restaurantAddress} readOnly required shadow />
                     </div>
                 </div>
                 <div className="flex items-center justify-center mt-4 gap-12">
