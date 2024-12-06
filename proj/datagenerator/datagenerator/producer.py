@@ -17,25 +17,25 @@ import tempfile
 from filelock import FileLock, Timeout
 
 DATA_DIR = '/app/data'
-ORDER_ID_FILE = os.path.join(DATA_DIR, 'order_id.txt')
+ORDER_ID_FILE = os.path.join(DATA_DIR, 'order_ids.json')
 ORDERS_FILE = os.path.join(DATA_DIR, 'orders.json')
 LOCK_FILE = os.path.join(DATA_DIR, 'orders.lock')
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
 if not os.path.exists(ORDER_ID_FILE):
-    order_id = 0
+    order_ids = {}
     with open(ORDER_ID_FILE, 'w') as f:
-        f.write(str(order_id))
+        json.dump(order_ids, f, indent=4)
 else:
     with open(ORDER_ID_FILE, 'r') as f:
         try:
-            order_id = int(f.read())
+            order_ids = json.load(f)
         except ValueError:
-            print("Invalid order_id in file. Resetting to 0.")
-            order_id = 0
+            print("Invalid order_ids in file. Resetting to {}.")
+            order_ids = {}
             with open(ORDER_ID_FILE, 'w') as fw:
-                fw.write(str(order_id))
+                json.dump(order_ids, fw, indent=4)
 
 if not os.path.exists(ORDERS_FILE):
     orders = {}
@@ -155,30 +155,32 @@ def insert_order():
     total_price = sum(menus[item_id][1] * quantity for item_id, quantity in items.items())
     status = 'to-do'
     created_at = datetime.now()  
-
-    global order_id, orders
-    order_id += 1
-
-    msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
-    print(f"Msg: {msg}")
     topic=restaurantsTopic[restaurant_id]
+
+    global order_ids, orders
+    order_id=order_ids.get(topic,100)
+    order_id+=1
+    order_ids[topic]=order_id
+
+    msg={"orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
+    print(f"Msg: {msg}")
     producer.send(topic, msg)
 
-    timeToNextState=[created_at+timedelta(seconds=2*random.randint(2,8))]
-    timeToNextState.append(timeToNextState[0]+timedelta(seconds=8*random.randint(2,8)))
-    timeToNextState.append(timeToNextState[1]+timedelta(seconds=2*random.randint(2,8)))
+    timeToNextState=[created_at+timedelta(seconds=2*random.randint(2,6))]
+    timeToNextState.append(timeToNextState[0]+timedelta(seconds=3*random.randint(2,4)))
+    timeToNextState.append(timeToNextState[1]+timedelta(seconds=2*random.randint(2,4)))
 
     timeToNextState=[time.isoformat() for time in timeToNextState]
     
-    orders[str(order_id)]={ "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
+    orders[(str(order_id))]={ "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
     "menus":[{"id":menu_id} for menu_id, quantity in items.items()],
      "timeToNextState":timeToNextState}
     
     lock = FileLock(LOCK_FILE, timeout=10)
     try:
         with lock:
-            with open(ORDER_ID_FILE, 'w') as f:
-                f.write(str(order_id))
+            with open(ORDER_ID_FILE, 'w') as fw:
+                json.dump(order_ids, fw, indent=4)
             atomic_write(ORDERS_FILE, orders)
     except Timeout:
         print("Could not acquire the lock to write files.")
@@ -192,7 +194,7 @@ def nextState():
         time_to_next = datetime.fromisoformat(value["timeToNextState"][state])
         if time_to_next < datetime.now():
             value["status"]=states[state+1]
-            msg={"id":int(ID), "orderId":int(ID), "restaurant_id":value["restaurant_id"], "createdAt":value["createdAt"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
+            msg={"orderId":int(ID), "restaurant_id":value["restaurant_id"], "createdAt":value["createdAt"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
             print(f"Msg: {msg}")
             topic=restaurantsTopic[value["restaurant_id"]]
             producer.send(topic, msg)

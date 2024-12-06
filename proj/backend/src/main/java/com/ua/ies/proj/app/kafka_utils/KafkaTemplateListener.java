@@ -50,7 +50,7 @@ public class KafkaTemplateListener implements MessageListener<String, OrderKafka
         newOrder.setPrice(order.getPrice());
         newOrder.setMenus(order.getMenus());
 
-        Optional<Order> existingOrder = orderRepository.findByOrderId(order.getOrderId());
+        Optional<Order> existingOrder = orderRepository.findByOrderIdAndRestaurant(order.getOrderId(),restaurant);
         Order savedOrder;
         if (existingOrder.isPresent()) {
             Order existing = existingOrder.get();

@@ -23,7 +23,7 @@ public class Order {
     private Long id;
 
     // This is the order_id that will be sent from the datagenerator
-    @Column(unique = true, nullable=false)
+    @Column(unique = false, nullable=false)
     private Long orderId;
 
     @ManyToOne
