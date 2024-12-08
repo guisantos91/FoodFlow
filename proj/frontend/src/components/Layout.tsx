@@ -8,7 +8,8 @@ import settingsIcon from '../assets/images/icons/setting_grey.png';
 import homeIconWhite from '../assets/images/icons/casa_white.png';
 import userIconWhite from '../assets/images/icons/user_white.png';
 import settingsIconWhite from '../assets/images/icons/setting_white.png';
-// import logoutIcon from './assets/images/icons/logout_grey.png';
+import logoutIcon from '../assets/images/icons/logout_grey.png';
+import logoutIconWhite from '../assets/images/icons/logout.png';
 import { useLocation } from "react-router-dom";
 
 const SideBarLayout = () => {
@@ -18,6 +19,7 @@ const SideBarLayout = () => {
         { id: "home", path: "/", grey: homeIcon, white: homeIconWhite },
         { id: "user", path: "/user", grey: userIcon, white: userIconWhite },
         { id: "settings", path: "/settings", grey: settingsIcon, white: settingsIconWhite },
+        { id: "logout", path: "/ ", grey: logoutIcon, white: logoutIconWhite },
     ];
 
     return (

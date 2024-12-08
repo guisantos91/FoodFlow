@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../api/apiLogin";
+import { login,getMe } from "../api/apiLogin";
 // import { useUserContext } from "../context/userContext";
 
 const LoginPage: React.FC = () => {
@@ -18,6 +18,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     try {
       login(email, password);
+      console.log(getMe())
       // contextLogin(email);
       // navigate('/');
     } catch {
@@ -94,10 +95,6 @@ const LoginPage: React.FC = () => {
             Become a Manager
           </button>
         </div>
-        {/* <button
-          className="btn w-full mt-4 bg-white text-red-500 border-red-500 border-2 rounded-3xl text-base"
-          onClick={contextLogout}
-        ></button> */}
       </div>
     </div>
   );

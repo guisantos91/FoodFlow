@@ -21,7 +21,7 @@ export const logout = async () => {
 
 export const getMe = async () => {
   try {
-    await axios.post(`${API_BASE_URL}/auth/logout`, { withCredentials: true });
+    await axios.post(`${API_BASE_URL}/auth/me`, { withCredentials: true });
   } catch (error) {
     console.error("Error logout in:", error);
     throw error;
