@@ -162,17 +162,17 @@ def insert_order():
     order_id+=1
     order_ids[topic]=order_id
 
-    msg={"orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
+    msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
     print(f"Msg: {msg}")
     producer.send(topic, msg)
 
-    timeToNextState=[created_at+timedelta(seconds=2*random.randint(2,6))]
+    timeToNextState=[created_at+timedelta(seconds=2*random.randint(2,4))]
     timeToNextState.append(timeToNextState[0]+timedelta(seconds=3*random.randint(2,4)))
     timeToNextState.append(timeToNextState[1]+timedelta(seconds=2*random.randint(2,4)))
 
     timeToNextState=[time.isoformat() for time in timeToNextState]
     
-    orders[(str(order_id))]={ "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
+    orders[(str(order_id)+topic)]={"id":str(order_id), "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
     "menus":[{"id":menu_id} for menu_id, quantity in items.items()],
      "timeToNextState":timeToNextState}
     
@@ -189,18 +189,19 @@ stateDic={'to-do':0, 'in-progress':1, 'done':2}
 
 def nextState():
     ignores=[]
-    for ID,value in orders.items():
+    for key,value in orders.items():
         state=stateDic[value["status"]]
         time_to_next = datetime.fromisoformat(value["timeToNextState"][state])
         if time_to_next < datetime.now():
             value["status"]=states[state+1]
-            msg={"orderId":int(ID), "restaurant_id":value["restaurant_id"], "createdAt":value["createdAt"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
+            ID=value["id"]
+            msg={"id":int(ID), "orderId":int(ID), "restaurant_id":value["restaurant_id"], "createdAt":value["createdAt"], "price":value["price"],"menus":value["menus"], "status":value["status"]}
             print(f"Msg: {msg}")
             topic=restaurantsTopic[value["restaurant_id"]]
             producer.send(topic, msg)
             print("Order next successfully.")
         if value["status"]=='delivered':
-            ignores.append(ID)
+            ignores.append(key)
     for i in ignores:
         orders.pop(i)
     
