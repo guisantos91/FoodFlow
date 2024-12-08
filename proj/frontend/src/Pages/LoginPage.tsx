@@ -1,26 +1,37 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login,getMe } from "../api/apiLogin";
-// import { useUserContext } from "../context/userContext";
+import { login, getMe } from "../api/apiLogin";
+import { useUserContext } from "../context/UserContextFile";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  // const { contextLogin, contextLogout } = useUserContext();
+  const { contextLogin, isAuthenticated } = useUserContext();
 
   const handleNavigation = () => {
     navigate("/managerForm");
   };
 
+  if (isAuthenticated) {
+    setError("You are already logged in");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      login(email, password);
-      console.log(getMe())
-      // contextLogin(email);
-      // navigate('/');
+      await login(email, password);
+
+      const userData = await getMe();
+      contextLogin(
+        userData.role,
+        userData.fname,
+        userData.lname,
+        userData.restaurant_id,
+        userData.foodchain_id
+      );
+      navigate('/');
     } catch {
       setError("Invalid email or password");
     }

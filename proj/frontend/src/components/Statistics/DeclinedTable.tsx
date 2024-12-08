@@ -3,6 +3,7 @@ import MCImage from '../../assets/images/logos/mcdonalds.png';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
 import { changeForm, getDeclinedForms, FormData } from '../../api/apiAdmin';
+import { useFormContext } from "../../context/FormContext";
 
 interface managerName {
     name: string;
@@ -13,6 +14,7 @@ const DeclinedTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<FormData[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
+    const { activeTab } = useFormContext();
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -28,7 +30,7 @@ const DeclinedTable = ({ name }: managerName) => {
         };
 
         fetchForms();
-    }, [name]);
+    }, [name, activeTab]);
 
     const handleDelete = async (managerFormId: number | null) => {
         if (!managerFormId) return;
