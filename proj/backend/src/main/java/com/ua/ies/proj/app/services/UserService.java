@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.models.ManagerForm;
 import com.ua.ies.proj.app.models.Restaurant;
+import com.ua.ies.proj.app.models.Foodchain;
 import com.ua.ies.proj.app.models.User;
+import com.ua.ies.proj.app.models.UserInfo;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
 import com.ua.ies.proj.app.repos.UserRepository;
+import org.springframework.security.core.Authentication;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -136,4 +139,24 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
         return user.get();
     } 
+
+    public UserInfo getUserInfo(Authentication auth){
+        String role = auth.getAuthorities().iterator().next().getAuthority();
+        String email = auth.getName();
+        UserInfo userInfo = new UserInfo();
+        
+        userInfo.setRole(role);
+        
+        User user = getUserByEmail(email);
+        userInfo.setFname(user.getFname());
+        userInfo.setLname(user.getLname());
+
+        if (role.equals("MANAGER")){
+            Restaurant restaurant = restaurantRepository.findByManagerId(user.getId()).get();
+            userInfo.setRestaurant_id(restaurant.getId());
+            Foodchain foodchain = restaurant.getFoodchain();
+            userInfo.setFoodchain_id(foodchain.getId());
+        }
+        return userInfo;
+    }
 }
