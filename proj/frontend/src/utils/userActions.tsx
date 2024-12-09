@@ -19,6 +19,7 @@ export const handleForm = async (
         try {
             if (state === "accepted") {
                 await aproveForm(updatedForm);
+                redirect("/admin");
             } else if (state === "declined") {
                 await changeForm(formId, updatedForm);
             } else if (state === "pending") {
