@@ -1,5 +1,6 @@
 import { FormData } from "../api/apiAdmin";
 import { aproveForm, changeForm } from "../api/apiAdmin";
+import { redirect } from "react-router-dom";
 
 export const handleForm = async (
     formId: number | FormData,
@@ -17,8 +18,10 @@ export const handleForm = async (
         try {
             if (state === "accepted") {
                 await aproveForm(updatedForm);
+                redirect("/admin");
             } else if (state === "declined") {
                 await changeForm(formId, updatedForm);
+                redirect("/requests");
             }
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {
