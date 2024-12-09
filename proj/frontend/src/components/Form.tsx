@@ -12,6 +12,13 @@ export function Form({data}: FormProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { source } = location.state as { source: "pending" | "declined" };
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDelete = () => {
+      // setIsModalOpen(false);
+      handleForm(data, null, null, "deleted");
+      navigate("/requests");
+  };
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
         <div className="flex items-center justify-center rounded-3xl w-full max-w-5xl shadow-lg bg-gray-200">
@@ -94,14 +101,29 @@ export function Form({data}: FormProps) {
                                                                         navigate("/requests");
                                                                     }} >Restore</Button>
                             <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => {
-                                                                        handleForm(data, null, null, "deleted");
-                                                                        navigate("/requests");
+                                                                        handleDelete();
                                                                     }} >Delete</Button>
                         </>
                     ) : null}
                 </div>
             </form>
         </div>
+
+        {/* <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} position="center" >
+            <Modal.Header>
+                <p className="flex items-center justify-center text-black">
+                    Are you sure you want to delete this request?
+                </p>
+            </Modal.Header>
+            <Modal.Body className="flex items-center justify-center mt-4 gap-12">
+                <Button className="bg-red-500 rounded-xl" onClick={handleDelete}>
+                    Delete
+                </Button>
+                <Button className="bg-gray-300 rounded-xl" onClick={() => setIsModalOpen(false)}>
+                    Cancel
+                </Button>
+            </Modal.Body>
+        </Modal> */}
     </div>
   );
 }
