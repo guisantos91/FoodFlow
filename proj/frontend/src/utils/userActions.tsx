@@ -25,9 +25,6 @@ export const handleForm = async (
             console.error(`Failed to ${state} form in array:`, error);
         }
     } else {
-        console.log("Single form mode:", { formId });
-        const updatedForm = { ...(formId as FormData), state: state };
-        console.log("Updated form for single form mode:", updatedForm);
         try {
             const updatedForm = { ...(formId as FormData), state: state };
             if (state === "accepted") {
