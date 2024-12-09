@@ -84,6 +84,7 @@ export const changeForm = async( id: number, newForm: FormData ): Promise<FormDa
 
 export const aproveForm = async( newForm: FormData ): Promise<FormData> => {
     try {
+        console.log("API call to approve form with payload:", newForm);
         const response = await axios.post(`${API_BASE_URL}/admin/managers`, newForm, { withCredentials: true, });
         return response.data;
     } catch (error) {
