@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
@@ -109,32 +110,17 @@ public class Statistics {
     }
 
     public Map<String, OrderStatisticsDTO> filterTopStatisticByNow(Map<String, OrderStatisticsDTO> orderStatistics) {
-        return orderStatistics.entrySet().stream()
-                .sorted((e1, e2) -> Integer.compare(
-                        e2.getValue().getValues().get(4), 
-                        e1.getValue().getValues().get(4)))
-                .limit(LIMIT)
-                .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
+        Stream<Map.Entry<String, OrderStatisticsDTO>> stream = orderStatistics.entrySet().stream()
+            .sorted((e1, e2) -> Integer.compare(
+                e2.getValue().getValues().get(4),
+                e1.getValue().getValues().get(4)));
+
+        if (LIMIT != -1) {
+            stream = stream.limit(LIMIT);
+        }
+
+        return stream.collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
     }
-
-    // public Map<String, OrderStatisticsDTO> filterTopMenusByFoodChain(Map<String, OrderStatisticsDTO> orderStatistics) {
-    //     Map<Long, OrderStatisticsDTO> topMenusByChain = new HashMap<>();
-
-    //     orderStatistics.forEach((menuName, orderStat) -> {
-    //         Long foodChainId = orderStat.getMenu().getFoodchain().getId();
-    //         if (!topMenusByChain.containsKey(foodChainId) || 
-    //             topMenusByChain.get(foodChainId).getValues().get(4) < orderStat.getValues().get(4)) {
-    //             topMenusByChain.put(foodChainId, orderStat);
-    //         }
-    //     });
-
-    //     Map<String, OrderStatisticsDTO> result = new HashMap<>();
-    //     topMenusByChain.forEach((foodChainId, orderStat) -> {
-    //         result.put(orderStat.getMenu().getName(), orderStat);
-    //     });
-
-    //     return result;
-    // }
 }
 
 

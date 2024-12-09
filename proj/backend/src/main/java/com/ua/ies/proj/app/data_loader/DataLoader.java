@@ -38,13 +38,13 @@ public class DataLoader implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        Foodchain mcDonalds = new Foodchain("McDonald's", "Burgers");
-        Foodchain burgerKing = new Foodchain("Burger King", "Burgers");
-        Foodchain kfc = new Foodchain("KFC", "Fried Chicken");
-        Foodchain pizzaHut = new Foodchain("Pizza Hut", "Pizza");
-        Foodchain tacoBell = new Foodchain("Taco Bell", "Mexican Food");
-        Foodchain dominos = new Foodchain("Domino's Pizza", "Pizza");
-        Foodchain telepizza = new Foodchain("Telepizza", "Pizza");
+        Foodchain mcDonalds = new Foodchain("McDonald's", "Burgers", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRjLWhWpx9PfbzysffLbMA_DK_8jawJAVHbw&s");
+        Foodchain burgerKing = new Foodchain("Burger King", "Burgers", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-mwH8D7nmaq8OOj_A5qI4qh4LnXhuJtN5vQ&s");
+        Foodchain kfc = new Foodchain("KFC", "Fried Chicken", "https://kfcmenu.net/menu/8-pc-chicken-only.png");
+        Foodchain pizzaHut = new Foodchain("Pizza Hut", "Pizza", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1vu-wXOPKyXEU51U_QKbHMCfwugN3ExAI_A&s");
+        Foodchain tacoBell = new Foodchain("Taco Bell", "Mexican Food", "https://cdn.freebiesupply.com/images/thumbs/2x/taco-bell-logo.png");
+        Foodchain dominos = new Foodchain("Domino's Pizza", "Pizza", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5s9iRJd6qbAblgaIm2z0Nh0bTPnNYUJEkVg&s");
+        Foodchain telepizza = new Foodchain("Telepizza", "Pizza", "https://play-lh.googleusercontent.com/FCjnJiBLP8BK_rbybv2mbmdlA5cLyJQu9KoXgPb0g3d0T3Z_crLfKJokzmCt5MvlxLa5");
 
         if (!foodchainRepository.findByName("McDonald's").isPresent()) {
             foodchainRepository.save(mcDonalds);
@@ -74,21 +74,21 @@ public class DataLoader implements CommandLineRunner{
             foodchainRepository.save(telepizza);
         }
 
-        Menu cbo = new Menu("CBO", 7.5, mcDonalds);
-        Menu happyMeal = new Menu("Happy Meal", 4.5, mcDonalds);
-        Menu bigMac = new Menu("Big Mac", 6.0, mcDonalds);
-        Menu whopper = new Menu("Whopper", 7.0, burgerKing);
-        Menu chickenFries = new Menu("Chicken Fries", 4.0, burgerKing);
-        Menu zingerBurger = new Menu("Zinger Burger", 6.5, kfc);
-        Menu originalRecipeChicken = new Menu("Original Recipe Chicken", 8.0, kfc);
-        Menu pepperoniPizza = new Menu("Pepperoni Pizza", 10.0, pizzaHut);
-        Menu vegetarianPizza = new Menu("Vegetarian Pizza", 9.0, pizzaHut);
-        Menu crunchwrapSupreme = new Menu("Crunchwrap Supreme", 5.5, tacoBell);
-        Menu tacoSupreme = new Menu("Taco Supreme", 3.5, tacoBell);
-        Menu cheesePizza = new Menu("Cheese Pizza", 8.0, dominos);
-        Menu spicyBBQPizza = new Menu("Spicy BBQ Pizza", 11.0, dominos);
-        Menu bbqChickenPizza = new Menu("BBQ Chicken Pizza", 10.5, telepizza);
-        Menu portuguesePizza = new Menu("Portuguese Pizza", 10.0, telepizza);        
+        Menu cbo = new Menu("CBO", 7.5, mcDonalds,"https://www.mcdonalds.pt/media/4288/007_cbo_03.png");
+        Menu happyMeal = new Menu("Happy Meal", 4.5, mcDonalds, "https://drn10k7huei54.cloudfront.net/TPO-1386.jpg");
+        Menu bigMac = new Menu("Big Mac", 6.0, mcDonalds, "https://www.mcdonalds.pt/media/7040/produtos_500x500_bestburgers_big-mac.png");
+        Menu whopper = new Menu("Whopper", 7.0, burgerKing, "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8eyyUs2n4nYO7q-8UVWZJPa2b2IlAWFVxv0KUR843fY2NroTebO_ga5__MIZG_qxrk8WUmcmkujh0Ic3snrePb8IZ6dh4blxVqspGuGjJ1ktD34-P7UtjozT87WO70NGqi12O_9LdAD3RZ1tDxz_i3sk97ILRWuMuGOd-TtDxbI96f9KY5_cF/s16000/burger%20whopper%2020.jpg");
+        Menu chickenFries = new Menu("Chicken Fries", 4.0, burgerKing, "https://www.onionringsandthings.com/wp-content/uploads/2020/09/crispy-chicken-fries-2.jpg");
+        Menu zingerBurger = new Menu("Zinger Burger", 6.5, kfc, "https://images.ctfassets.net/crbk84xktnsl/4zgRg2g2ZRBey10D3qfjyZ/e9f079f486f401b884ad570be0a48af8/Zinger_Burger.png");
+        Menu originalRecipeChicken = new Menu("Original Recipe Chicken", 8.0, kfc, "https://topsecretrecipes.com/images/product/kfc-original-recipe-chicken-copycat-recipe.jpg");
+        Menu pepperoniPizza = new Menu("Pepperoni Pizza", 10.0, pizzaHut, "https://api.pizzahut.io/v1/content/en-ca/ca-1/images/pizza/pizza.pepperoni-lovers.69f7bdf7b6f50a87eb2886934fe0be9f.1.jpg");
+        Menu vegetarianPizza = new Menu("Vegetarian Pizza", 9.0, pizzaHut, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoBaqm24OqgZTW27NJR24Vd35oWVru1eZC3w&s");
+        Menu crunchwrapSupreme = new Menu("Crunchwrap Supreme", 5.5, tacoBell, "https://www.thespruceeats.com/thmb/y8zBTf81N6AvcoK1CbSwLLGWvMo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/SES-copycat-crunchwrap-supreme-recipe-7499743-hero-A-1b76ff024b44450db7c0eb72da84d98b.jpg");
+        Menu tacoSupreme = new Menu("Taco Supreme", 3.5, tacoBell, "https://www.tacobell.pt/wp-content/uploads/2017/05/tacobell-menu-acos-supreme.jpg");
+        Menu cheesePizza = new Menu("Cheese Pizza", 8.0, dominos,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShDV-2v7GX7vULnZc5H1b6X7jFROU1hzprHQ&s");
+        Menu spicyBBQPizza = new Menu("Spicy BBQ Pizza", 11.0, dominos, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHCwBCaWLbF7CT-CES_UO4bLrgp5EhLoX7dw&s");
+        Menu bbqChickenPizza = new Menu("BBQ Chicken Pizza", 10.5, telepizza, "https://d1d8i24om29pt.cloudfront.net/static/mobile/products/pizza-bbq-chicken_orig.png");
+        Menu portuguesePizza = new Menu("Portuguese Pizza", 10.0, telepizza, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnb5LmVdElGOnWQic1iNxl304IgrP1CvGb8A&s");        
         // Insert Menu data
         if (!menuRepository.findByName("CBO").isPresent()) {
             menuRepository.save(cbo);
