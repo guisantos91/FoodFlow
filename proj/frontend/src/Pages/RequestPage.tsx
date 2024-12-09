@@ -1,14 +1,13 @@
 import Layout from "../components/Layout";
 import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
-import { useState } from 'react';
 import { Tabs } from "flowbite-react";
 import PendingTable from "../components/Statistics/PendingTable";
 import DeclinedTable from "../components/Statistics/DeclinedTable";
+import { FormProvider, useFormContext } from "../context/FormContext";
 
-const Requests = () => {
-    const [searchName, setSearchName] = useState("");
-
+const RequestsContent = () => {
+    const { setActiveTab, searchName, setSearchName } = useFormContext();
     return (
         <Layout>
             <div className="bg-white min-h-screen py-10 px-20">
@@ -26,7 +25,7 @@ const Requests = () => {
                 </div>
 
                 <div className="flex justify-center items-center mx-40 mt-10">
-                    <Tabs className="w-full" aria-label="Request Tabs" variant="default">
+                    <Tabs className="w-full" aria-label="Request Tabs" variant="default" onActiveTabChange={(index) => setActiveTab(index === 0 ? "Pending" : "Rejected")}>
                         <Tabs.Item active title="Pending">
                             <div className="flex justify-center items-center space-x-4 mb-6">
                                 <div className="relative w-1/2">
@@ -92,5 +91,11 @@ const Requests = () => {
         </Layout>
     );
 };
+
+const Requests = () => (
+    <FormProvider>
+        <RequestsContent />
+    </FormProvider>
+);
 
 export default Requests;

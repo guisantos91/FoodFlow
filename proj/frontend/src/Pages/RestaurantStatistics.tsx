@@ -12,6 +12,7 @@ import * as StompJs from "@stomp/stompjs";
 import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
 import { getMenus, Menu, DonutData } from "../api/apiFoodChain";
 import { getOrdersStatistics, Order, MenuData } from "../api/apiOrders";
+import { useUserContext } from '../context/UserContextFile';
 
 const RestaurantStatistics = () => {
     const { foodchainId, restaurantId } = useParams<{ foodchainId: string; restaurantId: string }>();
@@ -23,6 +24,7 @@ const RestaurantStatistics = () => {
     const [graphData, setGraphData] = useState<MenuData[]>([]);
     const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     const [menus, setMenus] = useState<Menu[]>([]);
+    const { isAuthenticated, user } = useUserContext();
 
     let stompClientOrders: StompJs.Client | null = null; // Keep track of the connection
 
@@ -34,9 +36,9 @@ const RestaurantStatistics = () => {
         }
 
         stompClientOrders = new StompJs.Client({
-            brokerURL: "ws://localhost:8080/ws", 
-            reconnectDelay: 5000,                         
-            heartbeatIncoming: 4000,                        
+            brokerURL: "ws://localhost:8080/ws",
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
         });
 
         // Define behavior on successful connection
@@ -165,7 +167,7 @@ const RestaurantStatistics = () => {
     const colorMapping = dataNames.reduce<{ [key: string]: string }>((acc, name, index) => {
         acc[name] = `hsl(${(index * 360) / dataNames.length}, 70%, 50%)`;
         return acc;
-      }, {});
+    }, {});
 
     return (
         <Layout>
@@ -189,29 +191,28 @@ const RestaurantStatistics = () => {
                                 </button>
                             </div>
                             <div className="flex space-x-4 flex-wrap">
-                              {menus.map((menu) => (
-                                <CardComponent
-                                  key={menu.id}
-                                  image={"https://via.placeholder.com/150"}
-                                  name={menu.name}
-                                  price={menu.price.toFixed(2)}
-                                />
-                              ))}
+                                {menus.map((menu) => (
+                                    <CardComponent
+                                        key={menu.id}
+                                        image={"https://via.placeholder.com/150"}
+                                        name={menu.name}
+                                        price={menu.price.toFixed(2)}
+                                    />
+                                ))}
                             </div>
                         </Tabs.Item>
                         <Tabs.Item title="Current Orders">
-                            <DonutChart data={donutGraphData} colorMapping={colorMapping}/>
+                            <DonutChart data={donutGraphData} colorMapping={colorMapping} />
                         </Tabs.Item>
                     </Tabs>
                 </div>
                 <div className="w-3/12 flex flex-col bg-gray-300 text-white p-4 shadow-2xl">
                     <div className="flex items-center mt-8 space-x-2">
-                        <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
-                            <img src={userIcon} alt="User Icon" className="w-4 h-4" />
-                        </div>
-                        <Link to="/login" className="text-xl font-bold text-black hover:text-orange-500 hover:underline">
+                        {!isAuthenticated ? <Link to="/login" className="text-xl font-bold text-black bg-orange-400 p-2 rounded-lg hover:bg-orange-300">
                             Login
-                        </Link>
+                        </Link> : <><div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
+                            <img src={userIcon} alt="User Icon" className="w-4 h-4" />
+                        </div>  <span className='text-lg text-black font-semibold'>{user?.fname} {user?.lname}</span></>}
                     </div>
                     <h2 className="text-2xl text-black font-bold mt-8 ml-4">Live Orders</h2>
                     <Table todo={todo} preparing={preparing} ready={ready} />

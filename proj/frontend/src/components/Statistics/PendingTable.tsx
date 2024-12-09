@@ -4,6 +4,7 @@ import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
 import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
+import { useFormContext } from "../../context/FormContext";
 import { getPendingForms, changeForm, FormData, aproveForm } from '../../api/apiAdmin';
 
 interface managerName {
@@ -13,6 +14,8 @@ interface managerName {
 
 const PendingTable = ({ name }: managerName) => {
     const [forms, setForms] = React.useState<FormData[]>([]);
+    const { activeTab } = useFormContext();
+
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
@@ -35,7 +38,7 @@ const PendingTable = ({ name }: managerName) => {
         };
 
         fetchForms();
-    }, [name]);
+    }, [name, activeTab]);
 
     console.log(forms);
 

@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import com.ua.ies.proj.app.auth.JwtTokenProvider;
 import com.ua.ies.proj.app.auth.LoginRequest;
 import com.ua.ies.proj.app.models.ManagerForm;
+import com.ua.ies.proj.app.models.UserInfo;
 import com.ua.ies.proj.app.services.UserService;
 
 @RestController
@@ -84,5 +88,12 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body("Logged out successfully");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserInfo> getUserInfo(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserInfo userInfo = userService.getUserInfo(authentication);
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 }
