@@ -16,15 +16,18 @@ public class Foodchain {
     @Column(unique=true, nullable=false)
     private String name;
 
+    private String image_url;
+
     @NotBlank
     private String food_type;
 
     public Foodchain() {
     }
 
-    public Foodchain(String name, String food_type) {
+    public Foodchain(String name, String food_type, String image_url) {
         this.name = name;
         this.food_type = food_type;
+        this.image_url = image_url;
     }
 
     public Long getId() {
@@ -39,11 +42,19 @@ public class Foodchain {
         return food_type;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setFood_type(String food_type) {
         this.food_type = food_type;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }
