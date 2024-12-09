@@ -1,11 +1,12 @@
 import { FormData } from "../api/apiAdmin";
 import { aproveForm, changeForm } from "../api/apiAdmin";
-import { redirect } from "react-router-dom";
+import { Dispatch, SetStateAction } from "react";
+
 
 export const handleForm = async (
     formId: number | FormData,
     forms: FormData[] | null,
-    setForms: React.Dispatch<React.SetStateAction<FormData[]>> | null,
+    setForms: Dispatch<SetStateAction<FormData[]>> | null,
     state: "accepted" | "declined"
 ) => {
     if (forms && setForms && typeof formId === "number") {
@@ -18,10 +19,8 @@ export const handleForm = async (
         try {
             if (state === "accepted") {
                 await aproveForm(updatedForm);
-                redirect("/admin");
             } else if (state === "declined") {
                 await changeForm(formId, updatedForm);
-                redirect("/requests");
             }
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {

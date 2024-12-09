@@ -1,12 +1,14 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { FormData } from "../api/apiAdmin";
 import { handleForm } from "../utils/userActions";
+import { useNavigate } from "react-router-dom";
 
 interface FormProps {
     data: FormData;
 }
 
 export function Form({data}: FormProps) {
+  const navigate = useNavigate();
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
         <div className="flex items-center justify-center rounded-3xl w-full max-w-5xl shadow-lg bg-gray-200">
@@ -71,8 +73,14 @@ export function Form({data}: FormProps) {
                     </div>
                 </div>
                 <div className="flex items-center justify-center mt-4 gap-12">
-                    <Button className="bg-green-500 w-48 rounded-2xl" type="button" onClick={() => handleForm(data, null, null, "accepted")} >Accept</Button>
-                    <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => handleForm(data, null, null, "declined")} >Decline</Button>
+                    <Button className="bg-green-500 w-48 rounded-2xl" type="button" onClick={() => {
+                                                                handleForm(data, null, null, "accepted");
+                                                                navigate("/admin");
+                                                            }} >Accept</Button>
+                    <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => {
+                                                                handleForm(data, null, null, "declined");
+                                                                navigate("/requests");
+                                                            }} >Decline</Button>
                 </div>
             </form>
         </div>
