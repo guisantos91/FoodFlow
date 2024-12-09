@@ -53,8 +53,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     RestaurantID: number | undefined,
     ChainFoodID: number | undefined
   ) => {
-    setIsAuthenticated(true);
-    setUser({ role, fname, lname, RestaurantID, ChainFoodID });
+    if (role == null){
+      setIsAuthenticated(false);
+      setUser(undefined);
+    }
+    else{
+      setIsAuthenticated(true);
+      setUser({ role, fname, lname, RestaurantID, ChainFoodID });
+    }
   };
 
   const contextLogout = () => {
