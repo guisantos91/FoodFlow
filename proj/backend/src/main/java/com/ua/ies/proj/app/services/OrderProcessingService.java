@@ -14,6 +14,7 @@ import com.ua.ies.proj.app.controllers.MessageController;
 import com.ua.ies.proj.app.kafka_utils.KafkaTemplateListener;
 import com.ua.ies.proj.app.models.OrderKafkaDTO;
 import com.ua.ies.proj.app.models.Restaurant;
+import com.ua.ies.proj.app.repos.MenuRepository;
 import com.ua.ies.proj.app.repos.OrderRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
 
@@ -28,11 +29,14 @@ public class OrderProcessingService {
 
     private final MessageController messageController;
 
-    public OrderProcessingService(OrderRepository orderRepository, RestaurantRepository restaurantRepository, KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry, ConcurrentKafkaListenerContainerFactory<String, OrderKafkaDTO> kafkaListenerContainerFactory, MessageController messageController) {
+    private final MenuRepository menuRepository;
+
+    public OrderProcessingService(OrderRepository orderRepository, RestaurantRepository restaurantRepository, KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry, ConcurrentKafkaListenerContainerFactory<String, OrderKafkaDTO> kafkaListenerContainerFactory, MessageController messageController, MenuRepository menuRepository) {
         this.orderRepository = orderRepository;
         this.restaurantRepository = restaurantRepository;
         this.kafkaListenerContainerFactory = kafkaListenerContainerFactory;
         this.messageController = messageController;
+        this.menuRepository = menuRepository;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -52,7 +56,7 @@ public class OrderProcessingService {
     public void createListenerForRestaurant(String topic, String groupId) {
         ContainerProperties containerProperties = new ContainerProperties(topic);
         containerProperties.setGroupId(groupId);
-        containerProperties.setMessageListener(new KafkaTemplateListener(orderRepository, restaurantRepository, messageController));
+        containerProperties.setMessageListener(new KafkaTemplateListener(orderRepository, restaurantRepository, messageController, menuRepository));
        
         ConcurrentMessageListenerContainer<String, OrderKafkaDTO> container = new ConcurrentMessageListenerContainer<>(kafkaListenerContainerFactory.getConsumerFactory(), containerProperties);
         container.start();

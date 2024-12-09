@@ -162,7 +162,7 @@ def insert_order():
     order_id+=1
     order_ids[topic]=order_id
 
-    msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[{"id":menu_id} for menu_id, quantity in items.items()], "status":status}
+    msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[menus[menu_id][0] for menu_id, quantity in items.items()], "status":status}
     print(f"Msg: {msg}")
     producer.send(topic, msg)
 
@@ -173,7 +173,7 @@ def insert_order():
     timeToNextState=[time.isoformat() for time in timeToNextState]
     
     orders[(str(order_id)+topic)]={"id":str(order_id), "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
-    "menus":[{"id":menu_id} for menu_id, quantity in items.items()],
+    "menus":[menus[menu_id][0] for menu_id, quantity in items.items()],
      "timeToNextState":timeToNextState}
     
     lock = FileLock(LOCK_FILE, timeout=10)
