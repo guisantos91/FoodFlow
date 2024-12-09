@@ -1,19 +1,22 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { FormData } from "../api/apiAdmin";
 import { handleForm } from "../utils/userActions";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface FormProps {
     data: FormData;
+    source: "pending" | "declined";
 }
 
 export function Form({data}: FormProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { source } = location.state as { source: "pending" | "declined" };
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
         <div className="flex items-center justify-center rounded-3xl w-full max-w-5xl shadow-lg bg-gray-200">
             <form className="flex w-full flex-col gap-6 mb-4">
-                <div className="flex border-b-2 border-gray-400">
+                <div className="flex border-b-2 border-gray-400 mt-4">
                     <h1 className="flex text-4xl font-bold mb-8 ml-12">New Manager Request</h1>
                 </div>
                 <div className="flex flex-wrap gap-10 px-8">
@@ -73,14 +76,29 @@ export function Form({data}: FormProps) {
                     </div>
                 </div>
                 <div className="flex items-center justify-center mt-4 gap-12">
-                    <Button className="bg-green-500 w-48 rounded-2xl" type="button" onClick={() => {
-                                                                handleForm(data, null, null, "accepted");
-                                                                navigate("/admin");
-                                                            }} >Accept</Button>
-                    <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => {
-                                                                handleForm(data, null, null, "declined");
-                                                                navigate("/requests");
-                                                            }} >Decline</Button>
+                    {source === "pending" ? (
+                        <>
+                            <Button className="bg-green-500 w-48 rounded-2xl" type="button" onClick={() => {
+                                                                        handleForm(data, null, null, "accepted");
+                                                                        navigate("/admin");
+                                                                    }} >Accept</Button>
+                            <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => {
+                                                                        handleForm(data, null, null, "declined");
+                                                                        navigate("/requests");
+                                                                    }} >Decline</Button>
+                        </>
+                    ) : source === "declined" ? (
+                        <>
+                            <Button className="bg-amber-600 w-48 rounded-2xl" type="button" onClick={() => {
+                                                                        handleForm(data, null, null, "pending");
+                                                                        navigate("/requests");
+                                                                    }} >Restore</Button>
+                            <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => {
+                                                                        handleForm(data, null, null, "deleted");
+                                                                        navigate("/requests");
+                                                                    }} >Delete</Button>
+                        </>
+                    ) : null}
                 </div>
             </form>
         </div>

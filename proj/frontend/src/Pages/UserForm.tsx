@@ -39,7 +39,7 @@ const UserForm = () => {
                         <h3 className="text-xl font-bold text-black">Admin</h3>
                     </div>
                 </div>
-                {form && <Form data={form} />}
+                {form && <Form data={form} source="pending" />}
             </div>
         </Layout>
     );

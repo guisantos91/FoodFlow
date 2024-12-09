@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
-import { changeForm, getDeclinedForms, FormData } from '../../api/apiAdmin';
+import eye from '../../assets/images/icons/visible.png';
+import { getDeclinedForms, FormData } from '../../api/apiAdmin';
 import { useFormContext } from "../../context/FormContext";
+import { useNavigate } from 'react-router-dom';
+import { handleForm } from '../../utils/userActions';
 
 interface managerName {
     name: string;
@@ -15,6 +18,7 @@ const DeclinedTable = ({ name }: managerName) => {
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
     const { activeTab } = useFormContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -32,45 +36,8 @@ const DeclinedTable = ({ name }: managerName) => {
         fetchForms();
     }, [name, activeTab]);
 
-    const handleDelete = async (managerFormId: number | null) => {
-        if (!managerFormId) return;
-
-        const formToUpdate = forms.find((form) => form.id === managerFormId);
-        if (!formToUpdate) {
-            console.error("Form not found");
-            return;
-        }
-
-        const newForm = { ...formToUpdate, state: "deleted" };
-
-        try {
-            const response = changeForm(managerFormId, newForm);
-            console.log("Delete response:", response);
-
-            setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
-        } catch (error) {
-            console.error("Failed to reject form:", error);
-        }
-    };
-
-    const handlePending = async (managerFormId: number | null) => {
-        if (!managerFormId) return;
-
-        const formToUpdate = forms.find((form) => form.id === managerFormId);
-        if (!formToUpdate) {
-            console.error("Form not found");
-            return;
-        }
-
-        const newForm = { ...formToUpdate, state: "pending" };
-
-        try {
-            const response = changeForm(managerFormId, newForm);
-            console.log("Pending response:", response);
-            setForms((prevForms) => prevForms.filter((form) => form.id !== managerFormId));
-        } catch (error) {
-            console.error("Failed to reject form:", error);
-        }
+    const handleDetails = (formId: number) => {
+        navigate(`/form/${formId}`, { state: { source: "declined" } });
     };
 
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -119,14 +86,15 @@ const DeclinedTable = ({ name }: managerName) => {
                                         src={ArrowBack}
                                         alt="Edit"
                                         className="w-5 h-5 cursor-pointer"
-                                        onClick={() => handlePending(form.id)}
+                                        onClick={() => handleForm(form.id, forms, setForms, "pending")}
                                     />
                                     <img
                                         src={DeleteSVG}
                                         alt="Delete"
                                         className="w-5 h-5 cursor-pointer"
-                                        onClick={() => handleDelete(form.id)}
+                                        onClick={() => handleForm(form.id, forms, setForms, "deleted")}
                                     />
+                                    <img src={eye} alt="View Details" className="w-5 h-5 cursor-pointer" onClick={() => handleDetails(form.id)} />
                                 </div>
                             </td>
                         </tr>

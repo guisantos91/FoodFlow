@@ -7,7 +7,7 @@ export const handleForm = async (
     formId: number | FormData,
     forms: FormData[] | null,
     setForms: Dispatch<SetStateAction<FormData[]>> | null,
-    state: "accepted" | "declined"
+    state: "accepted" | "declined" | "pending" | "deleted"
 ) => {
     if (forms && setForms && typeof formId === "number") {
         const form = forms.find((form) => form.id === formId);
@@ -21,6 +21,10 @@ export const handleForm = async (
                 await aproveForm(updatedForm);
             } else if (state === "declined") {
                 await changeForm(formId, updatedForm);
+            } else if (state === "pending") {
+                await changeForm(formId, updatedForm);
+            } else if (state === "deleted") {
+                await changeForm(formId, updatedForm);
             }
             setForms((prevForms) => prevForms.filter((form) => form.id !== formId));
         } catch (error) {
@@ -32,6 +36,10 @@ export const handleForm = async (
             if (state === "accepted") {
                 await aproveForm(updatedForm);
             } else if (state === "declined") {
+                await changeForm((formId as FormData).id, updatedForm);
+            } else if (state === "pending") {
+                await changeForm((formId as FormData).id, updatedForm);
+            } else if (state === "deleted") {
                 await changeForm((formId as FormData).id, updatedForm);
             }
             console.log(`Form ${state} successfully`);
