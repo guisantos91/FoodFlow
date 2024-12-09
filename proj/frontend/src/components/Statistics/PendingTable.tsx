@@ -44,7 +44,7 @@ const PendingTable = ({ name }: managerName) => {
     console.log(forms);
 
     const handleDetails = (formId: number) => {
-        navigate(`/form/${formId}`);
+        navigate(`/form/${formId}`, { state: { source: "pending" } });
     };
 
     const indexOfLastRow = currentPage * rowsPerPage;
