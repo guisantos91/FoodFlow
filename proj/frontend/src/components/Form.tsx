@@ -56,6 +56,20 @@ export function Form({data}: FormProps) {
                         <TextInput className="w-full" id="restaurantAddress" type="text" placeholder={data.restaurantAddress} disabled readOnly />
                     </div>
                 </div>
+                <div className="flex flex-wrap gap-10 px-8">
+                    <div className="flex-1">
+                        <div className="mb-2 block">
+                            <Label htmlFor="foodchainName" value="Foodchain Name" />
+                        </div>
+                        <TextInput className="w-full" id="foodchainName" type="text" placeholder={data.foodchain.name} disabled readOnly />
+                    </div>
+                    <div className="flex-1">
+                        <div className="mb-2 block">
+                            <Label htmlFor="restaurantEndpoint" value="Restaurant Endpoint" />
+                        </div>
+                        <TextInput className="w-full" id="restaurantEndpoint" type="text" placeholder={data.restaurantEndpoint} disabled readOnly />
+                    </div>
+                </div>
                 <div className="flex items-center justify-center mt-4 gap-12">
                     <Button className="bg-green-500 w-48 rounded-2xl" type="button" onClick={() => handleForm(data, null, null, "accepted")} >Accept</Button>
                     <Button className="bg-red-500 w-48 rounded-2xl"type="button" onClick={() => handleForm(data, null, null, "declined")} >Decline</Button>

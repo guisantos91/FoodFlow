@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
 import eye from '../../assets/images/icons/visible.png';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from "../../context/FormContext";
-import { getPendingForms, changeForm, FormData, aproveForm } from '../../api/apiAdmin';
+import { getPendingForms, FormData } from '../../api/apiAdmin';
 import { handleForm } from '../../utils/userActions';
 
 interface managerName {
