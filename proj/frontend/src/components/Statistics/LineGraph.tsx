@@ -15,13 +15,25 @@ function LineGraph({ data, colorMapping }: LineGraphProps) {
 
     const now = new Date();
 
+    // const transformedData = data[0]?.values.map((_, index) => {
+    //     const point: { [key: string]: number | string } = { name: new Date(now.getTime() + index * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+    //     data.forEach((item) => {
+    //         point[item.name] = item.values[index];
+    //     });
+    //     return point;
+    // });
+
     const transformedData = data[0]?.values.map((_, index) => {
-        const point: { [key: string]: number | string } = { name: new Date(now.getTime() + index * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+        const point: { [key: string]: number | string } = {
+            name: new Date(now.getTime() + (index - data[0]?.values.length + 1) * 60 * 1000)
+                .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
         data.forEach((item) => {
             point[item.name] = item.values[index];
         });
         return point;
     });
+
 
     return (
         <div className="flex flex-col items-center">
