@@ -168,7 +168,7 @@ const RestaurantStatistics = () => {
         return acc;
     }, {});
 
-    const handleSortChange = (sortType: string) => {
+    const handleSortChange = async (sortType: string) => {
         const sortedMenus = [...menus];
 
         if (sortType === "name") {
@@ -178,6 +178,25 @@ const RestaurantStatistics = () => {
         }
         else if (sortType === "price-desc") {
             sortedMenus.sort((a, b) => b.price - a.price);
+        } else if (sortType === "popular-asc" || sortType === "popular-desc") {
+            try {
+                const responseGraph = await getOrdersStatistics(restID);
+
+                const popularityMap = Object.keys(responseGraph).reduce<{ [key: string]: number }>((acc, menu) => {
+                    acc[menu] = (responseGraph as any)[menu].values.reduce((acc: number, val: number) => acc + val, 0);
+                    return acc;
+                }, {});
+
+                sortedMenus.sort((a, b) => {
+                    const popularityA = popularityMap[a.name] || 0;
+                    const popularityB = popularityMap[b.name] || 0;
+                    return sortType === "popular-asc"
+                        ? popularityA - popularityB
+                        : popularityB - popularityA;
+                });
+            } catch (err) {
+                console.error("Error sorting by popularity:", err);
+            }
         }
 
         setMenus(sortedMenus);
@@ -208,6 +227,8 @@ const RestaurantStatistics = () => {
                                         <option value="name">Name</option>
                                         <option value="price-asc">Price (Low to High)</option>
                                         <option value="price-desc">Price (High to Low)</option>
+                                        <option value="popular-asc">Popularity (Low to High)</option>
+                                        <option value="popular-desc">Popularity (High to Low)</option>
                                     </select>
                                 </div>
                             </div>
