@@ -5,7 +5,6 @@ import DonutChart from '../components/Statistics/DonutChart';
 import LineGraph from '../components/Statistics/LineGraph';
 import CardComponent from "../components/Cards/Card";
 import Table from "../components/Statistics/Table";
-import { HiSortDescending } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
@@ -169,6 +168,40 @@ const RestaurantStatistics = () => {
         return acc;
     }, {});
 
+    const handleSortChange = async (sortType: string) => {
+        const sortedMenus = [...menus];
+
+        if (sortType === "name") {
+            sortedMenus.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortType === "price-asc") {
+            sortedMenus.sort((a, b) => a.price - b.price);
+        }
+        else if (sortType === "price-desc") {
+            sortedMenus.sort((a, b) => b.price - a.price);
+        } else if (sortType === "popular-asc" || sortType === "popular-desc") {
+            try {
+                const responseGraph = await getOrdersStatistics(restID);
+
+                const popularityMap = Object.keys(responseGraph).reduce<{ [key: string]: number }>((acc, menu) => {
+                    acc[menu] = (responseGraph as any)[menu].values.reduce((acc: number, val: number) => acc + val, 0);
+                    return acc;
+                }, {});
+
+                sortedMenus.sort((a, b) => {
+                    const popularityA = popularityMap[a.name] || 0;
+                    const popularityB = popularityMap[b.name] || 0;
+                    return sortType === "popular-asc"
+                        ? popularityA - popularityB
+                        : popularityB - popularityA;
+                });
+            } catch (err) {
+                console.error("Error sorting by popularity:", err);
+            }
+        }
+
+        setMenus(sortedMenus);
+    }
+
     return (
         <Layout>
             <div className="flex min-h-screen">
@@ -185,11 +218,21 @@ const RestaurantStatistics = () => {
                         <Tabs.Item active title="Menus">
                             <div className="flex items-center justify-between mt-4 ml-4 mr-6 mb-8">
                                 <h2 className="text-xl font-bold">Available Orders: </h2>
-                                <button className="flex items-center space-x-2 p-2 border-2 border-orange-500 bg-gray-200 text-black rounded-xl">
-                                    Sort
-                                    <HiSortDescending className="ml-3 mt-1 h-4 w-4" />
-                                </button>
+                                <div className="flex items-center space-x-2">
+                                    <select
+                                        onChange={(e) => handleSortChange(e.target.value)}
+                                        className="p-2 border-2 border-orange-500 bg-gray-200 text-black rounded-xl"
+                                    >
+                                        <option value="">Sort By</option>
+                                        <option value="name">Name</option>
+                                        <option value="price-asc">Price (Low to High)</option>
+                                        <option value="price-desc">Price (High to Low)</option>
+                                        <option value="popular-asc">Popularity (Low to High)</option>
+                                        <option value="popular-desc">Popularity (High to Low)</option>
+                                    </select>
+                                </div>
                             </div>
+
                             <div className="flex space-x-4 flex-wrap">
                                 {menus.map((menu) => (
                                     <CardComponent
