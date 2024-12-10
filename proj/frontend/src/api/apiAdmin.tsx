@@ -100,3 +100,13 @@ export const changeManager = async( id: number, newForm: ManagerData ): Promise<
         throw error;
     }
 }
+
+export const getManager = async( id: number ): Promise<ManagerData> => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/admin/managers/${id}`, { withCredentials: true, });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching a manager:", error);
+        throw error;
+    }
+}

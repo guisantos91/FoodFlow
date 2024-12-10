@@ -149,6 +149,38 @@ public class DataLoader implements CommandLineRunner{
         if (!menuRepository.findByName("Portuguese Pizza").isPresent()) {
             menuRepository.save(portuguesePizza);
         }
+        // Repeat similar checks for other ManagerForm entries..
+        UserAdmin alice = new UserAdmin("Alice", "Green", "alice@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        UserManager userBob = new UserManager("Bob", "Brown", "bob@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        UserManager userCharlie = new UserManager("Charlie", "Smith", "charlie@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        UserManager userDiana = new UserManager("Diana", "Jones", "diana@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        UserManager userEve = new UserManager("Eve", "Williams", "eve@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        UserManager userJohn = new UserManager("John", "Brady", "john@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        
+        // Insert User data
+        if (!userRepository.findByEmail("alice@gmail.com").isPresent()) {
+            userRepository.save(alice);
+        }
+        
+        if (!userRepository.findByEmail("bob@gmail.com").isPresent()) {
+            userRepository.save(userBob);
+        }
+
+        if (!userRepository.findByEmail("charlie@gmail.com").isPresent()) {
+            userRepository.save(userCharlie);
+        }
+
+        if (!userRepository.findByEmail("diana@gmail.com").isPresent()) {
+            userRepository.save(userDiana);
+        }
+
+        if (!userRepository.findByEmail("eve@gmail.com").isPresent()) {
+            userRepository.save(userEve);
+        }
+
+        if (!userRepository.findByEmail("john@gmail.com").isPresent()) {
+            userRepository.save(userJohn);
+        }
 
         // Repeat similar checks for other Menu entries...
 
@@ -177,41 +209,6 @@ public class DataLoader implements CommandLineRunner{
 
         if (!managerFormRepository.findByEmail("john@gmail.com").isPresent()) {
             managerFormRepository.save(john);
-        }
-
-    
-
-        // Repeat similar checks for other ManagerForm entries..
-        UserAdmin alice = new UserAdmin("Alice", "Green", "alice@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
-        UserManager userBob = new UserManager("Bob", "Brown", "bob@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
-        UserManager userCharlie = new UserManager("Charlie", "Smith", "charlie@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
-        UserManager userDiana = new UserManager("Diana", "Jones", "diana@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
-        UserManager userEve = new UserManager("Eve", "Williams", "eve@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
-        UserManager userJohn = new UserManager("John", "Brady", "john@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
-
-        // Insert User data
-        if (!userRepository.findByEmail("alice@gmail.com").isPresent()) {
-            userRepository.save(alice);
-        }
-
-        if (!userRepository.findByEmail("bob@gmail.com").isPresent()) {
-            userRepository.save(userBob);
-        }
-
-        if (!userRepository.findByEmail("charlie@gmail.com").isPresent()) {
-            userRepository.save(userCharlie);
-        }
-
-        if (!userRepository.findByEmail("diana@gmail.com").isPresent()) {
-            userRepository.save(userDiana);
-        }
-
-        if (!userRepository.findByEmail("eve@gmail.com").isPresent()) {
-            userRepository.save(userEve);
-        }
-
-        if (!userRepository.findByEmail("john@gmail.com").isPresent()) {
-            userRepository.save(userJohn);
         }
 
         // Insert Restaurant data

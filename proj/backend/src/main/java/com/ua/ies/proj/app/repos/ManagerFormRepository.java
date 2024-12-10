@@ -14,4 +14,6 @@ public interface ManagerFormRepository extends JpaRepository<ManagerForm, Long> 
     List<ManagerForm> findByState(String state);
 
     Optional<ManagerForm> findByEmail(String email);
+
+    // Optional<ManagerForm> findByManagerId(Long manager_id);
 }
