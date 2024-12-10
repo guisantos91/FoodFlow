@@ -19,7 +19,17 @@ export interface FormData {
     longitude: number;
     restaurantEndpoint: string;
     password: string;
+    manager_id: number;
 }
+
+export interface ManagerData {
+    id: number;
+    fname: string;
+    lname: string;
+    birthDate: string;
+    email: string;
+}
+
 
 export const getForm = async ( id: string | undefined ): Promise<FormData> => {
     try {
@@ -77,6 +87,16 @@ export const aproveForm = async( newForm: FormData ): Promise<FormData> => {
         return response.data;
     } catch (error) {
         console.error("Error aproving a forms:", error);
+        throw error;
+    }
+}
+
+export const changeManager = async( id: number, newForm: ManagerData ): Promise<ManagerData> => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/admin/managers/${id}`, newForm, { withCredentials: true, });
+        return response.data;
+    } catch (error) {
+        console.error("Error changing manager:", error);
         throw error;
     }
 }

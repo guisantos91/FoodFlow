@@ -3,6 +3,7 @@ import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import { getAcceptedForms, FormData } from '../../api/apiAdmin';
+import { useNavigate } from 'react-router-dom';
 
 interface managerName {
     name: string;
@@ -14,6 +15,7 @@ const AdminTable = ({ name }: managerName) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchForms = async () => {
@@ -34,6 +36,14 @@ const AdminTable = ({ name }: managerName) => {
 
         fetchForms();
     }, [name]);
+
+    const handleEdit = (managerId: number) => {
+        navigate(`/editManager/${managerId}`);
+    }
+
+    const handleDelete = (managerId: number) => {
+        console.log(managerId);
+    }
 
 
     // const handleDelete = async (managerId: number | null) => {
@@ -100,9 +110,8 @@ const AdminTable = ({ name }: managerName) => {
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer"
-                                    // onClick={() => handleDelete(restaurant.manager?.id || null)} 
+                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" onClick={() => handleEdit(restaurant.manager_id)}/>
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => handleDelete(restaurant.manager_id)} 
                                     />
                                 </div>
                             </td>

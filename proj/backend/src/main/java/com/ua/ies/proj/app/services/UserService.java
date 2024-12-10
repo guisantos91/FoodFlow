@@ -109,10 +109,6 @@ public class UserService {
         }
     }
 
-    public void deleteForm(Long form_id) {
-        managerFormRepository.deleteById(form_id);
-    }
-
     public void approveForm(ManagerForm form) {
 
         UserManager manager = new UserManager();
@@ -138,7 +134,8 @@ public class UserService {
         }
         restaurantRepository.save(restaurant);
         orderProcessingService.createListenerForRestaurant(restaurant.getTopic(), "group-" + restaurant.getId());
-
+        Long manager_id = manager.getId();
+        form.setManager_id(manager_id);
         form.setState("accepted");
         managerFormRepository.save(form);
     }
