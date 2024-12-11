@@ -53,7 +53,7 @@ public class ManagerForm {
 
 	private String state;
 
-	private Long manager_id;
+	private Long manager;
 
 	public ManagerForm() {
 	}
@@ -125,8 +125,8 @@ public class ManagerForm {
 		return state;
 	}
 
-	public Long getManager_id() {
-		return manager_id;
+	public Long getManager() {
+		return manager;
 	}
 
 	public void setFoodchain(Foodchain foodchain) {
@@ -177,7 +177,7 @@ public class ManagerForm {
 		this.state = state;
 	}
 
-	public void setManager_id(Long manager_id) {
-		this.manager_id = manager_id;
+	public void setManager(Long manager) {
+		this.manager = manager;
 	}
 }

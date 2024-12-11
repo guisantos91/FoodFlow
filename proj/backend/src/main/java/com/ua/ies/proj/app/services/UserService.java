@@ -68,15 +68,15 @@ public class UserService {
         existingManager.setBirthDate(manager.getBirthDate());
         UserManager updatedManager = userRepository.save(existingManager);
         
-        // ManagerForm form = managerFormRepository.findByManagerId(manager_id).get();
-        // if (form == null){
-        //     throw new EntityNotFoundException("Form not found with manager_id: " + manager_id);
-        // }
-        // form.setFname(manager.getFname());
-        // form.setLname(manager.getLname());
-        // form.setEmail(manager.getEmail());
-        // form.setBirthDate(manager.getBirthDate());
-        // managerFormRepository.save(form);
+        ManagerForm form = managerFormRepository.findByManager(manager_id).get();
+        if (form == null){
+            throw new EntityNotFoundException("Form not found with manager_id: " + manager_id);
+        }
+        form.setFname(manager.getFname());
+        form.setLname(manager.getLname());
+        form.setEmail(manager.getEmail());
+        form.setBirthDate(manager.getBirthDate());
+        managerFormRepository.save(form);
         return updatedManager;
     }
 
@@ -145,7 +145,7 @@ public class UserService {
         restaurantRepository.save(restaurant);
         orderProcessingService.createListenerForRestaurant(restaurant.getTopic(), "group-" + restaurant.getId());
         Long manager_id = manager.getId();
-        form.setManager_id(manager_id);
+        form.setManager(manager_id);
         form.setState("accepted");
         managerFormRepository.save(form);
     }

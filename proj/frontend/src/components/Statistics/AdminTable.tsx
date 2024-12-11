@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
-import { getAcceptedForms, FormData } from '../../api/apiAdmin';
+import { getAcceptedForms, FormData, deleteManager, changeForm } from '../../api/apiAdmin';
 import { useNavigate } from 'react-router-dom';
 
 interface managerName {
@@ -41,8 +41,10 @@ const AdminTable = ({ name }: managerName) => {
         navigate(`/editManager/${managerId}`);
     }
 
-    const handleDelete = (managerId: number) => {
-        console.log(managerId);
+    const handleDelete = (managerId: number, form: FormData) => {
+        deleteManager(managerId);
+        changeForm(form.id, { ...form, state: "deleted" });
+        console.log("Manager deleted successfully");
     }
 
 
@@ -110,8 +112,8 @@ const AdminTable = ({ name }: managerName) => {
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" onClick={() => handleEdit(restaurant.manager_id)}/>
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => handleDelete(restaurant.manager_id)} 
+                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" onClick={() => handleEdit(restaurant.manager)}/>
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => handleDelete(restaurant.manager, restaurant)} 
                                     />
                                 </div>
                             </td>

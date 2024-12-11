@@ -192,22 +192,27 @@ public class DataLoader implements CommandLineRunner{
         ManagerForm john = new ManagerForm(kfc, "John", "Brady", "john@gmail.com", "KFC Centro", "Rua de Coimbra, 3000-000 Coimbra", 40.63260134516651, -8.649728523856686, "KFC5", "123456789", null, "accepted");
 
         if (!managerFormRepository.findByEmail("bob@gmail.com").isPresent()) {
+            bob.setManager(userBob.getId());
             managerFormRepository.save(bob);
         }
 
         if (!managerFormRepository.findByEmail("charlie@gmail.com").isPresent()) {
+            charlie.setManager(userCharlie.getId());
             managerFormRepository.save(charlie);
         }
 
         if (!managerFormRepository.findByEmail("diana@gmail.com").isPresent()) {
+            diana.setManager(userDiana.getId());
             managerFormRepository.save(diana);
         }
         
         if (!managerFormRepository.findByEmail("eve@gmail.com").isPresent()) {
+            eve.setManager(userEve.getId());
             managerFormRepository.save(eve);
         }
 
         if (!managerFormRepository.findByEmail("john@gmail.com").isPresent()) {
+            john.setManager(userJohn.getId());
             managerFormRepository.save(john);
         }
 
