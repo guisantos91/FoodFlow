@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
-import { getAcceptedForms, FormData } from '../../api/apiAdmin';
+import { getAcceptedForms, FormData, deleteManager, changeForm } from '../../api/apiAdmin';
+import { useNavigate } from 'react-router-dom';
 
 interface managerName {
     name: string;
@@ -14,14 +15,12 @@ const AdminTable = ({ name }: managerName) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 10;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchForms = async () => {
             try {
                 const response = await getAcceptedForms();
-                // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
-                //     return { ...restaurant, manager: 2 }; // change later
-                // });
                 const filteredForms = response.filter(
                     (form: FormData) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
@@ -35,28 +34,17 @@ const AdminTable = ({ name }: managerName) => {
         fetchForms();
     }, [name]);
 
+    const handleEdit = (managerId: number) => {
+        navigate(`/editManager/${managerId}`);
+        setForms((prevForms) => prevForms.filter((form) => form.id !== form.id));
+    }
 
-    // const handleDelete = async (managerId: number | null) => {
-    //     if (!managerId) return;
-
-    //     try {
-    //         await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
-    //             withCredentials: true,
-    //         });
-    //         alert("Manager deleted successfully");
-
-    //         setRestaurants((prev) =>
-    //             prev.map((restaurant) =>
-    //                 restaurant.manager?.id === managerId
-    //                     ? { ...restaurant, manager: null }
-    //                     : restaurant
-    //             )
-    //         );
-    //     } catch (err) {
-    //         console.error("Error deleting manager:", err);
-    //         alert("Failed to delete manager");
-    //     }
-    // };
+    const handleDelete = async (managerId: number, form: FormData) => {
+        await deleteManager(managerId);
+        await changeForm(form.id, { ...form, state: "deleted" });
+        setForms((prevForms) => prevForms.filter((item) => item.id !== form.id));
+        console.log("Manager deleted successfully");
+    }
 
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -100,9 +88,8 @@ const AdminTable = ({ name }: managerName) => {
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 <div className="flex items-center space-x-2">
-                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" />
-                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer"
-                                    // onClick={() => handleDelete(restaurant.manager?.id || null)} 
+                                    <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" onClick={() => handleEdit(restaurant.manager)}/>
+                                    <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => handleDelete(restaurant.manager, restaurant)} 
                                     />
                                 </div>
                             </td>

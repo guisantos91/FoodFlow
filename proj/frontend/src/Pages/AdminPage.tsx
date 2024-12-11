@@ -1,6 +1,5 @@
 import Layout from '../components/Layout';
 import AdminTable from '../components/Statistics/AdminTable';
-// import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

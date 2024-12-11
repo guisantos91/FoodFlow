@@ -11,6 +11,7 @@ import ManagerForm from "./Pages/ManagerFormPage";
 import AdminPage from "./Pages/AdminPage";
 import Requests from "./Pages/RequestPage";
 import {UserProvider} from "./context/UserContextFile";
+
 const App = () => {
   return (
     <UserProvider>
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/managerForm" element={<ManagerForm />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/form/:formId" element={<UserForm />} />
+            <Route path="/editManager/:managerId" element={<UserForm />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/requests" element={<Requests />} />
           </Routes>

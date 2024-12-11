@@ -89,7 +89,7 @@ public class DataLoader implements CommandLineRunner{
         Menu spicyBBQPizza = new Menu("Spicy BBQ Pizza", 11.0, dominos, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHCwBCaWLbF7CT-CES_UO4bLrgp5EhLoX7dw&s");
         Menu bbqChickenPizza = new Menu("BBQ Chicken Pizza", 10.5, telepizza, "https://d1d8i24om29pt.cloudfront.net/static/mobile/products/pizza-bbq-chicken_orig.png");
         Menu portuguesePizza = new Menu("Portuguese Pizza", 10.0, telepizza, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnb5LmVdElGOnWQic1iNxl304IgrP1CvGb8A&s");        
-        // Insert Menu data
+
         if (!menuRepository.findByName("CBO").isPresent()) {
             menuRepository.save(cbo);
         }
@@ -150,50 +150,18 @@ public class DataLoader implements CommandLineRunner{
             menuRepository.save(portuguesePizza);
         }
 
-        // Repeat similar checks for other Menu entries...
-
-        // Insert ManagerForm data
-        ManagerForm bob = new ManagerForm(mcDonalds, "Bob", "Brown", "bob@gmail.com", "McDonald's Pingo Doce", "Rua Feira Hipermercados, 3800-000 Aveiro", 40.638333, -8.653679, "McDonald1", "123456789", null, "accepted");
-        ManagerForm charlie = new ManagerForm(mcDonalds, "Charlie", "Smith", "charlie@gmail.com", "McDonald''s Universidade", "Rua das Pombas, 3810-150 Aveiro", 40.643154, -8.650535, "McDonald2", "123456789", null, "accepted");
-        ManagerForm diana = new ManagerForm(burgerKing, "Diana", "Jones", "diana@gmail.com", "Burger King Forum", "Forum Aveiro, 3800-000 Aveiro", 40.205641, -8.419551, "Burger3", "123456789", null, "accepted");
-        ManagerForm eve = new ManagerForm(burgerKing, "Eve", "Williams", "eve@gmail.com", "Burger King Glicínias", "Av. Dr. Lourenço Peixinho, 3800-000 Aveiro", 40.6519812362783, -8.620476728835527, "Burger4", "123456789", null, "accepted");
-        ManagerForm john = new ManagerForm(kfc, "John", "Brady", "john@gmail.com", "KFC Centro", "Rua de Coimbra, 3000-000 Coimbra", 40.63260134516651, -8.649728523856686, "KFC5", "123456789", null, "accepted");
-
-        if (!managerFormRepository.findByEmail("bob@gmail.com").isPresent()) {
-            managerFormRepository.save(bob);
-        }
-
-        if (!managerFormRepository.findByEmail("charlie@gmail.com").isPresent()) {
-            managerFormRepository.save(charlie);
-        }
-
-        if (!managerFormRepository.findByEmail("diana@gmail.com").isPresent()) {
-            managerFormRepository.save(diana);
-        }
-        
-        if (!managerFormRepository.findByEmail("eve@gmail.com").isPresent()) {
-            managerFormRepository.save(eve);
-        }
-
-        if (!managerFormRepository.findByEmail("john@gmail.com").isPresent()) {
-            managerFormRepository.save(john);
-        }
-
-    
-
-        // Repeat similar checks for other ManagerForm entries..
         UserAdmin alice = new UserAdmin("Alice", "Green", "alice@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
         UserManager userBob = new UserManager("Bob", "Brown", "bob@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
         UserManager userCharlie = new UserManager("Charlie", "Smith", "charlie@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
         UserManager userDiana = new UserManager("Diana", "Jones", "diana@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
         UserManager userEve = new UserManager("Eve", "Williams", "eve@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
         UserManager userJohn = new UserManager("John", "Brady", "john@gmail.com", "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
+        
 
-        // Insert User data
         if (!userRepository.findByEmail("alice@gmail.com").isPresent()) {
             userRepository.save(alice);
         }
-
+        
         if (!userRepository.findByEmail("bob@gmail.com").isPresent()) {
             userRepository.save(userBob);
         }
@@ -214,7 +182,38 @@ public class DataLoader implements CommandLineRunner{
             userRepository.save(userJohn);
         }
 
-        // Insert Restaurant data
+        ManagerForm bob = new ManagerForm(mcDonalds, "Bob", "Brown", "bob@gmail.com", "McDonald's Pingo Doce", "Rua Feira Hipermercados, 3800-000 Aveiro", 40.638333, -8.653679, "McDonald1", "123456789", null, "accepted");
+        ManagerForm charlie = new ManagerForm(mcDonalds, "Charlie", "Smith", "charlie@gmail.com", "McDonald''s Universidade", "Rua das Pombas, 3810-150 Aveiro", 40.643154, -8.650535, "McDonald2", "123456789", null, "accepted");
+        ManagerForm diana = new ManagerForm(burgerKing, "Diana", "Jones", "diana@gmail.com", "Burger King Forum", "Forum Aveiro, 3800-000 Aveiro", 40.205641, -8.419551, "Burger3", "123456789", null, "accepted");
+        ManagerForm eve = new ManagerForm(burgerKing, "Eve", "Williams", "eve@gmail.com", "Burger King Glicínias", "Av. Dr. Lourenço Peixinho, 3800-000 Aveiro", 40.6519812362783, -8.620476728835527, "Burger4", "123456789", null, "accepted");
+        ManagerForm john = new ManagerForm(kfc, "John", "Brady", "john@gmail.com", "KFC Centro", "Rua de Coimbra, 3000-000 Coimbra", 40.63260134516651, -8.649728523856686, "KFC5", "123456789", null, "accepted");
+
+        if (!managerFormRepository.findByEmail("bob@gmail.com").isPresent()) {
+            bob.setManager(userBob.getId());
+            managerFormRepository.save(bob);
+        }
+
+        if (!managerFormRepository.findByEmail("charlie@gmail.com").isPresent()) {
+            charlie.setManager(userCharlie.getId());
+            managerFormRepository.save(charlie);
+        }
+
+        if (!managerFormRepository.findByEmail("diana@gmail.com").isPresent()) {
+            diana.setManager(userDiana.getId());
+            managerFormRepository.save(diana);
+        }
+        
+        if (!managerFormRepository.findByEmail("eve@gmail.com").isPresent()) {
+            eve.setManager(userEve.getId());
+            managerFormRepository.save(eve);
+        }
+
+        if (!managerFormRepository.findByEmail("john@gmail.com").isPresent()) {
+            john.setManager(userJohn.getId());
+            managerFormRepository.save(john);
+        }
+
+
         Restaurant restaurant1 = new Restaurant("McDonald's Pingo Doce", "Rua Feira Hipermercados, 3800-000 Aveiro", 40.6519812362783, -8.620476728835527, mcDonalds, userBob, "McDonald1");
         Restaurant restaurant2 = new Restaurant("McDonald's Universidade", "Rua das Pombas, 3810-150 Aveiro", 40.63260134516651, -8.649728523856686, mcDonalds, userCharlie, "McDonald2");
         Restaurant restaurant3 = new Restaurant("Burger King Forum", "Forum Aveiro, 3800-000 Aveiro", 40.638333, -8.653679, burgerKing, userDiana, "Burger3");

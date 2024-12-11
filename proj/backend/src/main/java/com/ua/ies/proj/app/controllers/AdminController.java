@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +29,6 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("/managers")
-    public ResponseEntity<List<UserManager>> getManagers() {
-        List<UserManager> managers = userService.getManagers();
-        return new ResponseEntity<>(managers, HttpStatus.OK);
-    }
-
     @GetMapping("/managers/{manager_id}")
     public ResponseEntity<UserManager> getManagerById(@PathVariable("manager_id") Long manager_id) {
         UserManager manager = userService.getManagerById(manager_id);
@@ -41,11 +36,11 @@ public class AdminController {
     }
     
 
-    // @DeleteMapping("/managers/{manager_id}")
-    // public ResponseEntity<String> deleteManager(@PathVariable("manager_id") Long manager_id) {
-    //     userService.deleteManager(manager_id);
-    //     return new ResponseEntity<>("Manager deleted sucessfully", HttpStatus.OK);
-    // }
+    @DeleteMapping("/managers/{manager_id}")
+    public ResponseEntity<String> deleteManager(@PathVariable("manager_id") Long manager_id) {
+        userService.deleteManager(manager_id);
+        return new ResponseEntity<>("Manager deleted sucessfully", HttpStatus.OK);
+    }
 
     @PutMapping("/managers/{manager_id}")
     public ResponseEntity<UserManager> updateManager(@PathVariable("manager_id") Long manager_id, @RequestBody UserManager manager) {

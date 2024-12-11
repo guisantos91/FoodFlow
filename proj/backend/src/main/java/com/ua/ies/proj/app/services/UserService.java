@@ -41,16 +41,16 @@ public class UserService {
         this.orderProcessingService = orderProcessingService;
     }
 
-    public List<UserManager> getManagers() {
-        return userRepository.findAllBy();
-    }
-
     public UserManager getManagerById(Long manager_id) {
         Optional<UserManager> optional_manager = userRepository.findManagerById(manager_id);
         return optional_manager.get();
     }
 
     public void deleteManager(Long manager_id) {
+        Optional<Restaurant> restaurant = restaurantRepository.findByManagerId(manager_id);
+        if (restaurant.isPresent()) {
+            restaurant.get().setManager(null);
+        }
         userRepository.deleteById(manager_id);
     }
 
@@ -63,6 +63,16 @@ public class UserService {
         existingManager.setPassword(manager.getPassword());
         existingManager.setBirthDate(manager.getBirthDate());
         UserManager updatedManager = userRepository.save(existingManager);
+        
+        ManagerForm form = managerFormRepository.findByManager(manager_id).get();
+        if (form == null){
+            throw new EntityNotFoundException("Form not found with manager_id: " + manager_id);
+        }
+        form.setFname(manager.getFname());
+        form.setLname(manager.getLname());
+        form.setEmail(manager.getEmail());
+        form.setBirthDate(manager.getBirthDate());
+        managerFormRepository.save(form);
         return updatedManager;
     }
 
@@ -105,10 +115,6 @@ public class UserService {
         }
     }
 
-    public void deleteForm(Long form_id) {
-        managerFormRepository.deleteById(form_id);
-    }
-
     public void approveForm(ManagerForm form) {
 
         UserManager manager = new UserManager();
@@ -119,18 +125,23 @@ public class UserService {
         manager.setBirthDate(form.getBirthDate());
         userRepository.save(manager);
 
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(form.getRestaurantName());
-        restaurant.setAddress(form.getRestaurantAddress());
-        restaurant.setLatitude(form.getLatitude());
-        restaurant.setLongitude(form.getLongitude());
-        restaurant.setFoodchain(form.getFoodchain());
-        restaurant.setManager(manager);
-        restaurant.setTopic(form.getRestaurantEndpoint());
+        Restaurant restaurant = restaurantRepository.findByTopic(form.getRestaurantEndpoint());
+        if (restaurant != null) {
+            restaurant.setManager(manager);
+        }else{
+            restaurant = new Restaurant();
+            restaurant.setName(form.getRestaurantName());
+            restaurant.setAddress(form.getRestaurantAddress());
+            restaurant.setLatitude(form.getLatitude());
+            restaurant.setLongitude(form.getLongitude());
+            restaurant.setFoodchain(form.getFoodchain());
+            restaurant.setManager(manager);
+            restaurant.setTopic(form.getRestaurantEndpoint());
+        }
         restaurantRepository.save(restaurant);
-
         orderProcessingService.createListenerForRestaurant(restaurant.getTopic(), "group-" + restaurant.getId());
-
+        Long manager_id = manager.getId();
+        form.setManager(manager_id);
         form.setState("accepted");
         managerFormRepository.save(form);
     }
@@ -150,16 +161,24 @@ public class UserService {
         String email = auth.getName();
         UserInfo userInfo = new UserInfo();
         
-        userInfo.setRole(role);
-        
-        User user = getUserByEmail(email);
+        Optional<User> user_opt = userRepository.findByEmail(email);
+        if (!user_opt.isPresent()){
+            throw new EntityNotFoundException("Invalid email or password");
+        }
+        User user = user_opt.get();
         userInfo.setFname(user.getFname());
         userInfo.setLname(user.getLname());
+        userInfo.setRole(role);
 
         if (role.equals("MANAGER")){
-            Restaurant restaurant = restaurantRepository.findByManagerId(user.getId()).get();
-            userInfo.setRestaurant_id(restaurant.getId());
-            Foodchain foodchain = restaurant.getFoodchain();
+            Optional<Restaurant> restaurant = restaurantRepository.findByManagerId(user.getId());
+         
+            if (!restaurant.isPresent()){
+                return userInfo;
+            }
+
+            userInfo.setRestaurant_id(restaurant.get().getId());
+            Foodchain foodchain = restaurant.get().getFoodchain();
             userInfo.setFoodchain_id(foodchain.getId());
         }
         return userInfo;

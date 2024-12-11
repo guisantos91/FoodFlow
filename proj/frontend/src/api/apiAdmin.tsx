@@ -19,7 +19,18 @@ export interface FormData {
     longitude: number;
     restaurantEndpoint: string;
     password: string;
+    manager: number;
+    state?: string;
 }
+
+export interface ManagerData {
+    id: number;
+    fname: string;
+    lname: string;
+    birthDate: string;
+    email: string;
+}
+
 
 export const getForm = async ( id: string | undefined ): Promise<FormData> => {
     try {
@@ -77,6 +88,37 @@ export const aproveForm = async( newForm: FormData ): Promise<FormData> => {
         return response.data;
     } catch (error) {
         console.error("Error aproving a forms:", error);
+        throw error;
+    }
+}
+
+export const changeManager = async( id: number, newForm: ManagerData ): Promise<ManagerData> => {
+    try {
+        const response = await axios.put(`${API_BASE_URL}/admin/managers/${id}`, newForm, { withCredentials: true, });
+        return response.data;
+    } catch (error) {
+        console.error("Error changing manager:", error);
+        throw error;
+    }
+}
+
+export const getManager = async( id: number ): Promise<ManagerData> => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/admin/managers/${id}`, { withCredentials: true, });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching a manager:", error);
+        throw error;
+    }
+}
+
+export const deleteManager = async( id: number ): Promise<void> => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/admin/managers/${id}`, { withCredentials: true, });
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error deleting a manager:", error);
         throw error;
     }
 }

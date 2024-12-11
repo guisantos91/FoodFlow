@@ -12,10 +12,8 @@ export function Form({data}: FormProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { source } = location.state as { source: "pending" | "declined" };
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = () => {
-      // setIsModalOpen(false);
       handleForm(data, null, null, "deleted");
       navigate("/requests");
   };
