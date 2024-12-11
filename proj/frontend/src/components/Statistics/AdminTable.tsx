@@ -36,11 +36,13 @@ const AdminTable = ({ name }: managerName) => {
 
     const handleEdit = (managerId: number) => {
         navigate(`/editManager/${managerId}`);
+        setForms((prevForms) => prevForms.filter((form) => form.id !== form.id));
     }
 
-    const handleDelete = (managerId: number, form: FormData) => {
-        deleteManager(managerId);
-        changeForm(form.id, { ...form, state: "deleted" });
+    const handleDelete = async (managerId: number, form: FormData) => {
+        await deleteManager(managerId);
+        await changeForm(form.id, { ...form, state: "deleted" });
+        setForms((prevForms) => prevForms.filter((item) => item.id !== form.id));
         console.log("Manager deleted successfully");
     }
 
