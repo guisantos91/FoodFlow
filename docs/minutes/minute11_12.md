@@ -20,7 +20,7 @@ Discutir as tarefas pendentes e definir as próximas ações para concluir a ite
 
 
 ### Discussion items:
-- **Edição e eliminação de um manager** - Discutiu-se como implementar as funcionalidades de edição (nome e email) e eliminação de um manager que já tenha sido aceite no sistema.
+- **Edição e eliminação de um manager** - Discutiu-se a implementação das funcionalidades de edição (nome e email) e eliminação de um manager que já tenha sido aceite no sistema.
 
 - **Documentação** - Identificaram-se as secções que ainda precisam ser completadas ou melhoradas. Ficou decidido que o relatório final do projeto será finalizado e serão feitos ajustes na documentação da API, assim como na arquitetura caso necessário.
 
