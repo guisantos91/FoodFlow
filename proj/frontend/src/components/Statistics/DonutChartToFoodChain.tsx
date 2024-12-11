@@ -13,7 +13,6 @@ const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
         const fetchStats = async () => {
           try {
             const response = await getOrdersStatisticsById(foodChainID);
-            // console.log("Stats Data:", response.data);
     
             const formattedDonutData = Object.keys(response).map((menu) => {
               return {

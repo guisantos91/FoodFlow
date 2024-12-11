@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-// Tipo para o contexto
 interface FormContextType {
   activeTab: string;
   setActiveTab: (tab: string) => void;

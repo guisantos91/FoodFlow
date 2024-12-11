@@ -12,10 +12,8 @@ export function Form({data}: FormProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { source } = location.state as { source: "pending" | "declined" };
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = () => {
-      // setIsModalOpen(false);
       handleForm(data, null, null, "deleted");
       navigate("/requests");
   };
@@ -108,22 +106,6 @@ export function Form({data}: FormProps) {
                 </div>
             </form>
         </div>
-
-        {/* <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)} position="center" >
-            <Modal.Header>
-                <p className="flex items-center justify-center text-black">
-                    Are you sure you want to delete this request?
-                </p>
-            </Modal.Header>
-            <Modal.Body className="flex items-center justify-center mt-4 gap-12">
-                <Button className="bg-red-500 rounded-xl" onClick={handleDelete}>
-                    Delete
-                </Button>
-                <Button className="bg-gray-300 rounded-xl" onClick={() => setIsModalOpen(false)}>
-                    Cancel
-                </Button>
-            </Modal.Body>
-        </Modal> */}
     </div>
   );
 }

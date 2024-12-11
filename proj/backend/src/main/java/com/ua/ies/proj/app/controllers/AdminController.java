@@ -29,12 +29,6 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping("/managers")
-    public ResponseEntity<List<UserManager>> getManagers() {
-        List<UserManager> managers = userService.getManagers();
-        return new ResponseEntity<>(managers, HttpStatus.OK);
-    }
-
     @GetMapping("/managers/{manager_id}")
     public ResponseEntity<UserManager> getManagerById(@PathVariable("manager_id") Long manager_id) {
         UserManager manager = userService.getManagerById(manager_id);

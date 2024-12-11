@@ -21,9 +21,6 @@ const AdminTable = ({ name }: managerName) => {
         const fetchForms = async () => {
             try {
                 const response = await getAcceptedForms();
-                // const FormsWithDistance = response.data.map((restaurant: Restaurant) => {
-                //     return { ...restaurant, manager: 2 }; // change later
-                // });
                 const filteredForms = response.filter(
                     (form: FormData) => (!name || (`${form.fname} ${form.lname}`.toLowerCase().includes(name.toLowerCase())))
                 );
@@ -46,29 +43,6 @@ const AdminTable = ({ name }: managerName) => {
         changeForm(form.id, { ...form, state: "deleted" });
         console.log("Manager deleted successfully");
     }
-
-
-    // const handleDelete = async (managerId: number | null) => {
-    //     if (!managerId) return;
-
-    //     try {
-    //         await axios.delete(`http://localhost:8080/api/v1/admin/managers/${managerId} `, {
-    //             withCredentials: true,
-    //         });
-    //         alert("Manager deleted successfully");
-
-    //         setRestaurants((prev) =>
-    //             prev.map((restaurant) =>
-    //                 restaurant.manager?.id === managerId
-    //                     ? { ...restaurant, manager: null }
-    //                     : restaurant
-    //             )
-    //         );
-    //     } catch (err) {
-    //         console.error("Error deleting manager:", err);
-    //         alert("Failed to delete manager");
-    //     }
-    // };
 
     const indexOfLastRow = currentPage * rowsPerPage;
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;

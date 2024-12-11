@@ -41,10 +41,6 @@ public class UserService {
         this.orderProcessingService = orderProcessingService;
     }
 
-    public List<UserManager> getManagers() {
-        return userRepository.findAllBy();
-    }
-
     public UserManager getManagerById(Long manager_id) {
         Optional<UserManager> optional_manager = userRepository.findManagerById(manager_id);
         return optional_manager.get();

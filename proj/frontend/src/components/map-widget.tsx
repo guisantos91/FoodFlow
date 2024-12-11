@@ -22,18 +22,6 @@ export class MapWidget {
       attribution: "© OpenStreetMap",
     }).addTo(this.map);
 
-    // for (let index = 0; index < 3; index++) {
-    //       const customIcon = L.icon({
-    //       iconUrl: userIcon,
-    //       iconSize: [32, 52], // Adjust size [width, height]
-    //       iconAnchor: [16, 32], // Anchor point [x, y]
-    //       popupAnchor: [0, -32], // Popup position relative to icon
-    //     });
-
-    //     L.marker([40.63666+Math.random()*0.01, -8.65285+Math.random()*0.01],{icon: customIcon}).addTo(this.map)
-    //     .bindPopup('A pretty CSS popup.<br> Easily customizable.');
-    // }
-
     this.map.setView([40.63666, -8.65285], 0);
   }
 
@@ -72,7 +60,6 @@ export class MapWidget {
 
       L.circleMarker([e.latlng.lat, e.latlng.lng], {
         radius: 10,
-        // radius: radius,
         color: "red",
         fillColor: "red",
         fillOpacity: 0.4,
