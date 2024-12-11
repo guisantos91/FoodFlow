@@ -12,6 +12,7 @@ import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrd
 import { getMenus, Menu, DonutData, Restaurant, getRestaurant } from "../api/apiFoodChain";
 import { getOrdersStatistics, Order, MenuData } from "../api/apiOrders";
 import { useUserContext } from '../context/UserContextFile';
+import { WEBSOCKET_URL } from "../api/apiConfig";
 
 const RestaurantStatistics = () => {
     const { foodchainId, restaurantId } = useParams<{ foodchainId: string; restaurantId: string }>();
@@ -50,7 +51,7 @@ const RestaurantStatistics = () => {
         }
 
         stompClientOrders = new StompJs.Client({
-            brokerURL: "ws://localhost:8080/ws",
+            brokerURL: WEBSOCKET_URL,
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
         });

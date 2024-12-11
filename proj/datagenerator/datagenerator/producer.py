@@ -159,7 +159,7 @@ def insert_order():
 
     global order_ids, orders
     order_id=order_ids.get(topic,100)
-    order_id+=1
+    order_id = (order_id + 1) % 999
     order_ids[topic]=order_id
 
     msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[menus[menu_id][0] for menu_id, quantity in items.items()], "status":status}
