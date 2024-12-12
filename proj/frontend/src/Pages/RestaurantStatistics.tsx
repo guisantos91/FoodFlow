@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
 import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
-import { getMenus, Menu, DonutData } from "../api/apiFoodChain";
+import { getMenus, Menu, DonutData, Restaurant } from "../api/apiFoodChain";
 import { getOrdersStatistics, Order, MenuData } from "../api/apiOrders";
 import { useUserContext } from '../context/UserContextFile';
 
@@ -24,8 +24,23 @@ const RestaurantStatistics = () => {
     const [donutGraphData, setDonutGraphData] = useState<DonutData[]>([]);
     const [menus, setMenus] = useState<Menu[]>([]);
     const { isAuthenticated, user } = useUserContext();
+    const [restaurantName, setRestaurantName] = useState<string>("");
 
     let stompClientOrders: StompJs.Client | null = null; // Keep track of the connection
+
+    const getRestaurant = async (id: number, restId: number): Promise<Restaurant | undefined> => {
+        try {
+            const response = await getRestaurant(id, restId);
+            if (response) {
+                setRestaurantName(response.name);
+                console.log("Restaurant Data:", response.name);
+                console.log("Restaurant Name:", restaurantName);
+            }
+            return response;
+        } catch (error) {
+            console.error("Error fetching restaurant:", error);
+        }
+    }
 
     const connectWebSocketOrder = async (restaurantId: number) => {
 
@@ -202,12 +217,14 @@ const RestaurantStatistics = () => {
         setMenus(sortedMenus);
     }
 
+    getRestaurant(foodchainID, restID);
+
     return (
         <Layout>
             <div className="flex min-h-screen">
                 <div className="flex-1 ml-4">
                     <h4 className="text-orange-300 text-lg mb-2 mt-4">Hello</h4>
-                    <h2 className="text-black text-2xl">Restaurant</h2>
+                    <h2 className="text-black text-2xl">{restaurantName}</h2>
                     <div className="bg-gray-100 mt-8 mb-8 mx-auto p-8 rounded-lg shadow-xl max-w-5xl">
                         <h1 className="text-4xl font-bold text-center mb-8">Trending Orders</h1>
                         <div className="p-4">
@@ -240,7 +257,7 @@ const RestaurantStatistics = () => {
                                         image={"https://via.placeholder.com/150"}
                                         name={menu.name}
                                         price={menu.price.toFixed(2)}
-                                        chain={restID}
+                                        rest={restaurantName}
                                     />
                                 ))}
                             </div>
