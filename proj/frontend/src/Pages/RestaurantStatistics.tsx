@@ -29,6 +29,7 @@ const RestaurantStatistics = () => {
 
     let stompClientOrders: StompJs.Client | null = null; // Keep track of the connection
 
+
     const restaurantData = async (id: number, restId: number): Promise<Restaurant | undefined> => {
         try {
             const response = await getRestaurant(id, restId);
