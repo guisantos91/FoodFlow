@@ -68,6 +68,16 @@ export const getRestaurants = async (id: number): Promise<Restaurant[]> => {
   }
 };
 
+export const getRestaurant = async (id: number, restId: number): Promise<Restaurant> => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/restaurants/${restId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching a restaurant:", error);
+    throw error;
+  }
+}
+
 export const getMenus = async (id: number): Promise<Menu[]> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/menus`);
