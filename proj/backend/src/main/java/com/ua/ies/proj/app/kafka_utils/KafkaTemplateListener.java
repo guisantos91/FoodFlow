@@ -71,6 +71,8 @@ public class KafkaTemplateListener implements MessageListener<String, OrderKafka
         if (existingOrder.isPresent()) {
             Order existing = existingOrder.get();
             existing.setStatus(order.getStatus());
+            existing.setPrice(order.getPrice());
+            existing.setCreatedAt(Instant.parse(order.getCreatedAt() + "Z"));
             System.out.println("Order status updated: " + existing.getStatus());
             savedOrder = orderRepository.save(existing);
         } else {
