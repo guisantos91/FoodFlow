@@ -240,6 +240,7 @@ const RestaurantStatistics = () => {
                                         image={"https://via.placeholder.com/150"}
                                         name={menu.name}
                                         price={menu.price.toFixed(2)}
+                                        chain={restID}
                                     />
                                 ))}
                             </div>
