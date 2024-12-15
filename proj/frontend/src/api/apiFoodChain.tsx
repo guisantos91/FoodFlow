@@ -32,6 +32,7 @@ export interface FoodChainTopOrders {
   id: number;
   name: string;
   price: number;
+  image_url: string;
   foodchain: {
     id: number;
     name: string;
@@ -44,6 +45,7 @@ export interface Menu {
   id: number;
   name: string;
   price: number;
+  image_url: string;
 }
 
 export const getChains = async (): Promise<FoodChain[]> => {
