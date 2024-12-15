@@ -21,8 +21,10 @@ services:
     ports:
       - $BACKEND_LOCAL_PORT:$BACKEND_DOCKER_PORT
     depends_on:
-      - database
-      - kafka
+      database:
+        condition: service_started
+      kafka:
+        condition: service_healthy
     environment:
       JWT_KEY: ${JWT_KEY}
       ORIGIN_NETWORK: ${FRONTEND_HOST}
@@ -81,14 +83,21 @@ services:
       KAFKA_LOG_RETENTION_MS: 10000
       KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 5000
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/${KAFKA_HOST}/${KAFKA_DOCKER_PORT} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
   
   datagenerator:
     build: 
       context: ./datagenerator
       dockerfile: Dockerfile
     depends_on:
-      - kafka
-      - backend
+      kafka:
+        condition: service_healthy
+      backend:
+        condition: service_started
     environment:
       KAFKA_CONTAINER: kafka
       KAFKA_LISTENER_PORT: $KAFKA_LISTENER_PORT

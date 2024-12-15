@@ -17,6 +17,7 @@ import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
 import com.ua.ies.proj.app.repos.UserRepository;
+import com.ua.ies.proj.app.services.OrderProcessingService.OrderProcessingService;
 
 import jakarta.persistence.EntityNotFoundException;
 

@@ -1,4 +1,4 @@
-package com.ua.ies.proj.app.kafka_utils;
+package com.ua.ies.proj.app.services.OrderProcessingService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
