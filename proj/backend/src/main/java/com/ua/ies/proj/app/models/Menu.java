@@ -34,6 +34,7 @@ public class Menu {
         this.name = name;
         this.price = price;
         this.foodchain = foodchain;
+        this.image_url = image_url;
     }
 
     public Long getId() {

@@ -260,7 +260,7 @@ const RestaurantStatistics = () => {
                                 {menus.map((menu) => (
                                     <CardComponent
                                         key={menu.id}
-                                        image={"https://via.placeholder.com/150"}
+                                        image={menu.image_url}
                                         name={menu.name}
                                         price={menu.price.toFixed(2)}
                                         rest={restaurantName}

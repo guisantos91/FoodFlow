@@ -34,6 +34,7 @@ const Sidebar = ({ name, data, foodchainId, navigateBool }: Data) => {
             item1={restaurant.name}
             item2={restaurant.address || restaurant.foodchain.name}
             item3={restaurant.distance}
+            item4={restaurant.id}
             image={MCImage}
             naveTrue={navigateBool}
           />

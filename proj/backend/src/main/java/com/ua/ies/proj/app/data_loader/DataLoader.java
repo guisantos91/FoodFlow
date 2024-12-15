@@ -77,7 +77,7 @@ public class DataLoader implements CommandLineRunner{
         Menu cbo = new Menu("CBO", 7.5, mcDonalds,"https://www.mcdonalds.pt/media/4288/007_cbo_03.png");
         Menu happyMeal = new Menu("Happy Meal", 4.5, mcDonalds, "https://drn10k7huei54.cloudfront.net/TPO-1386.jpg");
         Menu bigMac = new Menu("Big Mac", 6.0, mcDonalds, "https://www.mcdonalds.pt/media/7040/produtos_500x500_bestburgers_big-mac.png");
-        Menu whopper = new Menu("Whopper", 7.0, burgerKing, "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8eyyUs2n4nYO7q-8UVWZJPa2b2IlAWFVxv0KUR843fY2NroTebO_ga5__MIZG_qxrk8WUmcmkujh0Ic3snrePb8IZ6dh4blxVqspGuGjJ1ktD34-P7UtjozT87WO70NGqi12O_9LdAD3RZ1tDxz_i3sk97ILRWuMuGOd-TtDxbI96f9KY5_cF/s16000/burger%20whopper%2020.jpg");
+        Menu whopper = new Menu("Whopper", 7.0, burgerKing, "https://shoppingspirit.pt/wp-content/uploads/2024/05/whopper-burger-king.jpg");
         Menu chickenFries = new Menu("Chicken Fries", 4.0, burgerKing, "https://www.onionringsandthings.com/wp-content/uploads/2020/09/crispy-chicken-fries-2.jpg");
         Menu zingerBurger = new Menu("Zinger Burger", 6.5, kfc, "https://images.ctfassets.net/crbk84xktnsl/4zgRg2g2ZRBey10D3qfjyZ/e9f079f486f401b884ad570be0a48af8/Zinger_Burger.png");
         Menu originalRecipeChicken = new Menu("Original Recipe Chicken", 8.0, kfc, "https://topsecretrecipes.com/images/product/kfc-original-recipe-chicken-copycat-recipe.jpg");
