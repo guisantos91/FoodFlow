@@ -4,6 +4,7 @@ import API_BASE_URL from "./apiConfig";
 export interface FoodChain {
   id: number;
   name: string;
+  image_url: string;
   food_type: string;
 }
 
@@ -32,9 +33,10 @@ export interface FoodChainTopOrders {
   name: string;
   price: number;
   foodchain: {
-      id: number;
-      name: string;
-      food_type: string;
+    id: number;
+    name: string;
+    image_url: string;
+    food_type: string;
   };
 }
 
@@ -105,7 +107,7 @@ export const getMenusStatistics = async (): Promise<FoodChainTopOrders[]> => {
   }
 };
 
-export const getOrdersStatisticsById = async ( id: number ): Promise<DonutData[]> => {
+export const getOrdersStatisticsById = async (id: number): Promise<DonutData[]> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/foodchains/${id}/orders/statistics`);
     return response.data;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import FoodChainCard from "../components/Cards/FoodChaindCard";
 import Layout from "../components/Layout";
 import Sidebar from "../components/SideBar";
-import MCImage from "../assets/images/logos/mcdonalds.png";
+// import MCImage from "../assets/images/logos/mcdonalds.png";
 import SearchSVG from "../assets/images/icons/search.svg";
 import LineGraph from "../components/Statistics/LineGraph";
 import { getChains, getMenusStatistics, getOrdersStatistics, FoodChain, FoodChainData, FoodChainTopOrders } from "../api/apiFoodChain";
@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 mb-8">
                                 {filteredFoodChains.length > 0 ? (
                                     filteredFoodChains.map((chain) => (
-                                        <FoodChainCard key={chain.id} name={chain.name} image={MCImage} id={chain.id} />
+                                        <FoodChainCard key={chain.id} name={chain.name} image={chain.image_url} id={chain.id} />
                                     ))
                                 ) : (
                                     <p className="text-gray-500 text-center col-span-full">

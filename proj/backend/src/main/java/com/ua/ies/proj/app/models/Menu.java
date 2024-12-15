@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity(name = "menu")
 public class Menu {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -21,7 +21,7 @@ public class Menu {
     @NotNull
     private double price;
 
-    private String image_url; 
+    private String image_url;
 
     @ManyToOne
     @JoinColumn(name = "foodchain_id")
