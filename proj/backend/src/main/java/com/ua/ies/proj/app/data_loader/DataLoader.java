@@ -186,24 +186,24 @@ public class DataLoader implements CommandLineRunner {
         if (!userRepository.findByEmail("alice@gmail.com").isPresent()) {
             userRepository.save(alice);
         }
-
-        if (!userRepository.findByEmail("bob@gmail.com").isPresent()) {
+        
+        if (!userRepository.findByEmail("bob@gmail.com").isPresent() && !managerFormRepository.findByEmail("bob@gmail.com").isPresent()) {
             userRepository.save(userBob);
         }
 
-        if (!userRepository.findByEmail("charlie@gmail.com").isPresent()) {
+        if (!userRepository.findByEmail("charlie@gmail.com").isPresent() && !managerFormRepository.findByEmail("charlie@gmail.com").isPresent()) {
             userRepository.save(userCharlie);
         }
 
-        if (!userRepository.findByEmail("diana@gmail.com").isPresent()) {
+        if (!userRepository.findByEmail("diana@gmail.com").isPresent() && !managerFormRepository.findByEmail("diana@gmail.com").isPresent()) {
             userRepository.save(userDiana);
         }
 
-        if (!userRepository.findByEmail("eve@gmail.com").isPresent()) {
+        if (!userRepository.findByEmail("eve@gmail.com").isPresent() && !managerFormRepository.findByEmail("eve@gmail.com").isPresent()) {
             userRepository.save(userEve);
         }
 
-        if (!userRepository.findByEmail("john@gmail.com").isPresent()) {
+        if (!userRepository.findByEmail("john@gmail.com").isPresent() && !managerFormRepository.findByEmail("john@gmail.com").isPresent()) {
             userRepository.save(userJohn);
         }
 
