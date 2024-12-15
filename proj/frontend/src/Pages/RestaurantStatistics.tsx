@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
 import { getOrdersToDo, getOrdersDone, getOrdersInProgress } from "../api/apiOrders";
-import { getMenus, Menu, DonutData, Restaurant } from "../api/apiFoodChain";
+import { getMenus, Menu, DonutData, Restaurant, getRestaurant } from "../api/apiFoodChain";
 import { getOrdersStatistics, Order, MenuData } from "../api/apiOrders";
 import { useUserContext } from '../context/UserContextFile';
 import { WEBSOCKET_URL } from "../api/apiConfig";
@@ -29,7 +29,7 @@ const RestaurantStatistics = () => {
 
     let stompClientOrders: StompJs.Client | null = null; // Keep track of the connection
 
-    const getRestaurant = async (id: number, restId: number): Promise<Restaurant | undefined> => {
+    const restaurantData = async (id: number, restId: number): Promise<Restaurant | undefined> => {
         try {
             const response = await getRestaurant(id, restId);
             if (response) {
@@ -218,7 +218,13 @@ const RestaurantStatistics = () => {
         setMenus(sortedMenus);
     }
 
-    getRestaurant(foodchainID, restID);
+    useEffect(() => {
+        const fetchRestaurant = async () => {
+            await restaurantData(foodchainID, restID);
+        };
+    
+        fetchRestaurant();
+    }, [foodchainID, restID]);
 
     return (
         <Layout>
