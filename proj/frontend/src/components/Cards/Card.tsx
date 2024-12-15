@@ -12,6 +12,7 @@ function CardComponent({ image, name, price, rest }: CardComponentProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleMenuClick = () => {
+    console.log('Menu Clicked:', image);
     setIsModalOpen(true);
   };
 
