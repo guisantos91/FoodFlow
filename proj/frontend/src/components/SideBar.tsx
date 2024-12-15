@@ -1,6 +1,5 @@
 import SideBarCard from './Cards/SidebarCards';
 import userIcon from '../assets/images/icons/user.png';
-import MCImage from '../assets/images/logos/mcdonalds.png';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../context/UserContextFile';
 
@@ -34,7 +33,7 @@ const Sidebar = ({ name, data, foodchainId, navigateBool }: Data) => {
             item1={restaurant.name}
             item2={restaurant.address || restaurant.foodchain.name}
             item3={restaurant.distance}
-            image={MCImage}
+            image={restaurant.image_url || restaurant.foodchain.image_url}
             naveTrue={navigateBool}
           />
         ))}
