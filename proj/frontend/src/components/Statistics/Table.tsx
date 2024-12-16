@@ -2,48 +2,60 @@ type TableProps = {
     todo: number[];
     preparing: number[];
     ready: number[];
-};
-
-function Table({ todo, preparing, ready }: TableProps) {
+  };
+  
+  function Table({ todo, preparing, ready }: TableProps) {
     return (
-        <div className="overflow-x-auto ml-2 mr-2 rounded-xl">
-            <table className="w-full mt-4 border-4 border-orange-500 rounded-xl min-h-[300px]">
-                <thead className="sticky top-0 z-10">
-                    <tr>
-                        <th className="text-black border-2 border-orange-500 px-4 py-2 h-12">To-Do</th>
-                        <th className="text-black border-2 border-orange-500 px-4 py-2 h-12">Preparing</th>
-                        <th className="text-black border-2 border-orange-500 px-4 py-2 h-12">Ready</th>
-                    </tr>
-                </thead>
-
-                <tbody className="overflow-y-auto min-h-[300px]">
-                    <tr>
-                        <td className="align-top border-2 border-orange-500 px-4 py-2 min-h-[300px] overflow-y-auto">
-                            <ul className="text-black list-disc list-inside">
-                                {todo.map((item, index) => (
-                                    <li key={index} className="py-1">{item}</li>
-                                ))}
-                            </ul>
-                        </td>
-                        <td className="align-top border-2 border-orange-500 px-4 py-2 min-h-[300px] overflow-y-auto">
-                            <ul className="text-black list-disc list-inside">
-                                {preparing.map((item, index) => (
-                                    <li key={index} className="py-1">{item}</li>
-                                ))}
-                            </ul>
-                        </td>
-                        <td className="align-top border-2 border-orange-500 px-4 py-2 min-h-[300px] overflow-y-auto">
-                            <ul className="text-black list-disc list-inside">
-                                {ready.map((item, index) => (
-                                    <li key={index} className="py-1">{item}</li>
-                                ))}
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+      <div className="overflow-x-auto ml-2 mr-2 rounded-xl h-[40vh] border-4 border-orange-500">
+        <div className="flex h-full">
+          {/* To-Do Column */}
+          <div className="flex-1 border-r-2 border-orange-500 flex flex-col">
+            <div className="h-12 border-b-2 border-orange-500 flex items-center justify-center sticky top-0 z-10">
+              <span className="font-bold text-black">To-Do</span>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <ul className="text-black list-disc list-inside p-2">
+                {todo.map((item, index) => (
+                  <li key={index} className="py-1">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          {/* Preparing Column */}
+          <div className="flex-1 border-r-2 border-orange-500 flex flex-col">
+            <div className="h-12 border-b-2 border-orange-500 flex items-center justify-center sticky top-0 z-10">
+              <span className="font-bold text-black">Preparing</span>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <ul className="text-black list-disc list-inside p-2">
+                {preparing.map((item, index) => (
+                  <li key={index} className="py-1">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          {/* Ready Column */}
+          <div className="flex-1 flex flex-col">
+            <div className="h-12 border-b-2 border-orange-500 flex items-center justify-center sticky top-0 z-10">
+              <span className="font-bold text-black">Ready</span>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <ul className="text-black list-disc list-inside p-2">
+                {ready.map((item, index) => (
+                  <li key={index} className="py-1">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
+      </div>
     );
-}
-
-export default Table;
+  }
+  
+  export default Table;
