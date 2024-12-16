@@ -12,6 +12,8 @@ services:
       - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - custom_network
 
   backend:
     build: 
@@ -44,6 +46,8 @@ services:
         }'
     volumes:
       - .m2:/root/.m2
+    networks:
+      - custom_network
 
   frontend:
     build:
@@ -57,6 +61,8 @@ services:
     environment:
       - VITE_BACKEND_HOST=${BACKEND_HOST}
       - VITE_BACKEND_PORT=${BACKEND_LOCAL_PORT}
+    networks:
+      - custom_network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4
@@ -66,6 +72,8 @@ services:
     ports:
       - $ZOOKEEPER_LOCAL_PORT:$ZOOKEEPER_DOCKER_PORT
     restart: on-failure
+    networks:
+      - custom_network
   
   kafka:
     image: confluentinc/cp-kafka:7.4.4
@@ -88,6 +96,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 20
+    networks:
+      - custom_network
   
   datagenerator:
     build: 
@@ -104,8 +114,17 @@ services:
     volumes:
       - datagenerator_data:/app/data
     restart: on-failure
+    networks:
+      - custom_network
 
 
 volumes:
   postgres_data:
   datagenerator_data:
+
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.1.0/24
