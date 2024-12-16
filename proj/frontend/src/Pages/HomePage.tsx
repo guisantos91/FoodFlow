@@ -129,7 +129,7 @@ const HomePage: React.FC = () => {
 
                     </div>
                 </div>
-                <Sidebar name="Top Menus" data={foodChainsTopOrders} foodchainId={1} />
+                <Sidebar name="Top Menus" data={foodChainsTopOrders} />
             </div>
         </Layout>
     );

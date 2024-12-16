@@ -165,7 +165,6 @@ const FoodChainPage: React.FC = ({}) => {
           name="Restaurants"
           data={restaurants}
           navigateBool={true}
-          foodchainId={foodChainID}
         />
       </div>
     </Layout>
