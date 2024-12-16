@@ -64,7 +64,6 @@ const RestaurantStatistics = () => {
             // Subscribe to the topic and listen for updates
             stompClientOrders?.subscribe("/topic/orders", (message) => {
                 const newOrder = JSON.parse(message.body);
-                console.log("Received new data: ", newOrder);
 
                 // If the order if from this restaurant, update the order list
                 if (newOrder.restaurantId === restaurantId) {
