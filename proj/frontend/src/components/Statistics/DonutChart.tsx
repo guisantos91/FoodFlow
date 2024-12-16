@@ -22,13 +22,11 @@ function DonutChart({ data, colorMapping }: DonutChartProps) {
 
     const dataWithPercentage = data.map((item) => ({
         ...item,
-        value: ((item.value / totalValue) * 100).toFixed(0),
+        percentage: ((item.value / totalValue) * 100).toFixed(0),
     }));
 
     console.log("Donut Chart Data:", data);
     console.log("Donut Chart Data with Percentage:", dataWithPercentage);
-
-    // const renderLabel = (entry: any) => `${entry.name}: ${entry.percentage}%`;
 
     return (
         <div className="flex flex-col items-center mt-4 mb-4">
@@ -44,7 +42,7 @@ function DonutChart({ data, colorMapping }: DonutChartProps) {
                         innerRadius={70}
                         outerRadius={100}
                         fill="#8884d8"
-                        // label={renderLabel}
+                        label
                     >
                         {dataWithPercentage.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={colorMapping[entry.name] || '#8884d8'} />
