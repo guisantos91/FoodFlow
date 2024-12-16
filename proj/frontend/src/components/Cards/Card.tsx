@@ -22,7 +22,7 @@ function CardComponent({ image, name, price, rest }: CardComponentProps) {
 
   return (
     <>
-      <div className="w-1/4 h-32 pointer-cursor">
+      <div className="pointer-cursor">
         <Card
           imgAlt="menuImage"
           imgSrc={image}

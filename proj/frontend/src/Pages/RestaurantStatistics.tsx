@@ -257,7 +257,7 @@ const RestaurantStatistics = () => {
                                 </div>
                             </div>
 
-                            <div className="flex space-x-4 flex-wrap">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {menus.map((menu) => (
                                     <CardComponent
                                         key={menu.id}

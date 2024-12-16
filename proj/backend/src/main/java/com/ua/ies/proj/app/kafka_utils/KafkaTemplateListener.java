@@ -60,7 +60,8 @@ public class KafkaTemplateListener implements MessageListener<String, OrderKafka
         List<Menu> menus = new ArrayList<>();
         for (List<String> menu : order.getMenus()) {
             String menuName = menu.get(0);
-            String menuImage = menu.get(1);
+            double price = Double.parseDouble(menu.get(1));
+            String menuImage = menu.get(2);
             Optional<Menu> existingMenu = menuRepository.findByName(menuName);
             if (existingMenu.isPresent()) {
                 menus.add(existingMenu.get());
@@ -70,6 +71,7 @@ public class KafkaTemplateListener implements MessageListener<String, OrderKafka
                 newMenu.setName(menuName);
                 newMenu.setFoodchain(restaurant.getFoodchain());
                 newMenu.setImage_url(menuImage);
+                newMenu.setPrice(price);
                 Menu savedMenu = menuRepository.save(newMenu);
                 menus.add(savedMenu);
             }
