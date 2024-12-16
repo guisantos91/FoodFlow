@@ -2,26 +2,43 @@ import { Form } from '../components/Form';
 import Layout from '../components/Layout';
 import userIcon from "../assets/images/icons/user.png";
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getForm, FormData } from '../api/apiAdmin';
+import { useLocation, useParams } from 'react-router-dom';
+import { getForm, FormData, ManagerData, getManager } from '../api/apiAdmin';
+import { EditableForm } from '../components/EditableForm';
 
 
 const UserForm = () => {
-    const formId = useParams<{ formId: string }>().formId;
+    const { formId, managerId } = useParams<{ formId?: string; managerId?: string }>();
+    const location = useLocation();
     const [form, setForm] = useState<FormData>();
+    const [manager, setManager] = useState<ManagerData>();
     console.log(formId);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await getForm(formId);
-                setForm(response);
-                console.log(response);
-            } catch (error) {
-                console.error("Failed to fetch users: ", error);
+        const fetchData = async () => {
+            if (location.pathname.includes("/form")) {
+                if (formId) {
+                    try {
+                        const response = await getForm(formId);
+                        setForm(response);
+                        console.log(response);
+                    } catch (error) {
+                        console.error("Failed to fetch users: ", error);
+                    }
+                }
+            } else if (location.pathname.includes("/editManager")) {
+                if (managerId) {
+                    try {
+                        const response = await getManager(Number(managerId));
+                        setManager(response);
+                        console.log(response);
+                    } catch (error) {
+                        console.error("Failed to fetch managers: ", error);
+                    }
+                }
             }
         };
-        fetchUsers();
+        fetchData();
     }, []);
 
     return (
@@ -39,7 +56,12 @@ const UserForm = () => {
                         <h3 className="text-xl font-bold text-black">Admin</h3>
                     </div>
                 </div>
-                {form && <Form data={form} />}
+                {location.pathname.includes("/form") && form && (
+                    <Form data={form} source="pending" />
+                )}
+                {location.pathname.includes("/editManager") && manager && (
+                    <EditableForm data={manager} />
+                )}
             </div>
         </Layout>
     );

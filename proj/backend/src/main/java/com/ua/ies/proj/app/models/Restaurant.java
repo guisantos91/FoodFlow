@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -32,7 +33,7 @@ public class Restaurant {
     @JoinColumn(name = "foodchain_id")
     private Foodchain foodchain;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "manager_id")
     private UserManager manager;
 

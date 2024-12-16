@@ -1,6 +1,8 @@
-package com.ua.ies.proj.app.kafka_utils;
+package com.ua.ies.proj.app.services.OrderProcessingService;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -9,10 +11,12 @@ import org.springframework.kafka.listener.MessageListener;
 import org.springframework.stereotype.Component;
 
 import com.ua.ies.proj.app.controllers.MessageController;
+import com.ua.ies.proj.app.models.Menu;
 import com.ua.ies.proj.app.models.Order;
 import com.ua.ies.proj.app.models.OrderKafkaDTO;
 import com.ua.ies.proj.app.models.OrderSocketDTO;
 import com.ua.ies.proj.app.models.Restaurant;
+import com.ua.ies.proj.app.repos.MenuRepository;
 import com.ua.ies.proj.app.repos.OrderRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
 
@@ -25,12 +29,16 @@ public class KafkaTemplateListener implements MessageListener<String, OrderKafka
     private final RestaurantRepository restaurantRepository;
 
     @Autowired
+    private final MenuRepository menuRepository;
+
+    @Autowired
     private final MessageController messageController;
 
-    public KafkaTemplateListener(OrderRepository orderRepository, RestaurantRepository restaurantRepository, MessageController messageController) {
+    public KafkaTemplateListener(OrderRepository orderRepository, RestaurantRepository restaurantRepository, MessageController messageController, MenuRepository menuRepository) {
         this.orderRepository = orderRepository;
         this.restaurantRepository = restaurantRepository;
         this.messageController = messageController;
+        this.menuRepository = menuRepository;
     }
 
     @Override
@@ -48,13 +56,35 @@ public class KafkaTemplateListener implements MessageListener<String, OrderKafka
         newOrder.setCreatedAt(Instant.parse(order.getCreatedAt() + "Z"));
         newOrder.setStatus(order.getStatus());
         newOrder.setPrice(order.getPrice());
-        newOrder.setMenus(order.getMenus());
+        
+        List<Menu> menus = new ArrayList<>();
+        for (List<String> menu : order.getMenus()) {
+            String menuName = menu.get(0);
+            double price = Double.parseDouble(menu.get(1));
+            String menuImage = menu.get(2);
+            Optional<Menu> existingMenu = menuRepository.findByName(menuName);
+            if (existingMenu.isPresent()) {
+                menus.add(existingMenu.get());
+            }
+            else {
+                Menu newMenu = new Menu();
+                newMenu.setName(menuName);
+                newMenu.setFoodchain(restaurant.getFoodchain());
+                newMenu.setImage_url(menuImage);
+                newMenu.setPrice(price);
+                Menu savedMenu = menuRepository.save(newMenu);
+                menus.add(savedMenu);
+            }
+        }
+        newOrder.setMenus(menus);
 
-        Optional<Order> existingOrder = orderRepository.findByOrderId(order.getOrderId());
+        Optional<Order> existingOrder = orderRepository.findByOrderIdAndRestaurant(order.getOrderId(),restaurant);
         Order savedOrder;
         if (existingOrder.isPresent()) {
             Order existing = existingOrder.get();
             existing.setStatus(order.getStatus());
+            existing.setPrice(order.getPrice());
+            existing.setCreatedAt(Instant.parse(order.getCreatedAt() + "Z"));
             System.out.println("Order status updated: " + existing.getStatus());
             savedOrder = orderRepository.save(existing);
         } else {

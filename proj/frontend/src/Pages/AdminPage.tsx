@@ -1,9 +1,9 @@
 import Layout from '../components/Layout';
 import AdminTable from '../components/Statistics/AdminTable';
-import userIcon from '../assets/images/icons/user.png';
 import SearchSVG from '../assets/images/icons/search.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../context/UserContextFile';
 
 const AdminPage = () => {
     const [searchName, setSearchName] = useState("");
@@ -14,19 +14,15 @@ const AdminPage = () => {
         navigate('/requests');
     };
 
+    const { user } = useUserContext();
+
     return (
         <Layout>
             <div className="bg-white min-h-screen py-10 px-20">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-orange-500">Hello Alice Martins</h1>
+                        <h1 className="text-2xl font-bold text-orange-500">Hello {user?.fname} {user?.lname}</h1>
                         <p className="text-black text-xl">Welcome Back</p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <div className="flex items-center justify-center w-8 h-8 border-2 border-orange-500 rounded-full">
-                            <img src={userIcon} alt="User Icon" className="w-4 h-4" />
-                        </div>
-                        <span className="text-black font-medium">Alice Martins</span>
                     </div>
                 </div>
 

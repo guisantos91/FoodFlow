@@ -6,7 +6,6 @@ import * as L from "leaflet";
 import { useParams } from "react-router-dom";
 import { getChains, getRestaurants, FoodChain, Restaurant } from "../api/apiFoodChain.tsx";
 import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
-// import DonutChartToFoodChain from "../components/Statistics/DonutChartToFoodChain.tsx";
 
 const FoodChainPage: React.FC = ({}) => {
   const { id } = useParams<{ id: string }>();
@@ -63,20 +62,20 @@ const FoodChainPage: React.FC = ({}) => {
   }, []);
 
   function distance(userLocation: any, lat: number, lon: number): number {
-    const R = 6378.137; // Raio da Terra em km
-    const dLat = (lat - userLocation.lat) * Math.PI / 180; // Diferença de latitude em radianos
-    const dLon = (lon - userLocation.lon) * Math.PI / 180; // Diferença de longitude em radianos
-    const lat1 = userLocation.lat * Math.PI / 180; // Latitude inicial em radianos
-    const lat2 = lat * Math.PI / 180; // Latitude final em radianos
+    const R = 6378.137;
+    const dLat = (lat - userLocation.lat) * Math.PI / 180;
+    const dLon = (lon - userLocation.lon) * Math.PI / 180;
+    const lat1 = userLocation.lat * Math.PI / 180; 
+    const lat2 = lat * Math.PI / 180; 
 
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
         Math.cos(lat1) * Math.cos(lat2) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c; // Distância em km
+    const d = R * c;
 
-    return Math.round(d * 100000)/100; // Retorna a distância em metros
+    return Math.round(d * 100000)/100;
 }
 
   useEffect(() => {
@@ -118,7 +117,7 @@ const FoodChainPage: React.FC = ({}) => {
       };
     }, [shouldBlock]);
   };
-  const [isScrollBlocked, setIsScrollBlocked] = useState(false); // Estado para controle de scroll
+  const [isScrollBlocked, setIsScrollBlocked] = useState(false); 
   useBlockScroll(isScrollBlocked);
 
   const handleScroll = (event: React.WheelEvent) => {
@@ -166,7 +165,6 @@ const FoodChainPage: React.FC = ({}) => {
           name="Restaurants"
           data={restaurants}
           navigateBool={true}
-          foodchainId={foodChainID}
         />
       </div>
     </Layout>

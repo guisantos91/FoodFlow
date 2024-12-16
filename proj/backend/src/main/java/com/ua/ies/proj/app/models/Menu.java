@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity(name = "menu")
 public class Menu {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -21,6 +21,8 @@ public class Menu {
     @NotNull
     private double price;
 
+    private String image_url;
+
     @ManyToOne
     @JoinColumn(name = "foodchain_id")
     private Foodchain foodchain;
@@ -28,10 +30,11 @@ public class Menu {
     public Menu() {
     }
 
-    public Menu(String name, double price, Foodchain foodchain) {
+    public Menu(String name, double price, Foodchain foodchain, String image_url) {
         this.name = name;
         this.price = price;
         this.foodchain = foodchain;
+        this.image_url = image_url;
     }
 
     public Long getId() {
@@ -50,6 +53,10 @@ public class Menu {
         return foodchain;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -60,5 +67,9 @@ public class Menu {
 
     public void setFoodchain(Foodchain foodchain) {
         this.foodchain = foodchain;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }
