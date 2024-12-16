@@ -1,4 +1,4 @@
-package com.ua.ies.proj.app.services;
+package com.ua.ies.proj.app.services.OrderProcessingService;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.stereotype.Service;
 
 import com.ua.ies.proj.app.controllers.MessageController;
-import com.ua.ies.proj.app.kafka_utils.KafkaTemplateListener;
 import com.ua.ies.proj.app.models.OrderKafkaDTO;
 import com.ua.ies.proj.app.models.Restaurant;
 import com.ua.ies.proj.app.repos.MenuRepository;

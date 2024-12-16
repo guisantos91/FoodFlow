@@ -12,6 +12,8 @@ services:
       - $POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - custom_network
 
   backend:
     build: 
@@ -21,8 +23,10 @@ services:
     ports:
       - $BACKEND_LOCAL_PORT:$BACKEND_DOCKER_PORT
     depends_on:
-      - database
-      - kafka
+      database:
+        condition: service_started
+      kafka:
+        condition: service_healthy
     environment:
       JWT_KEY: ${JWT_KEY}
       ORIGIN_NETWORK: ${FRONTEND_HOST}
@@ -42,6 +46,8 @@ services:
         }'
     volumes:
       - .m2:/root/.m2
+    networks:
+      - custom_network
 
   frontend:
     build:
@@ -55,6 +61,8 @@ services:
     environment:
       - VITE_BACKEND_HOST=${BACKEND_HOST}
       - VITE_BACKEND_PORT=${BACKEND_LOCAL_PORT}
+    networks:
+      - custom_network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4
@@ -64,6 +72,8 @@ services:
     ports:
       - $ZOOKEEPER_LOCAL_PORT:$ZOOKEEPER_DOCKER_PORT
     restart: on-failure
+    networks:
+      - custom_network
   
   kafka:
     image: confluentinc/cp-kafka:7.4.4
@@ -81,22 +91,40 @@ services:
       KAFKA_LOG_RETENTION_MS: 10000
       KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 5000
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/${KAFKA_HOST}/${KAFKA_DOCKER_PORT} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks:
+      - custom_network
   
   datagenerator:
     build: 
       context: ./datagenerator
       dockerfile: Dockerfile
     depends_on:
-      - kafka
-      - backend
+      kafka:
+        condition: service_healthy
+      backend:
+        condition: service_started
     environment:
       KAFKA_CONTAINER: kafka
       KAFKA_LISTENER_PORT: $KAFKA_LISTENER_PORT
     volumes:
       - datagenerator_data:/app/data
     restart: on-failure
+    networks:
+      - custom_network
 
 
 volumes:
   postgres_data:
   datagenerator_data:
+
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.1.0/24
