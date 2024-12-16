@@ -92,9 +92,9 @@ public class RestaurantController {
         Map<String, OrderStatisticsDTO> stats;
 
         if (isManager(restaurantId, auth)) {
-            stats = orderService.getStatisticsByRestaurantId(restaurantId, 3);
+            stats = orderService.getStatisticsByRestaurantId(restaurantId, -1);
         } else {
-            stats = orderService.getStatisticsByRestaurantId(restaurantId, 1);
+            stats = orderService.getStatisticsByRestaurantId(restaurantId, 3);
         }
         return new ResponseEntity<>(stats, HttpStatus.OK);
     }

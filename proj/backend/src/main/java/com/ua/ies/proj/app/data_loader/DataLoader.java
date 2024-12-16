@@ -5,13 +5,11 @@ import org.springframework.stereotype.Component;
 
 import com.ua.ies.proj.app.models.Foodchain;
 import com.ua.ies.proj.app.models.ManagerForm;
-import com.ua.ies.proj.app.models.Menu;
 import com.ua.ies.proj.app.models.Restaurant;
 import com.ua.ies.proj.app.models.UserAdmin;
 import com.ua.ies.proj.app.models.UserManager;
 import com.ua.ies.proj.app.repos.FoodchainRepository;
 import com.ua.ies.proj.app.repos.ManagerFormRepository;
-import com.ua.ies.proj.app.repos.MenuRepository;
 import com.ua.ies.proj.app.repos.RestaurantRepository;
 import com.ua.ies.proj.app.repos.UserRepository;
 
@@ -25,16 +23,13 @@ public class DataLoader implements CommandLineRunner {
 
     private final ManagerFormRepository managerFormRepository;
 
-    private final MenuRepository menuRepository;
 
     public DataLoader(UserRepository userRepository, RestaurantRepository restaurantRepository,
-            FoodchainRepository foodchainRepository, ManagerFormRepository managerFormRepository,
-            MenuRepository menuRepository) {
+            FoodchainRepository foodchainRepository, ManagerFormRepository managerFormRepository) {
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
         this.foodchainRepository = foodchainRepository;
         this.managerFormRepository = managerFormRepository;
-        this.menuRepository = menuRepository;
     }
 
     @Override
@@ -80,96 +75,7 @@ public class DataLoader implements CommandLineRunner {
         if (!foodchainRepository.findByName("Telepizza").isPresent()) {
             foodchainRepository.save(telepizza);
         }
-
-        Menu cbo = new Menu("CBO", 7.5, mcDonalds, "https://www.mcdonalds.pt/media/4288/007_cbo_03.png");
-        Menu happyMeal = new Menu("Happy Meal", 4.5, mcDonalds, "https://drn10k7huei54.cloudfront.net/TPO-1386.jpg");
-        Menu bigMac = new Menu("Big Mac", 6.0, mcDonalds,
-                "https://www.mcdonalds.pt/media/7040/produtos_500x500_bestburgers_big-mac.png");
-        Menu whopper = new Menu("Whopper", 7.0, burgerKing,
-                "https://shoppingspirit.pt/wp-content/uploads/2024/05/whopper-burger-king.jpg");
-        Menu chickenFries = new Menu("Chicken Fries", 4.0, burgerKing,
-                "https://www.onionringsandthings.com/wp-content/uploads/2020/09/crispy-chicken-fries-2.jpg");
-        Menu zingerBurger = new Menu("Zinger Burger", 6.5, kfc,
-                "https://images.ctfassets.net/crbk84xktnsl/4zgRg2g2ZRBey10D3qfjyZ/e9f079f486f401b884ad570be0a48af8/Zinger_Burger.png");
-        Menu originalRecipeChicken = new Menu("Original Recipe Chicken", 8.0, kfc,
-                "https://topsecretrecipes.com/images/product/kfc-original-recipe-chicken-copycat-recipe.jpg");
-        Menu pepperoniPizza = new Menu("Pepperoni Pizza", 10.0, pizzaHut,
-                "https://api.pizzahut.io/v1/content/en-ca/ca-1/images/pizza/pizza.pepperoni-lovers.69f7bdf7b6f50a87eb2886934fe0be9f.1.jpg");
-        Menu vegetarianPizza = new Menu("Vegetarian Pizza", 9.0, pizzaHut,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoBaqm24OqgZTW27NJR24Vd35oWVru1eZC3w&s");
-        Menu crunchwrapSupreme = new Menu("Crunchwrap Supreme", 5.5, tacoBell,
-                "https://www.thespruceeats.com/thmb/y8zBTf81N6AvcoK1CbSwLLGWvMo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/SES-copycat-crunchwrap-supreme-recipe-7499743-hero-A-1b76ff024b44450db7c0eb72da84d98b.jpg");
-        Menu tacoSupreme = new Menu("Taco Supreme", 3.5, tacoBell,
-                "https://www.tacobell.pt/wp-content/uploads/2017/05/tacobell-menu-acos-supreme.jpg");
-        Menu cheesePizza = new Menu("Cheese Pizza", 8.0, dominos,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShDV-2v7GX7vULnZc5H1b6X7jFROU1hzprHQ&s");
-        Menu spicyBBQPizza = new Menu("Spicy BBQ Pizza", 11.0, dominos,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHCwBCaWLbF7CT-CES_UO4bLrgp5EhLoX7dw&s");
-        Menu bbqChickenPizza = new Menu("BBQ Chicken Pizza", 10.5, telepizza,
-                "https://d1d8i24om29pt.cloudfront.net/static/mobile/products/pizza-bbq-chicken_orig.png");
-        Menu portuguesePizza = new Menu("Portuguese Pizza", 10.0, telepizza,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnb5LmVdElGOnWQic1iNxl304IgrP1CvGb8A&s");
-
-        if (!menuRepository.findByName("CBO").isPresent()) {
-            menuRepository.save(cbo);
-        }
-
-        if (!menuRepository.findByName("Happy Meal").isPresent()) {
-            menuRepository.save(happyMeal);
-        }
-
-        if (!menuRepository.findByName("Big Mac").isPresent()) {
-            menuRepository.save(bigMac);
-        }
-
-        if (!menuRepository.findByName("Whopper").isPresent()) {
-            menuRepository.save(whopper);
-        }
-
-        if (!menuRepository.findByName("Chicken Fries").isPresent()) {
-            menuRepository.save(chickenFries);
-        }
-
-        if (!menuRepository.findByName("Zinger Burger").isPresent()) {
-            menuRepository.save(zingerBurger);
-        }
-
-        if (!menuRepository.findByName("Original Recipe Chicken").isPresent()) {
-            menuRepository.save(originalRecipeChicken);
-        }
-
-        if (!menuRepository.findByName("Pepperoni Pizza").isPresent()) {
-            menuRepository.save(pepperoniPizza);
-        }
-
-        if (!menuRepository.findByName("Vegetarian Pizza").isPresent()) {
-            menuRepository.save(vegetarianPizza);
-        }
-
-        if (!menuRepository.findByName("Crunchwrap Supreme").isPresent()) {
-            menuRepository.save(crunchwrapSupreme);
-        }
-
-        if (!menuRepository.findByName("Taco Supreme").isPresent()) {
-            menuRepository.save(tacoSupreme);
-        }
-
-        if (!menuRepository.findByName("Cheese Pizza").isPresent()) {
-            menuRepository.save(cheesePizza);
-        }
-
-        if (!menuRepository.findByName("Spicy BBQ Pizza").isPresent()) {
-            menuRepository.save(spicyBBQPizza);
-        }
-
-        if (!menuRepository.findByName("BBQ Chicken Pizza").isPresent()) {
-            menuRepository.save(bbqChickenPizza);
-        }
-
-        if (!menuRepository.findByName("Portuguese Pizza").isPresent()) {
-            menuRepository.save(portuguesePizza);
-        }
-
+        
         UserAdmin alice = new UserAdmin("Alice", "Green", "alice@gmail.com",
                 "$2b$12$vPaBgZDcvj1fbOB7tX3MH.5.IYVjgRo8IMaO0XH8MG8qTVvdBGCEq", null);
         UserManager userBob = new UserManager("Bob", "Brown", "bob@gmail.com",

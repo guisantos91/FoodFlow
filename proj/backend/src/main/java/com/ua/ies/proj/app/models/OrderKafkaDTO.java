@@ -16,12 +16,12 @@ public class OrderKafkaDTO {
 
     private String createdAt;
 
-    private List<String> menus = new ArrayList<>();
+    private List<List<String>> menus = new ArrayList<>();
        
     public OrderKafkaDTO() {
     }
 
-    public OrderKafkaDTO(Restaurant restaurant, double price, String status, List<String> menus, Long orderId, String createdAt) {
+    public OrderKafkaDTO(Restaurant restaurant, double price, String status, List<List<String>> menus, Long orderId, String createdAt) {
         this.restaurant = restaurant;
         this.price = price;
         this.status = status;
@@ -50,7 +50,7 @@ public class OrderKafkaDTO {
         return createdAt;
     }
 
-    public List<String> getMenus() {
+    public List<List<String>> getMenus() {
         return menus;
     }
 
@@ -74,7 +74,7 @@ public class OrderKafkaDTO {
         this.createdAt = createdAt;
     }
 
-    public void setMenus(List<String> menus) {
+    public void setMenus(List<List<String>> menus) {
         this.menus = menus;
     }
 
