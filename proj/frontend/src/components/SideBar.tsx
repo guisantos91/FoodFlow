@@ -7,10 +7,9 @@ interface Data {
   name: string;
   data: any[];
   navigateBool?: boolean;
-  foodchainId: number;
 }
 
-const Sidebar = ({ name, data, foodchainId, navigateBool }: Data) => {
+const Sidebar = ({ name, data, navigateBool }: Data) => {
   const { isAuthenticated, user } = useUserContext();
 
   return (
@@ -29,10 +28,11 @@ const Sidebar = ({ name, data, foodchainId, navigateBool }: Data) => {
         {data.map((restaurant) => (
           <SideBarCard
             restId={restaurant.id}
-            foodchainId={foodchainId}
+            foodchainId={restaurant.foodchain.id}
             item1={restaurant.name}
             item2={restaurant.address || restaurant.foodchain.name}
             item3={restaurant.distance}
+            item4={restaurant.id}
             image={restaurant.image_url || restaurant.foodchain.image_url}
             naveTrue={navigateBool}
           />
