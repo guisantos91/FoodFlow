@@ -162,7 +162,9 @@ public class AdminController {
         )
     })
     @GetMapping("/forms")
-    public ResponseEntity<List<ManagerForm>> getForms(@RequestParam(required = false) String state) {
+    public ResponseEntity<List<ManagerForm>> getForms(
+        @Parameter(description = "Filter forms by state", example = "pending")
+        @RequestParam(required = false) String state) {
         List<ManagerForm> forms = userService.getForms(state);
         return new ResponseEntity<>(forms, HttpStatus.OK);
     }
@@ -184,7 +186,9 @@ public class AdminController {
         )
     })
     @GetMapping("/forms/{form_id}")
-    public ResponseEntity<ManagerForm> getFormById(@PathVariable("form_id") Long form_id) {
+    public ResponseEntity<ManagerForm> getFormById(
+        @Parameter(description = "ID of the form to retrieve", example = "1")
+        @PathVariable("form_id") Long form_id) {
         try {
             ManagerForm form = userService.getFormById(form_id);
             return new ResponseEntity<>(form, HttpStatus.OK);
@@ -210,7 +214,18 @@ public class AdminController {
         )
     })
     @PutMapping("/forms/{form_id}")
-    public ResponseEntity<ManagerForm> updateForm(@PathVariable("form_id") Long form_id, @RequestBody ManagerForm form) {
+    public ResponseEntity<ManagerForm> updateForm(
+        @Parameter(description = "ID of the form to update", example = "1")
+        @PathVariable("form_id") Long form_id, 
+        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Updated form object",
+            required = true,
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ManagerForm.class)
+            )
+        )
+        @RequestBody ManagerForm form) {
         ManagerForm formUpdated = userService.updateForm(form_id, form);
         return new ResponseEntity<>(formUpdated, HttpStatus.OK);
     }
