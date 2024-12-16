@@ -22,20 +22,20 @@ function CardComponent({ image, name, price, rest }: CardComponentProps) {
 
   return (
     <>
-      <Card
-        className="w-1/4 h-32 pointer-cursor"
-        imgAlt="menuImage"
-        imgSrc={image}
-        onClick={handleMenuClick}
-      >
-        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
-          {name}
-        </h5>
-        <p className="font-normal text-gray-700 dark:text-gray-400">
-          €{price}
-        </p>
-      </Card>
-
+      <div className="w-1/4 h-32 pointer-cursor">
+        <Card
+          imgAlt="menuImage"
+          imgSrc={image}
+          onClick={handleMenuClick}
+        >
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
+            {name}
+          </h5>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            €{price}
+          </p>
+        </Card>
+      </div>
       <Modal show={isModalOpen} onClose={closeModal} className="bg-opacity-50 bg-black">
         <Modal.Header>{rest}</Modal.Header>
         <Modal.Body>
