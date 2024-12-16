@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MCImage from '../../assets/images/logos/mcdonalds.png';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import ArrowBack from '../../assets/images/icons/Arrow-back-icon-05.png';
 import eye from '../../assets/images/icons/visible.png';
@@ -87,7 +86,7 @@ const DeclinedTable = ({ name }: managerName) => {
                                     {form.fname + ' ' + form.lname}
                                 </td>
                                 <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
-                                    <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
+                                    <img src={form.foodchain.image_url} alt="Restaurant Logo" className="w-8 h-8 rounded" />
                                     <span>{form.restaurantName}</span>
                                 </td>
                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -139,8 +138,9 @@ const DeclinedTable = ({ name }: managerName) => {
                         <h1 className="text-2xl font-bold text-center">Are you sure you want to delete this manager?</h1>
                         <div className="flex items-center justify-center mt-4 gap-12">
                             <button className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200" onClick={() => {
-                                                            auxForm !== undefined && handleForm(auxForm, forms, setForms, "deleted"),
-                                                            setIsModalOpen(false)}}>
+                                auxForm !== undefined && handleForm(auxForm, forms, setForms, "deleted"),
+                                    setIsModalOpen(false)
+                            }}>
                                 Delete
                             </button>
                             <button className="bg-gray-300 text-black px-6 py-2 rounded-lg hover:bg-gray-400 transition duration-200" onClick={() => setIsModalOpen(false)} >

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MCImage from '../../assets/images/logos/mcdonalds.png';
 import tick from '../../assets/images/icons/checkmark.png';
 import cross from '../../assets/images/icons/cross.png';
 import eye from '../../assets/images/icons/visible.png';
@@ -84,7 +83,7 @@ const PendingTable = ({ name }: managerName) => {
                                 {restaurant.fname + ' ' + restaurant.lname}
                             </td>
                             <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
-                                <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
+                                <img src={restaurant.foodchain.image_url} alt="Restaurant Logo" className="w-8 h-8 rounded" />
                                 <span>{restaurant.restaurantName}</span>
                             </td>
                             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

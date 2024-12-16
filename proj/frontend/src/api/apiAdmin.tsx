@@ -4,6 +4,7 @@ import API_BASE_URL from "./apiConfig";
 export interface FoodChain {
     id: number;
     name: string;
+    image_url: string;
 }
 
 export interface FormData {
@@ -32,13 +33,13 @@ export interface ManagerData {
 }
 
 
-export const getForm = async ( id: string | undefined ): Promise<FormData> => {
+export const getForm = async (id: string | undefined): Promise<FormData> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/admin/forms/${id}`, { withCredentials: true, });
-      return response.data;
+        const response = await axios.get(`${API_BASE_URL}/admin/forms/${id}`, { withCredentials: true, });
+        return response.data;
     } catch (error) {
-      console.error("Error fetching a form:", error);
-      throw error
+        console.error("Error fetching a form:", error);
+        throw error
     }
 };
 
@@ -72,7 +73,7 @@ export const getPendingForms = async (): Promise<FormData[]> => {
     }
 }
 
-export const changeForm = async( id: number, newForm: FormData ): Promise<FormData> => {
+export const changeForm = async (id: number, newForm: FormData): Promise<FormData> => {
     try {
         const response = await axios.put(`${API_BASE_URL}/admin/forms/${id}`, newForm, { withCredentials: true, });
         return response.data;
@@ -82,7 +83,7 @@ export const changeForm = async( id: number, newForm: FormData ): Promise<FormDa
     }
 }
 
-export const aproveForm = async( newForm: FormData ): Promise<FormData> => {
+export const aproveForm = async (newForm: FormData): Promise<FormData> => {
     try {
         const response = await axios.post(`${API_BASE_URL}/admin/managers`, newForm, { withCredentials: true, });
         return response.data;
@@ -92,7 +93,7 @@ export const aproveForm = async( newForm: FormData ): Promise<FormData> => {
     }
 }
 
-export const changeManager = async( id: number, newForm: ManagerData ): Promise<ManagerData> => {
+export const changeManager = async (id: number, newForm: ManagerData): Promise<ManagerData> => {
     try {
         const response = await axios.put(`${API_BASE_URL}/admin/managers/${id}`, newForm, { withCredentials: true, });
         return response.data;
@@ -102,7 +103,7 @@ export const changeManager = async( id: number, newForm: ManagerData ): Promise<
     }
 }
 
-export const getManager = async( id: number ): Promise<ManagerData> => {
+export const getManager = async (id: number): Promise<ManagerData> => {
     try {
         const response = await axios.get(`${API_BASE_URL}/admin/managers/${id}`, { withCredentials: true, });
         return response.data;
@@ -112,7 +113,7 @@ export const getManager = async( id: number ): Promise<ManagerData> => {
     }
 }
 
-export const deleteManager = async( id: number ): Promise<void> => {
+export const deleteManager = async (id: number): Promise<void> => {
     try {
         const response = await axios.delete(`${API_BASE_URL}/admin/managers/${id}`, { withCredentials: true, });
         return response.data;

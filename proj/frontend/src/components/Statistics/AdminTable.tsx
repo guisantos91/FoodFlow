@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MCImage from '../../assets/images/logos/mcdonalds.png';
 import EditSVG from '../../assets/images/icons/edit-button.svg';
 import DeleteSVG from '../../assets/images/icons/delete-button.svg';
 import { getAcceptedForms, FormData, deleteManager, changeForm } from '../../api/apiAdmin';
@@ -96,13 +95,13 @@ const AdminTable = ({ name }: managerName) => {
                                     {restaurant.fname + ' ' + restaurant.lname}
                                 </td>
                                 <td className="px-14 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex items-center space-x-2">
-                                    <img src={MCImage} alt="Restaurant Logo" className="w-8 h-8 rounded" />
+                                    <img src={restaurant.foodchain.image_url} alt="Restaurant Logo" className="w-8 h-8 rounded" />
                                     <span>{restaurant.restaurantName}</span>
                                 </td>
                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div className="flex items-center space-x-2">
-                                        <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" onClick={() => handleEdit(restaurant.manager)}/>
-                                        <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => openModal(restaurant.manager, restaurant)} 
+                                        <img src={EditSVG} alt="Edit" className="w-5 h-5 cursor-pointer" onClick={() => handleEdit(restaurant.manager)} />
+                                        <img src={DeleteSVG} alt="Delete" className="w-5 h-5 cursor-pointer" onClick={() => openModal(restaurant.manager, restaurant)}
                                         />
                                     </div>
                                 </td>
@@ -139,8 +138,9 @@ const AdminTable = ({ name }: managerName) => {
                         <h1 className="text-2xl font-bold text-center">Are you sure you want to delete this manager?</h1>
                         <div className="flex items-center justify-center mt-4 gap-12">
                             <button className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition duration-200" onClick={() => {
-                                                                        manager !== undefined && rest !== undefined && handleDelete(manager, rest),
-                                                                        setIsModalOpen(false)}}>
+                                manager !== undefined && rest !== undefined && handleDelete(manager, rest),
+                                    setIsModalOpen(false)
+                            }}>
                                 Delete
                             </button>
                             <button className="bg-gray-300 text-black px-6 py-2 rounded-lg hover:bg-gray-400 transition duration-200" onClick={() => setIsModalOpen(false)} >
