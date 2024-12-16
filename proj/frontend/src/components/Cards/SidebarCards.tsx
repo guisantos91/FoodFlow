@@ -26,7 +26,6 @@ const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, i
         } else {
             const price = await getMenuPriceByName(foodchainId, item4);
             setMenuPrice(price);
-            console.log('Price:', price);
             setIsModalOpen(true);
         }
     };
@@ -40,10 +39,7 @@ const SideBarCard: React.FC<SideBarCardProps> = ({ restId, foodchainId, item1, i
             return;
         }
         try {
-            console.log('Menu ID:', id);
             const menus = await getMenus(foodchainId);
-            const menu = menus.find(menu => menu.id === id);
-            console.log('Menu:', menu);
             return menus.find(menu => menu.id === id)?.price;
         } catch (error) {
             console.error("Error fetching menus form a foodchain:", error);
