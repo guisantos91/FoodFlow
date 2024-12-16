@@ -121,21 +121,25 @@ restaurantsTopic={
 }
 
 menus = {
-    1: ("CBO", 7.5, 1),
-    2: ("Happy Meal", 4.5, 1),
-    3: ("Big Mac", 6.0, 1),
-    4: ("Whopper", 7.0, 2),
-    5: ("Chicken Fries", 4.0, 2),
-    6: ("Zinger Burger", 6.5, 3),
-    7: ("Original Recipe Chicken", 8.0, 3),
-    8: ("Pepperoni Pizza", 10.0, 4),
-    9: ("Vegetarian Pizza", 9.0, 4),
-    10: ("Crunchwrap Supreme", 5.5, 5),
-    11: ("Taco Supreme", 3.5, 5),
-    12: ("Cheese Pizza", 8.0, 6),
-    13: ("Spicy BBQ Pizza", 11.0, 6),
-    14: ("BBQ Chicken Pizza", 10.5, 7),
-    15: ("Portuguese Pizza", 10.0, 7)
+    1: ("CBO", 7.5, 1, "https://www.mcdonalds.pt/media/4288/007_cbo_03.png"),
+    2: ("Happy Meal", 4.5, 1, "https://drn10k7huei54.cloudfront.net/TPO-1386.jpg"),
+    3: ("Big Mac", 6.0, 1, "https://www.mcdonalds.pt/media/7040/produtos_500x500_bestburgers_big-mac.png"),
+    4: ("Whopper", 7.0, 2, "https://shoppingspirit.pt/wp-content/uploads/2024/05/whopper-burger-king.jpg"),
+    5: ("Chicken Fries", 4.0, 2, "https://www.onionringsandthings.com/wp-content/uploads/2020/09/crispy-chicken-fries-2.jpg"),
+    6: ("Zinger Burger", 6.5, 3, "https://images.ctfassets.net/crbk84xktnsl/4zgRg2g2ZRBey10D3qfjyZ/e9f079f486f401b884ad570be0a48af8/Zinger_Burger.png"),
+    7: ("Original Recipe Chicken", 8.0, 3, "https://topsecretrecipes.com/images/product/kfc-original-recipe-chicken-copycat-recipe.jpg"),
+    8: ("Pepperoni Pizza", 10.0, 4, "https://api.pizzahut.io/v1/content/en-ca/ca-1/images/pizza/pizza.pepperoni-lovers.69f7bdf7b6f50a87eb2886934fe0be9f.1.jpg"),
+    9: ("Vegetarian Pizza", 9.0, 4, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoBaqm24OqgZTW27NJR24Vd35oWVru1eZC3w&s"),
+    10: ("Crunchwrap Supreme", 5.5, 5, "https://www.thespruceeats.com/thmb/y8zBTf81N6AvcoK1CbSwLLGWvMo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/SES-copycat-crunchwrap-supreme-recipe-7499743-hero-A-1b76ff024b44450db7c0eb72da84d98b.jpg"),
+    11: ("Taco Supreme", 3.5, 5, "https://www.tacobell.pt/wp-content/uploads/2017/05/tacobell-menu-acos-supreme.jpg"),
+    12: ("Cheese Pizza", 8.0, 6, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShDV-2v7GX7vULnZc5H1b6X7jFROU1hzprHQ&s"),
+    13: ("Spicy BBQ Pizza", 11.0, 6, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHCwBCaWLbF7CT-CES_UO4bLrgp5EhLoX7dw&s"),
+    14: ("BBQ Chicken Pizza", 10.5, 7, "https://d1d8i24om29pt.cloudfront.net/static/mobile/products/pizza-bbq-chicken_orig.png"),
+    15: ("Portuguese Pizza", 10.0, 7, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnb5LmVdElGOnWQic1iNxl304IgrP1CvGb8A&s"),
+    16: ("Big Tasty", 7.0, 1, "https://www.mcdonalds.pt/media/4208/006_bigtasty_04_double_label.png"),
+    17: ("McChicken", 5, 1, "https://www.mcdonalds.pt/media/7046/produtos_500x500_bestburgers_mcchicken.png"),
+    18: ("Duo Bacon Cheddar", 6, 2, "https://www.whopper.ie/wp-content/uploads/2022/10/1200x800_BEEF_Duo_Bacon_1.png"),
+    19: ("Double Whopper", 8, 2, "https://burgerking.com.cy/sites/default/files/Double%20Whopper-01_2.png")
 }
 
 def generate_order(foodchain_id):
@@ -162,7 +166,7 @@ def insert_order():
     order_id = (order_id + 1) % 999
     order_ids[topic]=order_id
 
-    msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[menus[menu_id][0] for menu_id, quantity in items.items()], "status":status}
+    msg={"id":order_id, "orderId":order_id, "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price,"menus":[[menus[menu_id][0], menus[menu_id][3]] for menu_id, quantity in items.items()], "status":status}
     print(f"Msg: {msg}")
     producer.send(topic, msg)
 
@@ -173,7 +177,7 @@ def insert_order():
     timeToNextState=[time.isoformat() for time in timeToNextState]
     
     orders[(str(order_id)+topic)]={"id":str(order_id), "restaurant_id":restaurant_id, "createdAt":created_at.isoformat(), "price":total_price, "status":status,
-    "menus":[menus[menu_id][0] for menu_id, quantity in items.items()],
+    "menus":[[menus[menu_id][0], menus[menu_id][3]] for menu_id, quantity in items.items()],
      "timeToNextState":timeToNextState}
     
     lock = FileLock(LOCK_FILE, timeout=10)
