@@ -15,7 +15,7 @@ const SideBarLayout = () => {
 
     interface IconItem {
         id: string;
-        path: string;
+        path?: string;
         grey: string;
         white: string;
         click?: () => void;
@@ -36,7 +36,7 @@ const SideBarLayout = () => {
                 setSelected([...icons, {
                     id: "admin", path: "/admin", grey: userIcon, white: userIconWhite
                 }, {
-                    id: "logout", path: "/ ", grey: logoutIcon, white: logoutIconWhite, click: () => {
+                    id: "logout", grey: logoutIcon, white: logoutIconWhite, click: () => {
                         setIsModalOpen(true);
                     }
                 }]);
@@ -44,7 +44,7 @@ const SideBarLayout = () => {
                 setSelected([...icons, {
                     id: "manager", path: `/foodChain/${user?.ChainFoodID}/restaurant/${user?.RestaurantID}`, grey: userIcon, white: userIconWhite
                 }, {
-                    id: "logout", path: "/ ", grey: logoutIcon, white: logoutIconWhite, click: () => {
+                    id: "logout", grey: logoutIcon, white: logoutIconWhite, click: () => {
                         setIsModalOpen(true);
                     }
                 }]);
@@ -64,9 +64,9 @@ const SideBarLayout = () => {
                             className={`mb-2 ${index === 0 ? "mt-16" : "mt-8"}`}
                         >
                             <NavLink
-                                to={icon.path}
+                                to={icon.path || ""}
                                 className={({ isActive }) =>
-                                    `flex items-center justify-center w-14 h-14 rounded-lg transition ${isActive ? "bg-orange-400 shadow-lg" : "hover:bg-orange-600"}`
+                                    `flex items-center justify-center w-14 h-14 rounded-lg transition ${icon.path && isActive ? "bg-orange-400 shadow-lg" : "hover:bg-orange-600"}`
                                 }
                                 onClick={() => { icon.click && icon.click() }}
                             >
