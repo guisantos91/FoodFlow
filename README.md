@@ -1,4 +1,4 @@
-# Food Flow
+# Food Flow - 18/20
 
 ## Project Abstract
 This application enables users to view the most ordered menus, monitor real-time order statuses, request managerial access to add and manage their restaurants, and explore the most popular food chains and restaurants. By providing live data on sales and order progression, the app enhances customer experience and assists restaurant managers in making informed decisions based on current usage trends.
